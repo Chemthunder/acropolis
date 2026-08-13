@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "acropolis",
+  "version": "${version}",
+  "name": "Acropolis",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "license": "ARR",
+  "icon": "assets/acropolis/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.chemthunder.acropolis.core.Acropolis"
+    ],
+    "client": [
+      "org.chemthunder.acropolis.core.AcropolisClient"
+    ],
+    "fabric-datagen": [
+      "org.chemthunder.acropolis.datagen.AcropolisDataGenerator"
+    ],
+    "cardinal-components": [
+      "org.chemthunder.acropolis.core.cca.AcropolisCCA"
+    ]
+  },
+  "mixins": [
+    "acropolis.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "custom": {
+    "cardinal-components": [
+      "acropolis:gaze"
+    ]
+  }
+}

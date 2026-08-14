@@ -1,30 +1,27 @@
 package org.chemthunder.acropolis.core.item;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextCodecs;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.client.screen.GrimoireEditScreen;
 
-import java.util.function.BiConsumer;
-
 /**
  * @author Chemthunder
  */
 public class CelestialGrimoireItem extends Item {
+    public static final int TEST = 0;
+    public static final int MASK = 1;
+    public static final int REMOVE = 2;
+    public static final int BORDER = 3;
+
     public CelestialGrimoireItem(Settings settings) {
         super(settings);
     }
@@ -79,17 +76,24 @@ public class CelestialGrimoireItem extends Item {
         GazeComponent gaze = GazeComponent.KEY.get(world);
 
         switch (code) {
-            case 0: {
+            case TEST: {
                 gaze.setAngered(!gaze.isAngered());
-
-                for (PlayerEntity target : world.getPlayers()) {
-                    target.playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, 1, 1F);
-                }
-
-                player.sendMessage(Text.literal("a" + gaze.isAngered()), true);
+                break;
+            }
+            case MASK: {
+                gaze.setPresent(!gaze.isPresent());
+                break;
+            }
+            case REMOVE: {
+                gaze.setPresent(false);
+                gaze.setPos(null);
+                gaze.setAngered(false);
+                break;
+            }
+            case BORDER: {
+                gaze.setBorder(!gaze.isBorder());
+                break;
             }
         }
     }
-
-    public static final int TEST = 0;
 }

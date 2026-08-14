@@ -46,6 +46,51 @@ public class GrimoireEditScreen extends Screen {
 
         drawableFunctions.add(context -> ANGER);
         this.addDrawableChild(ANGER);
+
+        ButtonWidget PRESENT = ButtonWidget.builder(Text.literal("Mask Eye"), (button -> {
+                    this.close();
+
+                    GrimoireEditPayload.send(CelestialGrimoireItem.MASK);
+
+                    player.swingHand(player.getActiveHand());
+                }))
+                .size(64, 16)
+                .position(s.width / 2 - 32, s.height / 2 + 32)
+                .tooltip(Tooltip.of(Text.literal("Toggles the Eye's Masked State.")))
+                .build();
+
+        drawableFunctions.add(context -> PRESENT);
+        this.addDrawableChild(PRESENT);
+
+        ButtonWidget REMOVE = ButtonWidget.builder(Text.literal("Remove Eye"), (button -> {
+                    this.close();
+
+                    GrimoireEditPayload.send(CelestialGrimoireItem.REMOVE);
+
+                    player.swingHand(player.getActiveHand());
+                }))
+                .size(64, 16)
+                .position(s.width / 2 - 32, s.height / 2 + 64)
+                .tooltip(Tooltip.of(Text.literal("Removes the Eye.")))
+                .build();
+
+        drawableFunctions.add(context -> REMOVE);
+        this.addDrawableChild(REMOVE);
+
+        ButtonWidget BORDER = ButtonWidget.builder(Text.literal("Border Eye"), (button -> {
+                    this.close();
+
+                    GrimoireEditPayload.send(CelestialGrimoireItem.BORDER);
+
+                    player.swingHand(player.getActiveHand());
+                }))
+                .size(64, 16)
+                .position(s.width / 2 - 32, s.height / 2 + (64 + 32))
+                .tooltip(Tooltip.of(Text.literal("Toggles the Border created by the Eye.")))
+                .build();
+
+        drawableFunctions.add(context -> BORDER);
+        this.addDrawableChild(BORDER);
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {

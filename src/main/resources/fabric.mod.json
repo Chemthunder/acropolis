@@ -3,9 +3,9 @@
   "id": "acropolis",
   "version": "${version}",
   "name": "Acropolis",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "",
   "authors": [
-    "Me!"
+    "Chemthunder"
   ],
   "license": "ARR",
   "icon": "assets/acropolis/icon.png",
@@ -31,7 +31,8 @@
     "fabricloader": ">=0.15.11",
     "minecraft": "~1.21.11",
     "java": ">=21",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "acornlib": "*"
   },
   "custom": {
     "cardinal-components": [

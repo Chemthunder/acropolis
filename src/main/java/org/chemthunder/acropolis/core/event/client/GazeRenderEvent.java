@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
+import org.chemthunder.acropolis.core.client.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
 import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
 
@@ -37,6 +38,27 @@ public class GazeRenderEvent implements WorldRenderEvents.EndMain {
                 float x = (float) (gaze.getPos().x - camera.getCameraPos().x);
                 float y = (float) (gaze.getPos().y - camera.getCameraPos().y);
                 float z = (float) (gaze.getPos().z - camera.getCameraPos().z);
+
+                if (gaze.isBorder()) {
+                    {
+                        stack.push();
+
+                        stack.translate(x, y - 120, z);
+
+                        Nitro.skyBeamAtPos(
+                                stack,
+                                consumers.getBuffer(RenderLayers.entityTranslucent(Acropolis.id("textures/entity/border.png"))),
+                                0,
+                                0,
+                                0,
+                                150,
+                                900,
+                                (AcropolisClient.AGE + delta) / 4
+                        );
+
+                        stack.pop();
+                    }
+                }
 
                 {
                     stack.push();

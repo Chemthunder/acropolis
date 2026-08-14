@@ -30,6 +30,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
     private boolean present = false;
     private boolean angered = false;
+    private boolean border = false;
 
     public GazeComponent(World world) {
         this.world = world;
@@ -67,6 +68,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
         present = readView.getBoolean("Present", false);
         angered = readView.getBoolean("Angered", false);
+        border = readView.getBoolean("Border", border);
     }
 
     public void writeData(WriteView writeView) {
@@ -74,6 +76,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
         writeView.putBoolean("Present", present);
         writeView.putBoolean("Angered", angered);
+        writeView.putBoolean("Border", border);
     }
 
     public boolean isPresent() {
@@ -101,6 +104,15 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
     public void setAngered(boolean angered) {
         this.angered = angered;
+        sync();
+    }
+
+    public boolean isBorder() {
+        return border;
+    }
+
+    public void setBorder(boolean border) {
+        this.border = border;
         sync();
     }
 }

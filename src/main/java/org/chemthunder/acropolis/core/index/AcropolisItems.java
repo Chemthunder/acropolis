@@ -14,6 +14,7 @@ public interface AcropolisItems {
 
     Item CELESTIAL_GRIMOIRE = plugin.register("celestial_grimoire", CelestialGrimoireItem::new, new Item.Settings()
             .maxCount(1)
+            .component(AcropolisComponentTypes.PAGE, 0)
             .fireproof()
     );
 

@@ -36,7 +36,8 @@
   },
   "custom": {
     "cardinal-components": [
-      "acropolis:gaze"
+      "acropolis:gaze",
+      "acropolis:player_data"
     ]
   }
 }

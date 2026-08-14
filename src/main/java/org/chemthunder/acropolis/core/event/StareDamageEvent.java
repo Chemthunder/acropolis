@@ -21,7 +21,7 @@ public class StareDamageEvent implements ServerTickEvents.StartWorldTick  {
                 HitResult hitResult = serverPlayer.raycast(150, 0.1F, true);
                 Vec3d raycastPos = hitResult.getPos();
 
-                Box detectionRange = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y + 50, gaze.getPos().z)).expand(15);
+                Box detectionRange = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y + 55, gaze.getPos().z)).expand(15);
 
                 if (detectionRange.raycast(serverPlayer.getEntityPos(), raycastPos).isPresent()) {
                     serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(AcropolisDamageTypes.GAZE), 1.0F);

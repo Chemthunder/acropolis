@@ -19,7 +19,6 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
 
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(AcropolisItems.CELESTIAL_GRIMOIRE, "Celestial Grimoire");
-        translationBuilder.add(AcropolisItems.RAPTURE, "Rapture");
 
         DataUtils.registerDamageType(
                 translationBuilder,

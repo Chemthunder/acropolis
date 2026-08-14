@@ -1,6 +1,7 @@
 package org.chemthunder.acropolis.core.client.screen;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
@@ -8,6 +9,8 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.Easing;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
 
@@ -20,6 +23,7 @@ import java.util.function.Function;
  */
 public class GrimoireEditScreen extends Screen {
     private final List<Function<DrawContext, Drawable>> drawableFunctions = new ArrayList<>();
+    private float width = 0.0F;
 
     public GrimoireEditScreen() {
         super(Text.empty());
@@ -91,15 +95,49 @@ public class GrimoireEditScreen extends Screen {
 
         drawableFunctions.add(context -> BORDER);
         this.addDrawableChild(BORDER);
+
+        ButtonWidget RELOCATE = ButtonWidget.builder(Text.literal("Relocate"), (button -> {
+                    this.close();
+
+                    GrimoireEditPayload.send(CelestialGrimoireItem.RELOCATE);
+
+                    player.swingHand(player.getActiveHand());
+                }))
+                .size((64), 16)
+                .position(s.width / 2 - 32, s.height / 2 - 32)
+                .tooltip(Tooltip.of(Text.literal("Teleport to the Eye's location.")))
+                .build();
+
+        drawableFunctions.add(context -> RELOCATE);
+        this.addDrawableChild(RELOCATE);
+    }
+
+    public void tick() {
+        super.tick();
+
+        if (width < 1.0F) {
+            width += 0.5F;
+        }
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        int time = (int) (Easing.outExpo(width) * 50);
+
+        context.fill(
+                RenderPipelines.GUI,
+                context.getScaledWindowWidth() / 2 - time,
+                0,
+                context.getScaledWindowWidth() / 2 + time,
+                context.getScaledWindowHeight(),
+                ColorHelper.withAlpha(0.5F, 0x000000)
+        );
+
         context.drawCenteredTextWithShadow(
                 MinecraftClient.getInstance().textRenderer,
                 Text.literal("Celestial Grimoire"),
                 context.getScaledWindowWidth() / 2,
-                context.getScaledWindowHeight() / 2 - 40,
-                0xFFff004f
+                context.getScaledWindowHeight() / 2 - 60,
+                0xFFac61d0
         );
 
         drawableFunctions.forEach(function ->

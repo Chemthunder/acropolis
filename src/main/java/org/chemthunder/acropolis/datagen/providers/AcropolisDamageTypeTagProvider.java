@@ -22,5 +22,8 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
         this.getTagBuilder(DamageTypeTags.NO_KNOCKBACK)
                 .add(AcropolisDamageTypes.GAZE.getValue())
                 .add(AcropolisDamageTypes.SMOKE.getValue());
+
+        this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .add(AcropolisDamageTypes.GAZE.getValue());
     }
 }

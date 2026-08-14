@@ -14,6 +14,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
@@ -107,41 +108,43 @@ public class CelestialGrimoireItem extends Item {
                 break;
             }
             case RELOCATE: {
-                if (world instanceof ServerWorld serverWorld) {
-                    serverWorld.spawnParticles(
-                            ParticleTypes.END_ROD,
-                            player.getX(),
-                            player.getY() + 0.5F,
-                            player.getZ(),
-                            15,
-                            0,
-                            0,
-                            0,
-                            0.2F
-                    );
+                if (gaze.getPos() != null) {
+                    if (world instanceof ServerWorld serverWorld) {
+                        serverWorld.spawnParticles(
+                                ParticleTypes.END_ROD,
+                                player.getX(),
+                                player.getY() + 0.5F,
+                                player.getZ(),
+                                15,
+                                0,
+                                0,
+                                0,
+                                0.2F
+                        );
 
-                    player.teleportTo(
-                            new TeleportTarget(
-                                    serverWorld,
-                                    gaze.getPos(),
-                                    player.getVelocity(),
-                                    player.getYaw(),
-                                    player.getPitch(),
-                                    TeleportTarget.NO_OP
-                            )
-                    );
+                        player.teleportTo(
+                                new TeleportTarget(
+                                        serverWorld,
+                                        new Vec3d(gaze.getPos().x, gaze.getPos().y + 1, gaze.getPos().z),
+                                        player.getVelocity(),
+                                        player.getYaw(),
+                                        player.getPitch(),
+                                        TeleportTarget.NO_OP
+                                )
+                        );
 
-                    serverWorld.spawnParticles(
-                            ParticleTypes.END_ROD,
-                            player.getX(),
-                            player.getY() + 0.5F,
-                            player.getZ(),
-                            15,
-                            0,
-                            0,
-                            0,
-                            0.2F
-                    );
+                        serverWorld.spawnParticles(
+                                ParticleTypes.END_ROD,
+                                player.getX(),
+                                player.getY() + 0.5F,
+                                player.getZ(),
+                                15,
+                                0,
+                                0,
+                                0,
+                                0.2F
+                        );
+                    }
                 }
                 break;
             }

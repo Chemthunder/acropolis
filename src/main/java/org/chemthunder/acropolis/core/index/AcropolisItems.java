@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
+import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
 
 import java.util.function.Function;
 
@@ -16,6 +17,12 @@ import java.util.function.Function;
  */
 public interface AcropolisItems {
     Item CELESTIAL_GRIMOIRE = register("celestial_grimoire", CelestialGrimoireItem::new, new Item.Settings()
+            .maxCount(1)
+            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
+            .fireproof()
+    );
+
+    Item EXTOLLED_SIMULACRUM = register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
             .maxCount(1)
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
             .fireproof()

@@ -9,8 +9,10 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Easing;
+import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
 
@@ -113,8 +115,6 @@ public class GrimoireEditScreen extends Screen {
     }
 
     public void tick() {
-        super.tick();
-
         if (width < 1.0F) {
             width += 0.5F;
         }
@@ -122,6 +122,21 @@ public class GrimoireEditScreen extends Screen {
 
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         int time = (int) (Easing.outExpo(width) * 50);
+
+        for (int i = 0; i < 30; i++) {
+            context.getMatrices().pushMatrix();
+
+            context.getMatrices().translate((float) context.getScaledWindowWidth() / 2, i * 15);
+            context.getMatrices().scale(1.4F);
+
+            context.drawCenteredTextWithShadow(
+                    MinecraftClient.getInstance().textRenderer,
+                    Text.literal("Celestial Grimoire").formatted(Formatting.DARK_GRAY, Formatting.OBFUSCATED),
+                    0, 0,
+                    0xFFFFFFFF
+            );
+            context.getMatrices().popMatrix();
+        }
 
         context.fill(
                 RenderPipelines.GUI,
@@ -139,6 +154,37 @@ public class GrimoireEditScreen extends Screen {
                 context.getScaledWindowHeight() / 2 - 60,
                 0xFFac61d0
         );
+
+        context.drawTextWithShadow(
+                MinecraftClient.getInstance().textRenderer,
+                Text.literal("Gazer Position -"),
+                40,
+                40,
+                0xFFac61d0
+        );
+
+        if (MinecraftClient.getInstance().world != null) {
+            GazeComponent gaze = GazeComponent.KEY.get(MinecraftClient.getInstance().world);
+
+            if (gaze.getPos() != null) {
+                context.drawTextWithShadow(
+                        MinecraftClient.getInstance().textRenderer,
+                        Text.literal(gaze.getPos().toString()),
+                        40,
+                        60,
+                        0xFFac61d0
+                );
+            } else {
+                context.drawTextWithShadow(
+                        MinecraftClient.getInstance().textRenderer,
+                        Text.literal("NULL"),
+                        40,
+                        55,
+                        0xFFac61d0
+                );
+            }
+        }
+
 
         drawableFunctions.forEach(function ->
                 function.apply(context).render(context, mouseX, mouseY, deltaTicks)

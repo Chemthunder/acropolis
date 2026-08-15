@@ -1,2 +1,3 @@
 // 1.21.11	-999999999-01-01T00:00:00	Acropolis/Tags for minecraft:damage_type
+21b108f09331f93b270ce54ab26a987e3cd833da data/minecraft/tags/damage_type/bypasses_invulnerability.json
 c5a321a4815182040f4c6246a5c8d0b7586c03ce data/minecraft/tags/damage_type/no_knockback.json

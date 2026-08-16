@@ -19,7 +19,8 @@ public class AcropolisModelProvider extends FabricModelProvider {
 
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(AcropolisItems.CELESTIAL_GRIMOIRE, Models.GENERATED);
-        itemModelGenerator.register(AcropolisItems.EXTOLLED_SIMULACRUM, Models.GENERATED);
+
+        itemModelGenerator.register(AcropolisItems.EXTOLLED_SIMULACRUM);
 
 //        DataUtils.createSimpleGuiVarying(itemModelGenerator, AcropolisItems.RAPTURE);
     }

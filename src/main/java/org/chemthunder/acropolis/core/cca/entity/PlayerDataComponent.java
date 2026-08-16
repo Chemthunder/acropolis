@@ -19,6 +19,7 @@ public class PlayerDataComponent implements AutoSyncedComponent {
     private final PlayerEntity player;
 
     private boolean trusted = false;
+    private boolean sanctum = false;
 
     public PlayerDataComponent(PlayerEntity player) {
         this.player = player;
@@ -30,10 +31,12 @@ public class PlayerDataComponent implements AutoSyncedComponent {
 
     public void readData(ReadView readView) {
         trusted = readView.getBoolean("Trusted", trusted);
+        sanctum = readView.getBoolean("Sanctum", sanctum);
     }
 
     public void writeData(WriteView writeView) {
         writeView.putBoolean("Trusted", trusted);
+        writeView.putBoolean("Sanctum", sanctum);
     }
 
     public boolean isTrusted() {
@@ -42,6 +45,15 @@ public class PlayerDataComponent implements AutoSyncedComponent {
 
     public void setTrusted(boolean trusted) {
         this.trusted = trusted;
+        sync();
+    }
+
+    public boolean isSanctum() {
+        return sanctum;
+    }
+
+    public void setSanctum(boolean sanctum) {
+        this.sanctum = sanctum;
         sync();
     }
 }

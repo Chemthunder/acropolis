@@ -25,5 +25,14 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .add(AcropolisDamageTypes.GAZE.getValue());
+
+        this.getTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
+
+        this.getTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
+
+        this.getTagBuilder(DamageTypeTags.BYPASSES_ENCHANTMENTS)
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
     }
 }

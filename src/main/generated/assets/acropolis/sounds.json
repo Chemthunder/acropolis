@@ -1,0 +1,7 @@
+{
+  "entity.sight": {
+    "sounds": [
+      "acropolis:entity/sight"
+    ]
+  }
+}

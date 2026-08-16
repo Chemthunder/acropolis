@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.event.client;
+package org.chemthunder.acropolis.core.event.client.entities;
 
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;

@@ -5,10 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKeys;
 import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
-import org.chemthunder.acropolis.datagen.providers.AcropolisDamageTypeTagProvider;
-import org.chemthunder.acropolis.datagen.providers.AcropolisDynamicRegistryProvider;
-import org.chemthunder.acropolis.datagen.providers.AcropolisLanguageProvider;
-import org.chemthunder.acropolis.datagen.providers.AcropolisModelProvider;
+import org.chemthunder.acropolis.datagen.providers.*;
 
 public class AcropolisDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fdg) {
@@ -20,6 +17,7 @@ public class AcropolisDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(AcropolisLanguageProvider::new);
         pack.addProvider(AcropolisModelProvider::new);
+        pack.addProvider(AcropolisSoundProvider::new);
 	}
 
     public void buildRegistry(RegistryBuilder registryBuilder) {

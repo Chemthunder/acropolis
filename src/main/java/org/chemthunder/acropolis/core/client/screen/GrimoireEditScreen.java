@@ -41,7 +41,7 @@ public class GrimoireEditScreen extends Screen {
         ButtonWidget ANGER = ButtonWidget.builder(Text.literal("Anger Eye"), (button -> {
                     this.close();
 
-                    GrimoireEditPayload.send(CelestialGrimoireItem.TEST);
+                    GrimoireEditPayload.send(CelestialGrimoireItem.ANGER);
 
                     player.swingHand(player.getActiveHand());
                 }))
@@ -112,6 +112,24 @@ public class GrimoireEditScreen extends Screen {
 
         drawableFunctions.add(context -> RELOCATE);
         this.addDrawableChild(RELOCATE);
+
+
+
+        // CHARACTER =====
+        ButtonWidget TOGGLE = ButtonWidget.builder(Text.literal("Sanctumkeeper"), (button -> {
+                    this.close();
+
+                    GrimoireEditPayload.send(CelestialGrimoireItem.SANCTUMKEEPER);
+
+                    player.swingHand(player.getActiveHand());
+                }))
+                .size((96), 16)
+                .position(40, 120)
+                .tooltip(Tooltip.of(Text.literal("Become the Sanctumkeeper.")))
+                .build();
+
+        drawableFunctions.add(context -> TOGGLE);
+        this.addDrawableChild(TOGGLE);
     }
 
     public void tick() {

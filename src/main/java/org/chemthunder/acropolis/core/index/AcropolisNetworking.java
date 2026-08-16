@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.networking;
+package org.chemthunder.acropolis.core.index;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

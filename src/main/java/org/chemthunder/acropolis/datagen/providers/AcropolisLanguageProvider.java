@@ -36,5 +36,13 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s had their soul slip away whilst fighting %2$s, wielding %3$s",
                 "%1$s had their soul slip away whilst fighting %2$s"
         );
+
+        DataUtils.registerDamageType(
+                translationBuilder,
+                AcropolisDamageTypes.RETRIBUTION,
+                "%1$s had their sins burned away",
+                "%1$s had their sins burned away whilst fighting %2$s, wielding %3$s",
+                "%1$s had their sins burned away whilst fighting %2$s"
+        );
     }
 }

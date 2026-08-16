@@ -11,6 +11,7 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
+import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
 import org.chemthunder.acropolis.core.client.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
@@ -84,7 +85,7 @@ public class SightRenderEvent implements WorldRenderEvents.EndMain {
                             0, 0, 0,
                             Easing.outCirc(sight.getBeamWidth() - 0.7F),
                             360,
-                            (AcropolisClient.AGE + delta)
+                            AcropolisConfig.epilepsyMode ? (AcropolisClient.AGE + delta) / 6 : (AcropolisClient.AGE + delta)
                     );
 
                     stack.pop();

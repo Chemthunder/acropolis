@@ -1,5 +1,6 @@
 package org.chemthunder.acropolis.core;
 
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.acoyt.acornlib.api.ALib;
 import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
 import net.fabricmc.api.ModInitializer;
@@ -41,6 +42,8 @@ public class Acropolis implements ModInitializer {
 
         ALib.registerModIcon(MOD_ID, Acropolis.id("mini_icon.png"));
         ALib.registerModMenu(MOD_ID, 0xFFac61d0);
+
+        MidnightConfig.init(MOD_ID, AcropolisConfig.class);
 
 		LOGGER.info("Gaze into the stars !!!~");
 	}

@@ -2,17 +2,20 @@ package org.chemthunder.acropolis.core.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
+import org.chemthunder.acropolis.core.utilities.PlayerData;
 
 import java.util.Random;
 
@@ -47,8 +50,10 @@ public class SpellshotEntity extends ThrownEntity {
                         0.02F
                 );
 
-                this.getEntityWorld().getEntitiesByClass(LivingEntity.class, new Box(this.getBlockPos()).expand(2.5, 2, 2.5), entity -> true).forEach(entity -> {
-                    entity.damage(serverWorld, entity.getDamageSources().create(AcropolisDamageTypes.SMOKE), 4.0F);
+                this.getEntityWorld().getEntitiesByClass(PlayerEntity.class, new Box(this.getBlockPos()).expand(2.5, 2, 2.5), entity -> true).forEach(entity -> {
+                    if (!PlayerData.trusted(entity)) {
+                        entity.damage(serverWorld, entity.getDamageSources().create(AcropolisDamageTypes.SMOKE), 4.0F);
+                    }
                 });
             }
         }
@@ -77,8 +82,11 @@ public class SpellshotEntity extends ThrownEntity {
     }
 
     protected void onBlockCollision(BlockState state) {
-        if (!state.isIn(BlockTags.AIR)) {
-            collided = true;
+        if (!collided) {
+            if (!state.isIn(BlockTags.AIR)) {
+                this.getEntityWorld().playSound(this, this.getBlockPos(), SoundEvents.ENTITY_ALLAY_DEATH, SoundCategory.HOSTILE, 1, 1 + new Random().nextFloat(-0.5F, 0.5F));
+                collided = true;
+            }
         }
     }
 

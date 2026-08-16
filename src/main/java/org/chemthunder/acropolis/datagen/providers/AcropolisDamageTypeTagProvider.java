@@ -21,7 +21,8 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
     protected void configure(RegistryWrapper.WrapperLookup registries) {
         this.getTagBuilder(DamageTypeTags.NO_KNOCKBACK)
                 .add(AcropolisDamageTypes.GAZE.getValue())
-                .add(AcropolisDamageTypes.SMOKE.getValue());
+                .add(AcropolisDamageTypes.SMOKE.getValue())
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .add(AcropolisDamageTypes.GAZE.getValue());
@@ -30,7 +31,8 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
                 .add(AcropolisDamageTypes.RETRIBUTION.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
-                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue())
+                .add(AcropolisDamageTypes.SMOKE.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ENCHANTMENTS)
                 .add(AcropolisDamageTypes.RETRIBUTION.getValue());

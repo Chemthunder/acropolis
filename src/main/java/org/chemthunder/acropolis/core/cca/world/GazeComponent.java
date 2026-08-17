@@ -29,6 +29,8 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
     );
     private final World world;
 
+    public static final int RANGE = 80;
+
     private @Nullable Vec3d pos;
 
     private boolean present = false;
@@ -124,7 +126,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
         if (gaze.isBorder()) {
             if (gaze.getPos() != null) {
-                Box box = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y, gaze.getPos().z)).expand(150);
+                Box box = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y, gaze.getPos().z)).expand(RANGE);
 
                 return box.contains(entity.getEntityPos());
             }

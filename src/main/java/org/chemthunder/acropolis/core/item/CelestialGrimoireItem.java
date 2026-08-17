@@ -5,22 +5,17 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PlayerListS2CPacket;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ClickType;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -89,6 +84,7 @@ public class CelestialGrimoireItem extends Item {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
             if (user.isSneaking()) {
                 if (user instanceof ServerPlayerEntity serverPlayer) {
+                    user.swingHand(hand);
                     ServerPlayNetworking.send(serverPlayer, new OpenGrimoirePayload());
                 }
             }
@@ -96,22 +92,22 @@ public class CelestialGrimoireItem extends Item {
         return super.use(world, user, hand);
     }
 
-    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        if (clickType == ClickType.RIGHT) {
-            if (otherStack.isOf(Items.TOTEM_OF_UNDYING)) {
-                otherStack.decrement(1);
-
-                if (player.getEntityWorld().isClient()) {
-                    player.playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE);
-                }
-
-                cursorStackReference.set(new ItemStack(AcropolisItems.EXTOLLED_SIMULACRUM));
-                return true;
-            }
-        }
-
-        return false;
-    }
+//    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+//        if (clickType == ClickType.RIGHT) {
+//            if (otherStack.isOf(Items.TOTEM_OF_UNDYING)) {
+//                otherStack.decrement(1);
+//
+//                if (player.getEntityWorld().isClient()) {
+//                    player.playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE);
+//                }
+//
+//                cursorStackReference.set(new ItemStack(AcropolisItems.EXTOLLED_SIMULACRUM));
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
     public Text getName(ItemStack stack) {
         return super.getName(stack).copy().withColor(0xFFac61d0);

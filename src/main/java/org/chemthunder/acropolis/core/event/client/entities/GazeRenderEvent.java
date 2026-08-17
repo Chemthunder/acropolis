@@ -53,7 +53,7 @@ public class GazeRenderEvent implements WorldRenderEvents.EndMain {
                                     0,
                                     0,
                                     0,
-                                    150,
+                                    GazeComponent.RANGE,
                                     900,
                                     (AcropolisClient.AGE + delta) / 32
                             );

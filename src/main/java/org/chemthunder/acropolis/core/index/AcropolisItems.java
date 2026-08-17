@@ -5,7 +5,6 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
-import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
 
 /**
  * @author Chemthunder
@@ -19,14 +18,12 @@ public interface AcropolisItems {
             .fireproof()
     );
 
-    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
-            .maxCount(1)
-            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
-            .component(AcropolisComponentTypes.CHARGES, 0)
-            .fireproof()
-    );
+//    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
+//            .maxCount(1)
+//            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
+//            .component(AcropolisComponentTypes.CHARGES, 0)
+//            .fireproof()
+//    );
 
-    static void init() {
-        Acropolis.LOGGER.info("Test");
-    }
+    static void init() {}
 }

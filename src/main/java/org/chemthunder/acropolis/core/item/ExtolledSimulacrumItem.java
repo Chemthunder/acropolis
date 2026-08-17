@@ -1,25 +1,16 @@
 package org.chemthunder.acropolis.core.item;
 
-import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
 import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
-import org.chemthunder.acropolis.core.index.AcropolisItems;
-import org.jspecify.annotations.Nullable;
-
-import java.util.function.Consumer;
 
 /**
  * @author Chemthunder
@@ -63,26 +54,26 @@ public class ExtolledSimulacrumItem extends Item {
         return true;
     }
 
-    public static class Tooltip implements BetterItemTooltipEvent {
-        public void getTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent component, @Nullable PlayerEntity player, TooltipType type, Consumer<Text> consumer) {
-            int color = 0xFF9740aa;
-
-            if (stack.isOf(AcropolisItems.EXTOLLED_SIMULACRUM)) {
-                if (MinecraftClient.getInstance().isAltPressed()) {
-                    consumer.accept(Text.empty()
-                            .append(Text.literal("[RIGHT-CLICK]").formatted(Formatting.YELLOW))
-                            .append(Text.literal(" in any direction to call down").withColor(color))
-                    );
-                    consumer.accept(Text.empty()
-                            .append(Text.literal("the essence of the Sight.").withColor(color))
-                    );
-                } else {
-                    consumer.accept(Text.empty()
-                            .append(Text.literal("The calling-bell of the Sight, a")).withColor(color)
-                    );
-                    consumer.accept(Text.literal("ferocious beast of the cosmos.").withColor(color));
-                }
-            }
-        }
-    }
+//    public static class Tooltip implements BetterItemTooltipEvent {
+//        public void getTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent component, @Nullable PlayerEntity player, TooltipType type, Consumer<Text> consumer) {
+//            int color = 0xFF9740aa;
+//
+//            if (stack.isOf(AcropolisItems.EXTOLLED_SIMULACRUM)) {
+//                if (MinecraftClient.getInstance().isAltPressed()) {
+//                    consumer.accept(Text.empty()
+//                            .append(Text.literal("[RIGHT-CLICK]").formatted(Formatting.YELLOW))
+//                            .append(Text.literal(" in any direction to call down").withColor(color))
+//                    );
+//                    consumer.accept(Text.empty()
+//                            .append(Text.literal("the essence of the Sight.").withColor(color))
+//                    );
+//                } else {
+//                    consumer.accept(Text.empty()
+//                            .append(Text.literal("The calling-bell of the Sight, a")).withColor(color)
+//                    );
+//                    consumer.accept(Text.literal("ferocious beast of the cosmos.").withColor(color));
+//                }
+//            }
+//        }
+//    }
 }

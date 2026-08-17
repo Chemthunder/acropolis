@@ -25,12 +25,10 @@ public class StareDamageEvent implements ServerTickEvents.StartWorldTick  {
                 Box detectionRange = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y + 55, gaze.getPos().z)).expand(15);
 
                 if (detectionRange.raycast(serverPlayer.getEntityPos(), raycastPos).isPresent()) {
-                    if (PlayerDataComponent.KEY.get(serverPlayer).isTrusted()) {
-                        if (serverWorld.getTime() % 20 == 0) {
-                            serverPlayer.heal(2.0F);
+                    if (!PlayerDataComponent.KEY.get(serverPlayer).isTrusted()) {
+                        if (!gaze.isBorder()) {
+                            serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(AcropolisDamageTypes.GAZE), 1.0F);
                         }
-                    } else {
-                        serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(AcropolisDamageTypes.GAZE), 1.0F);
                     }
                 }
             }

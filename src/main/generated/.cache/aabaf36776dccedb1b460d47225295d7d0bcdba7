@@ -1,4 +1,6 @@
 // 1.21.11	-999999999-01-01T00:00:00	Acropolis/Model Definitions
+d90883fb2d6333ccf6d825d46da57493a6aa2495 assets/acropolis/blockstates/dim_lantern.json
 65a158390ed7f009ba11958d701ec8446b5a2a1e assets/acropolis/items/celestial_grimoire.json
-775bb2e6f80a82e6fc89a954816843340f159320 assets/acropolis/items/extolled_simulacrum.json
+40938bfec44a5043f080fad91ef9a4af4b95e437 assets/acropolis/items/dim_lantern.json
 ded62221186eeb39b1878ea4613446c96b74c537 assets/acropolis/models/item/celestial_grimoire.json
+828ddcc940edcd88ec9c598cf64bcccdc6d4130f assets/acropolis/models/item/dim_lantern.json

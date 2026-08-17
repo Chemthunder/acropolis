@@ -7,6 +7,7 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
@@ -36,6 +37,10 @@ public record GrimoireEditPayload(int code) implements CustomPayload {
             World world = player.getEntityWorld();
 
             CelestialGrimoireItem.applyEditAction(grimoireEditPayload.code, world, player);
+
+            if (world.isClient()) {
+                player.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE);
+            }
         }
     }
 }

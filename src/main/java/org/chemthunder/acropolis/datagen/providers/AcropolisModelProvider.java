@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Models;
+import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 
 /**
@@ -15,13 +16,14 @@ public class AcropolisModelProvider extends FabricModelProvider {
         super(output);
     }
 
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {}
+    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+        blockStateModelGenerator.registerSimpleState(AcropolisBlocks.DIM_LANTERN);
+    }
 
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(AcropolisItems.CELESTIAL_GRIMOIRE, Models.GENERATED);
+        itemModelGenerator.register(AcropolisBlocks.DIM_LANTERN.asItem(), Models.GENERATED);
 
-        itemModelGenerator.register(AcropolisItems.EXTOLLED_SIMULACRUM);
-
-//        DataUtils.createSimpleGuiVarying(itemModelGenerator, AcropolisItems.RAPTURE);
+//        itemModelGenerator.register(AcropolisItems.EXTOLLED_SIMULACRUM);
     }
 }

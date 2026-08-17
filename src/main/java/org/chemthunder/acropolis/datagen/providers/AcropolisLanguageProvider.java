@@ -19,7 +19,7 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
 
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(AcropolisItems.CELESTIAL_GRIMOIRE, "Celestial Grimoire");
-        translationBuilder.add(AcropolisItems.EXTOLLED_SIMULACRUM, "Extolled Simulacrum");
+//        translationBuilder.add(AcropolisItems.EXTOLLED_SIMULACRUM, "Extolled Simulacrum");
 
         translationBuilder.add("acropolis.midnightconfig.title", "Acropolis");
         translationBuilder.add("acropolis.midnightconfig.epilepsyMode", "Epilepsy Mode");

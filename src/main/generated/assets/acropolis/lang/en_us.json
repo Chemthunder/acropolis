@@ -10,6 +10,5 @@
   "death.attack.smoke": "%1$s had their soul slip away",
   "death.attack.smoke.item": "%1$s had their soul slip away whilst fighting %2$s, wielding %3$s",
   "death.attack.smoke.player": "%1$s had their soul slip away whilst fighting %2$s",
-  "item.acropolis.celestial_grimoire": "Celestial Grimoire",
-  "item.acropolis.extolled_simulacrum": "Extolled Simulacrum"
+  "item.acropolis.celestial_grimoire": "Celestial Grimoire"
 }

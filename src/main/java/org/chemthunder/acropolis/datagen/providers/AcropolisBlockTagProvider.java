@@ -17,8 +17,8 @@ public class AcropolisBlockTagProvider extends FabricTagProvider.BlockTagProvide
     }
 
     protected void configure(RegistryWrapper.WrapperLookup registries) {
-        this.valueLookupBuilder(AcornBlockTags.PLUSHIES)
-                .add(AcropolisBlocks.PLUSHIES)
-                .setReplace(false);
+        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> this.valueLookupBuilder(AcornBlockTags.PLUSHIES)
+                .add(plushRegistration.plush())
+                .setReplace(false));
     }
 }

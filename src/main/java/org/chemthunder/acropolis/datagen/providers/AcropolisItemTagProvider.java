@@ -1,11 +1,8 @@
 package org.chemthunder.acropolis.datagen.providers;
 
-import net.acoyt.acornlib.impl.index.tag.AcornBlockTags;
 import net.acoyt.acornlib.impl.index.tag.AcornItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 
@@ -20,10 +17,8 @@ public class AcropolisItemTagProvider extends FabricTagProvider.ItemTagProvider 
     }
 
     protected void configure(RegistryWrapper.WrapperLookup registries) {
-        for (Block block : AcropolisBlocks.PLUSHIES) {
-            this.valueLookupBuilder(AcornItemTags.PLUSHIES)
-                    .add(block.asItem())
-                    .setReplace(false);
-        }
+        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> this.valueLookupBuilder(AcornItemTags.PLUSHIES)
+                .add(plushRegistration.plush().asItem())
+                .setReplace(false));
     }
 }

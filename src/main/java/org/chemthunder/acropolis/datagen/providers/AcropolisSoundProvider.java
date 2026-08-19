@@ -3,8 +3,10 @@ package org.chemthunder.acropolis.datagen.providers;
 import net.fabricmc.fabric.api.client.datagen.v1.builder.SoundTypeBuilder;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricSoundsProvider;
 import net.minecraft.data.DataOutput;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
+import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisSoundEvents;
 
 import java.util.concurrent.CompletableFuture;
@@ -22,15 +24,12 @@ public class AcropolisSoundProvider extends FabricSoundsProvider {
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, SoundExporter soundExporter) {
         soundExporter.add(AcropolisSoundEvents.SIGHT, sound(id("entity/sight")));
 
-        soundExporter.add(AcropolisSoundEvents.FLEUR_PLUSH, SoundTypeBuilder.of(AcropolisSoundEvents.FLEUR_PLUSH)
-                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/fleur_plush")))
-                .subtitle("subtitles.acropolis.fleur_plush")
-        );
-
-        soundExporter.add(AcropolisSoundEvents.MEDE_PLUSH, SoundTypeBuilder.of(AcropolisSoundEvents.MEDE_PLUSH)
-                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/mede_plush")))
-                .subtitle("subtitles.acropolis.mede_plush")
-        );
+        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> {
+            soundExporter.add(plushRegistration.squishSound(), SoundTypeBuilder.of(plushRegistration.squishSound())
+                    .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/" + Registries.BLOCK.getId(plushRegistration.plush()).getPath())))
+                    .subtitle("subtitles.acropolis." + Registries.BLOCK.getId(plushRegistration.plush()).getPath())
+            );
+        });
     }
 
     private static SoundTypeBuilder sound(Identifier id) {

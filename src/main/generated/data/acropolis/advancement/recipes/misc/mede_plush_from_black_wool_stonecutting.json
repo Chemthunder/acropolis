@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_brown_wool": {
+    "has_black_wool": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:brown_wool"
+            "items": "minecraft:black_wool"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "acropolis:mede_plush_from_brown_wool_stonecutting"
+        "recipe": "acropolis:mede_plush_from_black_wool_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_brown_wool"
+      "has_black_wool"
     ]
   ],
   "rewards": {
     "recipes": [
-      "acropolis:mede_plush_from_brown_wool_stonecutting"
+      "acropolis:mede_plush_from_black_wool_stonecutting"
     ]
   }
 }

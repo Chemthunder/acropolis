@@ -35,68 +35,69 @@ public class GrimoireEditScreen extends Screen {
         drawableFunctions.clear();
 
         PlayerEntity player = MinecraftClient.getInstance().player;
-
         Screen s = client.currentScreen;
 
-        ButtonWidget ANGER = ButtonWidget.builder(Text.literal("Anger Eye"), (button -> {
-                    this.close();
+        if (player != null && s != null) {
+            ButtonWidget ANGER = ButtonWidget.builder(Text.literal("Anger Eye"), (button -> {
+                        this.close();
 
-                    GrimoireEditPayload.send(CelestialGrimoireItem.ANGER);
+                        GrimoireEditPayload.send(CelestialGrimoireItem.ANGER);
 
-                    player.swingHand(player.getActiveHand());
-                }))
-                .size(64, 16)
-                .position(s.width / 2 - 32, s.height / 2)
-                .tooltip(Tooltip.of(Text.literal("Toggles the Eye's Anger state.")))
-                .build();
+                        player.swingHand(player.getActiveHand());
+                    }))
+                    .size(64, 16)
+                    .position(s.width / 2 - 32, s.height / 2)
+                    .tooltip(Tooltip.of(Text.literal("Toggles the Eye's Anger state.")))
+                    .build();
 
-        drawableFunctions.add(context -> ANGER);
-        this.addDrawableChild(ANGER);
+            drawableFunctions.add(context -> ANGER);
+            this.addDrawableChild(ANGER);
 
-        ButtonWidget PRESENT = ButtonWidget.builder(Text.literal("Mask Eye"), (button -> {
-                    this.close();
+            ButtonWidget PRESENT = ButtonWidget.builder(Text.literal("Mask Eye"), (button -> {
+                        this.close();
 
-                    GrimoireEditPayload.send(CelestialGrimoireItem.MASK);
+                        GrimoireEditPayload.send(CelestialGrimoireItem.MASK);
 
-                    player.swingHand(player.getActiveHand());
-                }))
-                .size(64, 16)
-                .position(s.width / 2 - 32, s.height / 2 + 32)
-                .tooltip(Tooltip.of(Text.literal("Toggles the Eye's Masked State.")))
-                .build();
+                        player.swingHand(player.getActiveHand());
+                    }))
+                    .size(64, 16)
+                    .position(s.width / 2 - 32, s.height / 2 + 32)
+                    .tooltip(Tooltip.of(Text.literal("Toggles the Eye's Masked State.")))
+                    .build();
 
-        drawableFunctions.add(context -> PRESENT);
-        this.addDrawableChild(PRESENT);
+            drawableFunctions.add(context -> PRESENT);
+            this.addDrawableChild(PRESENT);
 
-        ButtonWidget REMOVE = ButtonWidget.builder(Text.literal("Remove Eye"), (button -> {
-                    this.close();
+            ButtonWidget REMOVE = ButtonWidget.builder(Text.literal("Remove Eye"), (button -> {
+                        this.close();
 
-                    GrimoireEditPayload.send(CelestialGrimoireItem.REMOVE);
+                        GrimoireEditPayload.send(CelestialGrimoireItem.REMOVE);
 
-                    player.swingHand(player.getActiveHand());
-                }))
-                .size(64, 16)
-                .position(s.width / 2 - 32, s.height / 2 + 64)
-                .tooltip(Tooltip.of(Text.literal("Removes the Eye.")))
-                .build();
+                        player.swingHand(player.getActiveHand());
+                    }))
+                    .size(64, 16)
+                    .position(s.width / 2 - 32, s.height / 2 + 64)
+                    .tooltip(Tooltip.of(Text.literal("Removes the Eye.")))
+                    .build();
 
-        drawableFunctions.add(context -> REMOVE);
-        this.addDrawableChild(REMOVE);
+            drawableFunctions.add(context -> REMOVE);
+            this.addDrawableChild(REMOVE);
 
-        ButtonWidget BORDER = ButtonWidget.builder(Text.literal("Border Eye"), (button -> {
-                    this.close();
+            ButtonWidget BORDER = ButtonWidget.builder(Text.literal("Border Eye"), (button -> {
+                        this.close();
 
-                    GrimoireEditPayload.send(CelestialGrimoireItem.BORDER);
+                        GrimoireEditPayload.send(CelestialGrimoireItem.BORDER);
 
-                    player.swingHand(player.getActiveHand());
-                }))
-                .size(64, 16)
-                .position(s.width / 2 - 32, s.height / 2 + (64 + 32))
-                .tooltip(Tooltip.of(Text.literal("Toggles the Border created by the Eye.")))
-                .build();
+                        player.swingHand(player.getActiveHand());
+                    }))
+                    .size(64, 16)
+                    .position(s.width / 2 - 32, s.height / 2 + (64 + 32))
+                    .tooltip(Tooltip.of(Text.literal("Toggles the Border created by the Eye.")))
+                    .build();
 
-        drawableFunctions.add(context -> BORDER);
-        this.addDrawableChild(BORDER);
+            drawableFunctions.add(context -> BORDER);
+            this.addDrawableChild(BORDER);
+        }
     }
 
     public void tick() {
@@ -169,7 +170,6 @@ public class GrimoireEditScreen extends Screen {
                 );
             }
         }
-
 
         drawableFunctions.forEach(function ->
                 function.apply(context).render(context, mouseX, mouseY, deltaTicks)

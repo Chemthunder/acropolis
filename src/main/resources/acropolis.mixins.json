@@ -13,6 +13,5 @@
     "requireAnnotations": true
   },
   "client": [
-    "client.PlayerEntityRendererMixin"
   ]
 }

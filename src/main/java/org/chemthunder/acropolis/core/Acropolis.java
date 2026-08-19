@@ -26,6 +26,9 @@ public class Acropolis implements ModInitializer {
         AcropolisComponentTypes.init();
         AcropolisSoundEvents.init();
         AcropolisBlocks.init();
+        AcropolisItemGroups.init();
+
+        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> ALib.registerPlush(plushRegistration.plush(), plushRegistration.squishSound(), plushRegistration.descColor()));
 
         ServerTickEvents.START_WORLD_TICK.register(new StareDamageEvent());
         ServerTickEvents.START_WORLD_TICK.register(new SightDamageEvent());

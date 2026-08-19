@@ -19,7 +19,7 @@ public record OpenGrimoirePayload() implements CustomPayload {
 
     public static final PacketCodec<RegistryByteBuf, OpenGrimoirePayload> CODEC = PacketCodec.unit(new OpenGrimoirePayload());
 
-    public static class Reciever implements ClientPlayNetworking.PlayPayloadHandler<OpenGrimoirePayload> {
+    public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<OpenGrimoirePayload> {
         public void receive(OpenGrimoirePayload openGrimoirePayload, ClientPlayNetworking.Context context) {
             context.client().execute(() -> context.client().setScreen(new GrimoireEditScreen()));
         }

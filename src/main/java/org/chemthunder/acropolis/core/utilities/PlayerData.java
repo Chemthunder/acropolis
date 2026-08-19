@@ -10,8 +10,4 @@ public class PlayerData {
     public static boolean trusted(PlayerEntity player) {
         return PlayerDataComponent.KEY.get(player).isTrusted() || PlayerDataComponent.KEY.get(player).isSanctum();
     }
-
-    public static boolean sanctum(PlayerEntity player) {
-        return PlayerDataComponent.KEY.get(player).isSanctum();
-    }
 }

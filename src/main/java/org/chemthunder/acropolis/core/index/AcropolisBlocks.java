@@ -10,7 +10,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.sound.SoundEvent;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.datagen.providers.AcropolisRecipeProvider;
 
 import java.util.ArrayList;
 import java.util.List;

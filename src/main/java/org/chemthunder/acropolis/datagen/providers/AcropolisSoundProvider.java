@@ -24,20 +24,14 @@ public class AcropolisSoundProvider extends FabricSoundsProvider {
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, SoundExporter soundExporter) {
         soundExporter.add(AcropolisSoundEvents.SIGHT, sound(id("entity/sight")));
 
-        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> {
-            soundExporter.add(plushRegistration.squishSound(), SoundTypeBuilder.of(plushRegistration.squishSound())
-                    .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/" + Registries.BLOCK.getId(plushRegistration.plush()).getPath())))
-                    .subtitle("subtitles.acropolis." + Registries.BLOCK.getId(plushRegistration.plush()).getPath())
-            );
-        });
+        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> soundExporter.add(plushRegistration.squishSound(), SoundTypeBuilder.of(plushRegistration.squishSound())
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/" + Registries.BLOCK.getId(plushRegistration.plush()).getPath())))
+                .subtitle("subtitles.acropolis." + Registries.BLOCK.getId(plushRegistration.plush()).getPath())
+        ));
     }
 
     private static SoundTypeBuilder sound(Identifier id) {
         return SoundTypeBuilder.of().sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id));
-    }
-
-    private static SoundTypeBuilder sound(Identifier id, float volume) {
-        return SoundTypeBuilder.of().sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id).volume(volume));
     }
 
     public String getName() {

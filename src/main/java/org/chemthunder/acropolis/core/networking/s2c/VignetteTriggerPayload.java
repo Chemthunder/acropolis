@@ -23,7 +23,7 @@ public record VignetteTriggerPayload(float initial) implements CustomPayload {
             VignetteTriggerPayload::new
     );
 
-    public static class Reciever implements ClientPlayNetworking.PlayPayloadHandler<VignetteTriggerPayload> {
+    public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<VignetteTriggerPayload> {
         public void receive(VignetteTriggerPayload vignetteTriggerPayload, ClientPlayNetworking.Context context) {
             context.client().execute(() -> PurpleVignetteEvents.Ticker.opacity = vignetteTriggerPayload.initial);
         }

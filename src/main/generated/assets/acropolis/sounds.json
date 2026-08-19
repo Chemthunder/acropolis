@@ -1,4 +1,16 @@
 {
+  "block.fleur_plush": {
+    "sounds": [
+      "acropolis:block/fleur_plush"
+    ],
+    "subtitle": "subtitles.acropolis.fleur_plush"
+  },
+  "block.mede_plush": {
+    "sounds": [
+      "acropolis:block/mede_plush"
+    ],
+    "subtitle": "subtitles.acropolis.mede_plush"
+  },
   "entity.sight": {
     "sounds": [
       "acropolis:entity/sight"

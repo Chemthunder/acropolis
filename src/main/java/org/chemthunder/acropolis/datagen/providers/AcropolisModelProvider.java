@@ -1,5 +1,8 @@
 package org.chemthunder.acropolis.datagen.providers;
 
+import net.acoyt.acornlib.api.ALib;
+import net.acoyt.acornlib.data.provider.resources.AcornModelGen;
+import net.acoyt.acornlib.impl.util.Util;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.BlockStateModelGenerator;
@@ -16,14 +19,10 @@ public class AcropolisModelProvider extends FabricModelProvider {
         super(output);
     }
 
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleState(AcropolisBlocks.DIM_LANTERN);
-    }
+    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {}
 
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(AcropolisItems.CELESTIAL_GRIMOIRE, Models.GENERATED);
-        itemModelGenerator.register(AcropolisBlocks.DIM_LANTERN.asItem(), Models.GENERATED);
-
 //        itemModelGenerator.register(AcropolisItems.EXTOLLED_SIMULACRUM);
     }
 }

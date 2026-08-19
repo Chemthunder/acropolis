@@ -12,5 +12,8 @@ public interface AcropolisSoundEvents {
 
     SoundEvent SIGHT = plugin.register("entity.sight");
 
+    SoundEvent FLEUR_PLUSH = plugin.register("block.fleur_plush");
+    SoundEvent MEDE_PLUSH = plugin.register("block.mede_plush");
+
     static void init() {}
 }

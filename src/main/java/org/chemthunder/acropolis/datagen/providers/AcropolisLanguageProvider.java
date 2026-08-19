@@ -4,6 +4,7 @@ import net.acoyt.acornlib.api.util.DataUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryWrapper;
+import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 
@@ -23,6 +24,12 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
 
         translationBuilder.add("acropolis.midnightconfig.title", "Acropolis");
         translationBuilder.add("acropolis.midnightconfig.epilepsyMode", "Epilepsy Mode");
+
+        translationBuilder.add(AcropolisBlocks.FLEUR_PLUSH, "Fleur Plush");
+        translationBuilder.add(AcropolisBlocks.FLEUR_PLUSH.getTranslationKey() + ".desc", "the op lumiere");
+
+        translationBuilder.add(AcropolisBlocks.MEDE_PLUSH, "Mede Plush");
+        translationBuilder.add(AcropolisBlocks.MEDE_PLUSH.getTranslationKey() + ".desc", "mikeiscooler than me");
 
         DataUtils.registerDamageType(
                 translationBuilder,

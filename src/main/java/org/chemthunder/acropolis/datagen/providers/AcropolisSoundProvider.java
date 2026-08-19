@@ -21,6 +21,16 @@ public class AcropolisSoundProvider extends FabricSoundsProvider {
 
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, SoundExporter soundExporter) {
         soundExporter.add(AcropolisSoundEvents.SIGHT, sound(id("entity/sight")));
+
+        soundExporter.add(AcropolisSoundEvents.FLEUR_PLUSH, SoundTypeBuilder.of(AcropolisSoundEvents.FLEUR_PLUSH)
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/fleur_plush")))
+                .subtitle("subtitles.acropolis.fleur_plush")
+        );
+
+        soundExporter.add(AcropolisSoundEvents.MEDE_PLUSH, SoundTypeBuilder.of(AcropolisSoundEvents.MEDE_PLUSH)
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/mede_plush")))
+                .subtitle("subtitles.acropolis.mede_plush")
+        );
     }
 
     private static SoundTypeBuilder sound(Identifier id) {

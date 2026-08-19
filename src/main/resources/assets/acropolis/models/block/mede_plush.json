@@ -1,0 +1,7 @@
+{
+  "parent": "acornlib:block/plush",
+  "textures": {
+    "particle": "minecraft:block/black_wool",
+    "texture": "acropolis:block/mede_plush"
+  }
+}

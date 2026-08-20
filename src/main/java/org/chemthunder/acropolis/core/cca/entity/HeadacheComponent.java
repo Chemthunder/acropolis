@@ -5,7 +5,6 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
-import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;

@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
-import org.chemthunder.acropolis.core.AcropolisClient;
 import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;

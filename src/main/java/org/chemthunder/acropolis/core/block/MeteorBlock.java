@@ -1,7 +1,6 @@
 package org.chemthunder.acropolis.core.block;
 
 import com.mojang.serialization.MapCodec;
-import net.acoyt.acornlib.impl.block.PlushBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;

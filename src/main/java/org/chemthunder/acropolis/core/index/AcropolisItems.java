@@ -3,7 +3,6 @@ package org.chemthunder.acropolis.core.index;
 import net.acoyt.acornlib.api.registrants.ItemRegistrant;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;

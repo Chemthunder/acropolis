@@ -3,10 +3,8 @@ package org.chemthunder.acropolis.datagen.providers;
 import net.fabricmc.fabric.api.client.datagen.v1.builder.SoundTypeBuilder;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricSoundsProvider;
 import net.minecraft.data.DataOutput;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
-import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisSoundEvents;
 
 import java.util.concurrent.CompletableFuture;

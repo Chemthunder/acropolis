@@ -7,10 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
 import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
-import org.chemthunder.acropolis.core.index.AcropolisBlocks;
-import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
-import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
-import org.chemthunder.acropolis.core.index.AcropolisNetworking;
+import org.chemthunder.acropolis.core.index.*;
 
 /**
  * @author Chemthunder
@@ -22,6 +19,7 @@ public class AcropolisClient implements ClientModInitializer {
         AcropolisEntityModelLayers.clinit();
         AcropolisEntityTypes.clinit();
         AcropolisBlocks.clinit();
+        AcropolisBlockEntities.clinit();
 
         AcropolisNetworking.s2c();
 

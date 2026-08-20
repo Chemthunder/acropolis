@@ -24,14 +24,32 @@ public class AcropolisSoundProvider extends FabricSoundsProvider {
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, SoundExporter soundExporter) {
         soundExporter.add(AcropolisSoundEvents.SIGHT, sound(id("entity/sight")));
 
-        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> soundExporter.add(plushRegistration.squishSound(), SoundTypeBuilder.of(plushRegistration.squishSound())
-                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/" + Registries.BLOCK.getId(plushRegistration.plush()).getPath())))
-                .subtitle("subtitles.acropolis." + Registries.BLOCK.getId(plushRegistration.plush()).getPath())
-        ));
+        soundExporter.add(AcropolisSoundEvents.RAPTURE_HIT, sound(id("item/rapture_hit"))
+                .subtitle("subtitles.acropolis.rapture_hit")
+        );
+
+        soundExporter.add(AcropolisSoundEvents.RYN_PLUSH, SoundTypeBuilder.of()
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/ryn_plush")))
+    //            .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/mede_plush_1")))
+                .subtitle("subtitles.acropolis.ryn_plush")
+        );
+
+        soundExporter.add(AcropolisSoundEvents.MEDE_PLUSH, SoundTypeBuilder.of()
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/mede_plush")))
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/mede_plush_1")))
+                .subtitle("subtitles.acropolis.mede_plush")
+        );
+
+        soundExporter.add(AcropolisSoundEvents.FLEUR_PLUSH, SoundTypeBuilder.of()
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/fleur_plush")))
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id("block/fleur_plush_1")))
+                .subtitle("subtitles.acropolis.fleur_plush")
+        );
     }
 
     private static SoundTypeBuilder sound(Identifier id) {
-        return SoundTypeBuilder.of().sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id));
+        return SoundTypeBuilder.of()
+                .sound(SoundTypeBuilder.EntryBuilder.create(SoundTypeBuilder.RegistrationType.FILE, id));
     }
 
     public String getName() {

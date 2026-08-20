@@ -3,8 +3,11 @@ package org.chemthunder.acropolis.core.index;
 import net.acoyt.acornlib.api.registrants.ItemRegistrant;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.item.ToolMaterial;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
+import org.chemthunder.acropolis.core.item.RaptureItem;
 
 /**
  * @author Chemthunder
@@ -24,6 +27,14 @@ public interface AcropolisItems {
 //            .component(AcropolisComponentTypes.CHARGES, 0)
 //            .fireproof()
 //    );
+
+    Item RAPTURE = plugin.register("rapture", RaptureItem::new, new Item.Settings()
+            .maxCount(1)
+            .sword(ToolMaterial.NETHERITE, 3.0F, -2.4F)
+            .fireproof()
+            .enchantable(4)
+            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("rapture"))
+    );
 
     static void init() {}
 }

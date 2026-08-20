@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import org.chemthunder.acropolis.core.AcropolisClient;
 import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
@@ -23,6 +24,7 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(AcropolisItems.CELESTIAL_GRIMOIRE, "Celestial Grimoire");
 //        translationBuilder.add(AcropolisItems.EXTOLLED_SIMULACRUM, "Extolled Simulacrum");
+        translationBuilder.add(AcropolisItems.RAPTURE, "Rapture");
 
         translationBuilder.add("acropolis.midnightconfig.title", "Acropolis");
         translationBuilder.add("acropolis.midnightconfig.epilepsyMode", "Epilepsy Mode");
@@ -38,11 +40,13 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                     plushRegistration.plush().getTranslationKey() + ".desc",
                     plushRegistration.desc()
             );
-            translationBuilder.add(
-                    "subtitles.acropolis." + AcropolisBlocks.plugin.getId(plushRegistration.plush()).getPath(),
-                    MiscUtils.formatString(AcropolisBlocks.plugin.getId(plushRegistration.plush()).getPath()) + " squishes"
-            );
         });
+
+        translationBuilder.add("subtitles.acropolis.ryn_plush", "how weird");
+        translationBuilder.add("subtitles.acropolis.mede_plush", "guh");
+        translationBuilder.add("subtitles.acropolis.fleur_plush", "sound of pure fear");
+
+        translationBuilder.add("subtitles.acropolis.rapture_hit", "Rapture slams");
 
         DataUtils.registerDamageType(
                 translationBuilder,
@@ -66,6 +70,14 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s had their sins burned away",
                 "%1$s had their sins burned away whilst fighting %2$s, wielding %3$s",
                 "%1$s had their sins burned away whilst fighting %2$s"
+        );
+
+        DataUtils.registerDamageType(
+                translationBuilder,
+                AcropolisDamageTypes.RAPTURE,
+                "%1$s was ripped apart violently",
+                "%1$s was ripped apart violently by %2$s, wielding %3$s",
+                "%1$s was ripped apart violently by %2$s"
         );
     }
 }

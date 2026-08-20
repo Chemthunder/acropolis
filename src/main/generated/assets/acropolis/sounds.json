@@ -1,19 +1,33 @@
 {
   "block.fleur_plush": {
     "sounds": [
-      "acropolis:block/fleur_plush"
+      "acropolis:block/fleur_plush",
+      "acropolis:block/fleur_plush_1"
     ],
     "subtitle": "subtitles.acropolis.fleur_plush"
   },
   "block.mede_plush": {
     "sounds": [
-      "acropolis:block/mede_plush"
+      "acropolis:block/mede_plush",
+      "acropolis:block/mede_plush_1"
     ],
     "subtitle": "subtitles.acropolis.mede_plush"
+  },
+  "block.ryn_plush": {
+    "sounds": [
+      "acropolis:block/ryn_plush"
+    ],
+    "subtitle": "subtitles.acropolis.ryn_plush"
   },
   "entity.sight": {
     "sounds": [
       "acropolis:entity/sight"
     ]
+  },
+  "item.rapture_hit": {
+    "sounds": [
+      "acropolis:item/rapture_hit"
+    ],
+    "subtitle": "subtitles.acropolis.rapture_hit"
   }
 }

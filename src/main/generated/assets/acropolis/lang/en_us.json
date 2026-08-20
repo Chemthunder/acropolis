@@ -5,9 +5,14 @@
   "block.acropolis.fleur_plush.desc": "the op lumiere",
   "block.acropolis.mede_plush": "Mede Plush",
   "block.acropolis.mede_plush.desc": "mikeiscooler than me",
+  "block.acropolis.ryn_plush": "Ryn Plush",
+  "block.acropolis.ryn_plush.desc": "idk what to put here",
   "death.attack.gaze": "%1$s stared into the abyss",
   "death.attack.gaze.item": "%1$s stared into the abyss whilst fighting %2$s, wielding %3$s",
   "death.attack.gaze.player": "%1$s stared into the abyss whilst fighting %2$s",
+  "death.attack.rapture": "%1$s was ripped apart violently",
+  "death.attack.rapture.item": "%1$s was ripped apart violently by %2$s, wielding %3$s",
+  "death.attack.rapture.player": "%1$s was ripped apart violently by %2$s",
   "death.attack.retribution": "%1$s had their sins burned away",
   "death.attack.retribution.item": "%1$s had their sins burned away whilst fighting %2$s, wielding %3$s",
   "death.attack.retribution.player": "%1$s had their sins burned away whilst fighting %2$s",
@@ -15,7 +20,10 @@
   "death.attack.smoke.item": "%1$s had their soul slip away whilst fighting %2$s, wielding %3$s",
   "death.attack.smoke.player": "%1$s had their soul slip away whilst fighting %2$s",
   "item.acropolis.celestial_grimoire": "Celestial Grimoire",
+  "item.acropolis.rapture": "Rapture",
   "itemGroup.acropolis": "Acropolis",
-  "subtitles.acropolis.fleur_plush": "Fleur Plush squishes",
-  "subtitles.acropolis.mede_plush": "Mede Plush squishes"
+  "subtitles.acropolis.fleur_plush": "sound of pure fear",
+  "subtitles.acropolis.mede_plush": "guh",
+  "subtitles.acropolis.rapture_hit": "Rapture slams",
+  "subtitles.acropolis.ryn_plush": "how weird"
 }

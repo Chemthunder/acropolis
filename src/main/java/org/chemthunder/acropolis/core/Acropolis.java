@@ -27,8 +27,7 @@ public class Acropolis implements ModInitializer {
         AcropolisSoundEvents.init();
         AcropolisBlocks.init();
         AcropolisItemGroups.init();
-
-        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> ALib.registerPlush(plushRegistration.plush(), plushRegistration.squishSound(), plushRegistration.descColor()));
+        AcropolisBlockEntities.init();
 
         ServerTickEvents.START_WORLD_TICK.register(new StareDamageEvent());
         ServerTickEvents.START_WORLD_TICK.register(new SightDamageEvent());
@@ -38,6 +37,15 @@ public class Acropolis implements ModInitializer {
 
         ALib.registerModIcon(MOD_ID, Acropolis.id("mini_icon.png"));
         ALib.registerModMenu(MOD_ID, 0xFFac61d0);
+
+
+        AcropolisBlocks.PLUSHIES.forEach(plushRegistration ->
+                ALib.registerPlush(
+                        plushRegistration.plush(),
+                        plushRegistration.squishSound(),
+                        plushRegistration.descColor()
+                )
+        );
 
         MidnightConfig.init(MOD_ID, AcropolisConfig.class);
 

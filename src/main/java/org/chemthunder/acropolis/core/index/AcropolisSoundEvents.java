@@ -14,6 +14,9 @@ public interface AcropolisSoundEvents {
 
     SoundEvent FLEUR_PLUSH = plugin.register("block.fleur_plush");
     SoundEvent MEDE_PLUSH = plugin.register("block.mede_plush");
+    SoundEvent RYN_PLUSH = plugin.register("block.ryn_plush");
+
+    SoundEvent RAPTURE_HIT = plugin.register("item.rapture_hit");
 
     static void init() {}
 }

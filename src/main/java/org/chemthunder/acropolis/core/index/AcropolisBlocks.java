@@ -1,5 +1,6 @@
 package org.chemthunder.acropolis.core.index;
 
+import net.acoyt.acornlib.api.ALib;
 import net.acoyt.acornlib.api.registrants.BlockRegistrant;
 import net.acoyt.acornlib.impl.block.PlushBlock;
 import net.acoyt.acornlib.impl.block.PlushBlockItem;
@@ -8,8 +9,10 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.BlockRenderLayer;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.block.MeteorBlock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,15 @@ public interface AcropolisBlocks {
     Block MEDE_PLUSH = plugin.registerWithItem("mede_plush", PlushBlock::new, AbstractBlock.Settings.copy(Blocks.PINK_WOOL)
             .nonOpaque(), (block, settings) -> new PlushBlockItem(block, settings, 0x4aff35));
 
+    Block RYN_PLUSH = plugin.registerWithItem("ryn_plush", PlushBlock::new, AbstractBlock.Settings.copy(Blocks.BROWN_WOOL)
+            .nonOpaque(), (block, settings) -> new PlushBlockItem(block, settings, 0x3483eb));
+
+    Block METEOR = plugin.registerWithItem("meteor", MeteorBlock::new, AbstractBlock.Settings.copy(Blocks.ANCIENT_DEBRIS)
+            .sounds(BlockSoundGroup.ANCIENT_DEBRIS)
+            .luminance(value -> 4)
+            .emissiveLighting((state, world, pos) -> true)
+    );
+
     static void init() {
         PLUSHIES.add(new PlushRegistration(FLEUR_PLUSH, AcropolisSoundEvents.FLEUR_PLUSH, "the op lumiere", 0xff8bfd, List.of(
                 Blocks.BLACK_WOOL,
@@ -38,6 +50,13 @@ public interface AcropolisBlocks {
                 Blocks.GREEN_WOOL,
                 Blocks.PURPLE_WOOL,
                 Blocks.BLACK_WOOL
+        )));
+
+        PLUSHIES.add(new PlushRegistration(RYN_PLUSH, AcropolisSoundEvents.RYN_PLUSH, "idk what to put here", 0x3483eb, List.of(
+                Blocks.LIGHT_BLUE_WOOL,
+                Blocks.CYAN_WOOL,
+                Blocks.WHITE_WOOL,
+                Blocks.BROWN_WOOL
         )));
     }
 

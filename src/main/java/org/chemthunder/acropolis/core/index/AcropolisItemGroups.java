@@ -1,6 +1,6 @@
 package org.chemthunder.acropolis.core.index;
 
-import net.acoyt.acornlib.api.registrants.ItemGroupRegistrant;
+import net.acoyt.acornlib.api.registrants.CreativeModeTabRegistrant;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -18,7 +18,7 @@ import static org.chemthunder.acropolis.core.Acropolis.MOD_ID;
  * @author Chemthunder
  */
 public interface AcropolisItemGroups {
-    ItemGroupRegistrant plugin = new ItemGroupRegistrant(MOD_ID);
+    CreativeModeTabRegistrant plugin = new CreativeModeTabRegistrant(MOD_ID);
 
     RegistryKey<ItemGroup> GROUP_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, Acropolis.id(MOD_ID));
     ItemGroup ITEM_GROUP = plugin.register(GROUP_KEY.getValue().getPath(), FabricItemGroup.builder()

@@ -3,7 +3,6 @@ package org.chemthunder.acropolis.core.item;
 import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,7 +24,6 @@ import org.chemthunder.acropolis.core.cca.entity.PlayerDataComponent;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
-import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -196,10 +194,10 @@ public class CelestialGrimoireItem extends Item {
     }
 
     public static class Tooltip implements BetterItemTooltipEvent {
-        public void getTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent component, @Nullable PlayerEntity player, TooltipType type, Consumer<Text> consumer) {
+        public void getTooltip(ItemStack itemStack, TooltipContext tooltipContext, TooltipType tooltipType, Consumer<Text> consumer) {
             int color = 0xFF9740aa;
 
-            if (stack.isOf(AcropolisItems.CELESTIAL_GRIMOIRE)) {
+            if (itemStack.isOf(AcropolisItems.CELESTIAL_GRIMOIRE)) {
                 if (MinecraftClient.getInstance().isAltPressed()) {
                     consumer.accept(Text.empty()
                             .append(Text.literal("[SNEAK]").formatted(Formatting.YELLOW))

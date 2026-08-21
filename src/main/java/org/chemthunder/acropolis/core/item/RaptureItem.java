@@ -1,8 +1,7 @@
 package org.chemthunder.acropolis.core.item;
 
-import net.acoyt.acornlib.api.item.CustomHitParticleItem;
-import net.acoyt.acornlib.api.item.CustomHitSoundItem;
 import net.acoyt.acornlib.api.item.CustomKillSourceItem;
+import net.acoyt.acornlib.api.item.HitEffectsItem;
 import net.acoyt.acornlib.api.util.ParticleUtils;
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
 import net.minecraft.entity.Entity;
@@ -20,7 +19,7 @@ import org.chemthunder.acropolis.core.index.AcropolisSoundEvents;
 /**
  * @author Chemthunder
  */
-public class RaptureItem extends Item implements CustomHitParticleItem, CustomHitSoundItem, CustomKillSourceItem {
+public class RaptureItem extends Item implements HitEffectsItem, CustomKillSourceItem {
     public static final SweepParticleEffect[] EFFECTS = new SweepParticleEffect[]{
             new SweepParticleEffect(0xFF0d0508, 0xFF1a151e),
             new SweepParticleEffect(0xFF605662, 0xFF3c333e)
@@ -34,22 +33,20 @@ public class RaptureItem extends Item implements CustomHitParticleItem, CustomHi
         return super.getName(stack).copy().withColor(0xFF39355c);
     }
 
-    public void spawnHitParticles(PlayerEntity player, Entity target) {
-        ParticleUtils.spawnSweepParticles(EFFECTS[Random.create().nextInt(EFFECTS.length)], player);
-    }
-
-    public void playHitSound(PlayerEntity player, Entity target) {
-        player.getEntityWorld().playSound(
-                null,
-                target.getBlockPos(),
-                AcropolisSoundEvents.RAPTURE_HIT,
-                SoundCategory.PLAYERS,
-                1,
-                new java.util.Random().nextFloat(0.3F, 0.7F)
-        );
-    }
-
     public DamageSource getKillSource(LivingEntity living) {
         return living.getDamageSources().create(AcropolisDamageTypes.RAPTURE);
+    }
+
+    public void runHitEffects(PlayerEntity player, Entity entity) {
+        ParticleUtils.spawnSweepParticles(EFFECTS[Random.create().nextInt(EFFECTS.length)], player);
+
+        player.getEntityWorld().playSound(
+                null,
+                entity.getBlockPos(),
+                AcropolisSoundEvents.RAPTURE_HIT,
+                SoundCategory.PLAYERS,
+                0.8F,
+                new java.util.Random().nextFloat(0.1F, 0.4F)
+        );
     }
 }

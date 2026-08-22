@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
+import org.chemthunder.acropolis.core.item.ExaltedIdolItem;
 import org.chemthunder.acropolis.core.item.RaptureItem;
 
 /**
@@ -33,6 +34,10 @@ public interface AcropolisItems {
             .fireproof()
             .enchantable(4)
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("rapture"))
+    );
+
+    Item EXALTED_IDOL = plugin.register("exalted_idol", ExaltedIdolItem::new, new Item.Settings()
+            .maxCount(1)
     );
 
     static void init() {}

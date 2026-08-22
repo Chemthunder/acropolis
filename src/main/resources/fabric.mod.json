@@ -41,6 +41,7 @@
     "cardinal-components": [
       "acropolis:gaze",
       "acropolis:sight",
+      "acropolis:mercy",
 
       "acropolis:player_data"
     ]

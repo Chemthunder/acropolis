@@ -2,6 +2,7 @@ package org.chemthunder.acropolis.core.cca;
 
 import org.chemthunder.acropolis.core.cca.entity.PlayerDataComponent;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
+import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
@@ -16,6 +17,7 @@ public class AcropolisCCA implements WorldComponentInitializer, EntityComponentI
     public void registerWorldComponentFactories(WorldComponentFactoryRegistry module) {
         module.register(GazeComponent.KEY, GazeComponent::new);
         module.register(SightComponent.KEY, SightComponent::new);
+        module.register(MercyComponent.KEY, MercyComponent::new);
     }
 
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry module) {

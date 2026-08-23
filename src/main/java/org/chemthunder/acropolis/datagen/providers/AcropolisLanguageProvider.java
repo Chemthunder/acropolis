@@ -25,6 +25,7 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
 
         translationBuilder.add("acropolis.midnightconfig.title", "Acropolis");
         translationBuilder.add("acropolis.midnightconfig.epilepsyMode", "Epilepsy Mode");
+        translationBuilder.add("acropolis.midnightconfig.motionSicknessMode", "Motion-sick Mode");
 
         translationBuilder.add("itemGroup.acropolis", "Acropolis");
 

@@ -8,4 +8,7 @@ import eu.midnightdust.lib.config.MidnightConfig;
 public class AcropolisConfig extends MidnightConfig {
     @Entry @Client
     public static boolean epilepsyMode = false;
+
+    @Entry @Client
+    public static boolean motionSicknessMode = false;
 }

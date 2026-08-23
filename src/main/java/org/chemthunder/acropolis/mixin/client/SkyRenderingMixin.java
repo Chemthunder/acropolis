@@ -25,6 +25,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.MoonPhase;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
+import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
@@ -201,7 +202,7 @@ public abstract class SkyRenderingMixin {
     private void acropolis$applyTweaks(ClientWorld world, float tickProgress, Camera camera, SkyRenderState state, CallbackInfo ci) {
         if (mercyActive()) {
             state.sunAngle = 6000;
-            state.skyColor = 0xFF8c2197;
+            state.skyColor = AcropolisConfig.epilepsyMode ? 0xFF693a7f : 0xFF8c2197;
         }
     }
 

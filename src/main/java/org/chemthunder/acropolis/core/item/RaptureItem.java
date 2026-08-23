@@ -30,4 +30,8 @@ public class RaptureItem extends Item implements HitEffectsItem {
     public void runHitEffects(PlayerEntity player, Entity entity) {
         ParticleUtils.spawnSweepParticles(EFFECTS[Random.create().nextInt(EFFECTS.length)], player);
     }
+
+    public boolean hasGlint(ItemStack stack) {
+        return false;
+    }
 }

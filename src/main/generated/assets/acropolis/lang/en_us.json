@@ -1,5 +1,6 @@
 {
   "acropolis.midnightconfig.epilepsyMode": "Epilepsy Mode",
+  "acropolis.midnightconfig.motionSicknessMode": "Motion-sick Mode",
   "acropolis.midnightconfig.title": "Acropolis",
   "death.attack.gaze": "%1$s stared into the abyss",
   "death.attack.gaze.item": "%1$s stared into the abyss whilst fighting %2$s, wielding %3$s",

@@ -3,8 +3,11 @@
   "package": "org.chemthunder.acropolis.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EnderPearlEntityMixin",
     "LivingEntityMixin",
-    "PlayerEntityMixin"
+    "MinecraftServerMixin",
+    "PlayerEntityMixin",
+    "ServerWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -13,6 +16,12 @@
     "requireAnnotations": true
   },
   "client": [
+    "access.GameRendererAccessor",
+    "client.CameraMixin",
+    "client.CloudRendererMixin",
+    "client.FogRendererMixin",
+    "client.GameRendererMixin",
+    "client.SkyRenderingMixin",
     "client.WorldRendererMixin"
   ]
 }

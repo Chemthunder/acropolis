@@ -24,6 +24,11 @@
       "acropolis:entity/sight"
     ]
   },
+  "event.mercy_start": {
+    "sounds": [
+      "acropolis:event/mercy_start"
+    ]
+  },
   "item.rapture_hit": {
     "sounds": [
       "acropolis:item/rapture_hit"

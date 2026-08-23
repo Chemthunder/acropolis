@@ -1,0 +1,18 @@
+{
+  "targets": {
+    "temp": {}
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "acropolis:post/mercy",
+      "inputs": [
+        {
+          "sampler_name": "Main",
+          "target": "minecraft:main"
+        }
+      ],
+      "output": "minecraft:main"
+    }
+  ]
+}

@@ -8,7 +8,8 @@
     "Chemthunder"
   ],
   "contributors": [
-    "KindlingCinder - Assets"
+    "KindlingCinder - Assets",
+    "Gilgamesh - Sound Design"
   ],
   "license": "ARR",
   "icon": "assets/acropolis/icon.png",
@@ -30,6 +31,7 @@
   "mixins": [
     "acropolis.mixins.json"
   ],
+  "accessWidener": "acropolis.accesswidener",
   "depends": {
     "fabricloader": ">=0.15.11",
     "minecraft": "~1.21.11",

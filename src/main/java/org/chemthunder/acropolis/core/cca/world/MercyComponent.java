@@ -1,9 +1,16 @@
 package org.chemthunder.acropolis.core.cca.world;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.networking.s2c.BeginMercyPayload;
+import org.chemthunder.acropolis.core.networking.s2c.UpdateMercyHudPayload;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -19,8 +26,14 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
     );
     private final World world;
 
+    public static final int DELAY = 90;
+
     private boolean active = false;
-    private float skyBrightness = 0.0F;
+
+    public static final int COUNTDOWN = 50;
+
+    private int ticks = 0;
+    private int countdown = 0;
 
     public MercyComponent(World world) {
         this.world = world;
@@ -28,9 +41,40 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
 
     public void tick() {
         if (active) {
-            if (skyBrightness > 0.0F) {
-                skyBrightness -= 0.1F;
-                sync();
+            ticks++;
+
+            if (ticks == DELAY) {
+                MinecraftServer server = world.getServer();
+
+                if (server != null) {
+                    for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
+                        ServerPlayNetworking.send(serverPlayer, new UpdateMercyHudPayload());
+                    }
+                }
+            }
+        }
+
+        if (!active) {
+            if (countdown > 0) {
+                countdown--;
+                if (countdown == 0) {
+                    active = true;
+
+                    MinecraftServer server = world.getServer();
+
+                    if (world instanceof ServerWorld serverWorld) {
+                        serverWorld.setTimeOfDay(18000);
+                    }
+
+                    if (server != null) {
+                        for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
+                            ServerPlayNetworking.send(serverPlayer, new BeginMercyPayload());
+                            server.getPlayerManager().sendToAll(new WorldTimeUpdateS2CPacket(18000, 18000, false));
+                        }
+                    }
+
+                    sync();
+                }
             }
         }
     }
@@ -41,21 +85,16 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
 
     public void readData(ReadView readView) {
         active = readView.getBoolean("Active", false);
-        skyBrightness = readView.getFloat("SkyBrightness", 0.0F);
+
+        ticks = readView.getInt("Ticks", 0);
+        countdown = readView.getInt("Countdown", 0);
     }
 
     public void writeData(WriteView writeView) {
         writeView.putBoolean("Active", active);
-        writeView.putFloat("SkyBrightness", skyBrightness);
-    }
 
-    public float getSkyBrightness() {
-        return skyBrightness;
-    }
-
-    public void setSkyBrightness(float skyBrightness) {
-        this.skyBrightness = skyBrightness;
-        sync();
+        writeView.putInt("Ticks", ticks);
+        writeView.putInt("Countdown", countdown);
     }
 
     public boolean isActive() {
@@ -64,6 +103,24 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
 
     public void setActive(boolean active) {
         this.active = active;
+        sync();
+    }
+
+    public int getTicks() {
+        return ticks;
+    }
+
+    public void setTicks(int ticks) {
+        this.ticks = ticks;
+        sync();
+    }
+
+    public int getCountdown() {
+        return countdown;
+    }
+
+    public void setCountdown(int countdown) {
+        this.countdown = countdown;
         sync();
     }
 }

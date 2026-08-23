@@ -21,6 +21,7 @@ public class AcropolisSoundProvider extends FabricSoundsProvider {
 
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup, SoundExporter soundExporter) {
         soundExporter.add(AcropolisSoundEvents.SIGHT, sound(id("entity/sight")));
+        soundExporter.add(AcropolisSoundEvents.MERCY_START, sound(id("event/mercy_start")));
 
         soundExporter.add(AcropolisSoundEvents.RAPTURE_HIT, sound(id("item/rapture_hit"))
                 .subtitle("subtitles.acropolis.rapture_hit")

@@ -11,6 +11,7 @@ public interface AcropolisSoundEvents {
     SoundEventRegistrant plugin = new SoundEventRegistrant(Acropolis.MOD_ID);
 
     SoundEvent SIGHT = plugin.register("entity.sight");
+    SoundEvent MERCY_START = plugin.register("event.mercy_start");
 
     SoundEvent FLEUR_PLUSH = plugin.register("block.fleur_plush");
     SoundEvent MEDE_PLUSH = plugin.register("block.mede_plush");

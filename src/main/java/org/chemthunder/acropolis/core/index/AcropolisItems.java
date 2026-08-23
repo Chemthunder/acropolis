@@ -38,6 +38,7 @@ public interface AcropolisItems {
 
     Item EXALTED_IDOL = plugin.register("exalted_idol", ExaltedIdolItem::new, new Item.Settings()
             .maxCount(1)
+            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
     );
 
     static void init() {}

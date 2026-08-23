@@ -4,20 +4,29 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.acoyt.acornlib.api.ALib;
 import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.event.SightDamageEvent;
 import org.chemthunder.acropolis.core.event.StareDamageEvent;
 import org.chemthunder.acropolis.core.index.*;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
+import org.chemthunder.acropolis.mixin.access.GameRendererAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Acropolis implements ModInitializer {
-	public static final String MOD_ID = "acropolis";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+import java.util.Objects;
 
-	public void onInitialize() {
+public class Acropolis implements ModInitializer {
+    public static final String MOD_ID = "acropolis";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+    public void onInitialize() {
         AcropolisNetworking.register();
         AcropolisNetworking.c2s();
 
@@ -38,7 +47,6 @@ public class Acropolis implements ModInitializer {
         ALib.registerModIcon(MOD_ID, Acropolis.id("mini_icon.png"));
         ALib.registerModMenu(MOD_ID, 0xFFac61d0);
 
-
         AcropolisBlocks.PLUSHIES.forEach(plushRegistration ->
                 ALib.registerPlush(
                         plushRegistration.plush(),
@@ -49,10 +57,10 @@ public class Acropolis implements ModInitializer {
 
         MidnightConfig.init(MOD_ID, AcropolisConfig.class);
 
-		LOGGER.info("Gaze into the stars !!!~");
-	}
+        LOGGER.info("Gaze into the stars !!!~");
+    }
 
-	public static Identifier id(String path) {
-		return Identifier.of(MOD_ID, path);
-	}
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
 }

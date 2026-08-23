@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.mixin.access;
+package org.chemthunder.acropolis.mixin.client.access;
 
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.util.Identifier;

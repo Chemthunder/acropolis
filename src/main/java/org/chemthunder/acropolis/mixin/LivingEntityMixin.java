@@ -1,13 +1,10 @@
 package org.chemthunder.acropolis.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
 import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
 import org.spongepowered.asm.mixin.Mixin;

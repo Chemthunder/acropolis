@@ -59,6 +59,9 @@ dependencies {
     // Libraries
     modImplementation "maven.modrinth:acornlib:${project.acornlib_version}"
 
+    modImplementation "maven.modrinth:enchancement:${project.enchancement_version}"
+    modImplementation "maven.modrinth:strawberrylib:${project.strawberry_version}"
+
     // Config
     modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
     modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"

@@ -1,13 +1,17 @@
 {
   "required": true,
   "package": "org.chemthunder.acropolis.mixin",
+  "plugin": "org.chemthunder.acropolis.core.utilities.AcropolisMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EnderChestBlockMixin",
     "EnderPearlEntityMixin",
     "LivingEntityMixin",
     "MinecraftServerMixin",
     "PlayerEntityMixin",
-    "ServerWorldMixin"
+    "ServerWorldMixin",
+    "TridentItemMixin",
+    "compat.enchancement.TridentEntityMixinSquared"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -16,12 +20,13 @@
     "requireAnnotations": true
   },
   "client": [
-    "access.GameRendererAccessor",
     "client.CameraMixin",
     "client.CloudRendererMixin",
     "client.FogRendererMixin",
     "client.GameRendererMixin",
     "client.SkyRenderingMixin",
-    "client.WorldRendererMixin"
+    "client.WeatherRenderingMixin",
+    "client.WorldRendererMixin",
+    "client.access.GameRendererAccessor"
   ]
 }

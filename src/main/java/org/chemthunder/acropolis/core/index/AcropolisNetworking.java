@@ -7,8 +7,8 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
 import org.chemthunder.acropolis.core.networking.s2c.BeginMercyPayload;
+import org.chemthunder.acropolis.core.networking.s2c.MercyHudPayload;
 import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
-import org.chemthunder.acropolis.core.networking.s2c.UpdateMercyHudPayload;
 import org.chemthunder.acropolis.core.networking.s2c.VignetteTriggerPayload;
 
 /**
@@ -21,7 +21,7 @@ public interface AcropolisNetworking {
         PayloadTypeRegistry.playS2C().register(VignetteTriggerPayload.ID, VignetteTriggerPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenGrimoirePayload.ID, OpenGrimoirePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(BeginMercyPayload.ID, BeginMercyPayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(UpdateMercyHudPayload.ID, UpdateMercyHudPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(MercyHudPayload.ID, MercyHudPayload.CODEC);
     }
 
     static void c2s() {
@@ -33,6 +33,6 @@ public interface AcropolisNetworking {
         ClientPlayNetworking.registerGlobalReceiver(VignetteTriggerPayload.ID, new VignetteTriggerPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(OpenGrimoirePayload.ID, new OpenGrimoirePayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(BeginMercyPayload.ID, new BeginMercyPayload.Receiver());
-        ClientPlayNetworking.registerGlobalReceiver(UpdateMercyHudPayload.ID, new UpdateMercyHudPayload.Receiver());
+        ClientPlayNetworking.registerGlobalReceiver(MercyHudPayload.ID, new MercyHudPayload.Receiver());
     }
 }

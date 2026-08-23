@@ -1,12 +1,9 @@
 package org.chemthunder.acropolis.datagen.providers;
 
 import net.acoyt.acornlib.api.util.DataUtils;
-import net.acoyt.acornlib.api.util.MiscUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
-import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 
@@ -30,17 +27,6 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
         translationBuilder.add("acropolis.midnightconfig.epilepsyMode", "Epilepsy Mode");
 
         translationBuilder.add("itemGroup.acropolis", "Acropolis");
-
-        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> {
-            translationBuilder.add(
-                    plushRegistration.plush().getTranslationKey(),
-                    MiscUtils.formatString(Registries.BLOCK.getId(plushRegistration.plush()).getPath())
-            );
-            translationBuilder.add(
-                    plushRegistration.plush().getTranslationKey() + ".desc",
-                    plushRegistration.desc()
-            );
-        });
 
         translationBuilder.add("subtitles.acropolis.ryn_plush", "how weird");
         translationBuilder.add("subtitles.acropolis.mede_plush", "guh");

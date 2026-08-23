@@ -4,6 +4,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
@@ -12,7 +14,7 @@ import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
 import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
 import org.chemthunder.acropolis.core.index.*;
-import org.chemthunder.acropolis.mixin.access.GameRendererAccessor;
+import org.chemthunder.acropolis.mixin.client.access.GameRendererAccessor;
 
 import java.util.Objects;
 
@@ -60,5 +62,14 @@ public class AcropolisClient implements ClientModInitializer {
                 }
             }
         });
+    }
+
+    public static boolean mercyActive() {
+        ClientWorld world = MinecraftClient.getInstance().world;
+
+        if (world != null) {
+            return MercyComponent.KEY.get(world).isActive();
+        }
+        return false;
     }
 }

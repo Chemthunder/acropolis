@@ -37,7 +37,7 @@ public class CelestialGrimoireItem extends Item {
     public static final int BORDER = 3;
     public static final int RELOCATE = 4;
 
-    public static final int SANCTUMKEEPER = 6;
+    public static final int TRUSTSELF = 6;
 
     public CelestialGrimoireItem(Settings settings) {
         super(settings);
@@ -175,10 +175,10 @@ public class CelestialGrimoireItem extends Item {
                 break;
             }
 
-            case SANCTUMKEEPER: {
+            case TRUSTSELF: {
                 PlayerDataComponent data = PlayerDataComponent.KEY.get(player);
 
-                data.setSanctum(!data.isSanctum());
+                data.setTrusted(!data.isTrusted());
 
                 if (player instanceof ServerPlayerEntity serverPlayer) {
                     MinecraftServer server = world.getServer();

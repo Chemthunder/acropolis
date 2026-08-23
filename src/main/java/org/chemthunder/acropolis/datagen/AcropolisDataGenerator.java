@@ -12,11 +12,9 @@ public class AcropolisDataGenerator implements DataGeneratorEntrypoint {
         var pack = fdg.createPack();
 
         pack.addProvider(AcropolisDamageTypeTagProvider::new);
-        pack.addProvider(AcropolisBlockTagProvider::new);
         pack.addProvider(AcropolisItemTagProvider::new);
 
         pack.addProvider(AcropolisDynamicRegistryProvider::new);
-        pack.addProvider(AcropolisRecipeProvider::new);
 
         pack.addProvider(AcropolisLanguageProvider::new);
         pack.addProvider(AcropolisModelProvider::new);

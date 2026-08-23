@@ -1,13 +1,11 @@
 package org.chemthunder.acropolis.datagen.providers;
 
-import net.acoyt.acornlib.impl.index.tag.AcornItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
-import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 
 import java.util.List;
@@ -22,10 +20,6 @@ public class AcropolisItemTagProvider extends FabricTagProvider.ItemTagProvider 
     }
 
     protected void configure(RegistryWrapper.WrapperLookup registries) {
-        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> this.valueLookupBuilder(AcornItemTags.PLUSHIES)
-                .add(plushRegistration.plush().asItem())
-                .setReplace(false));
-
         List<TagKey<Item>> SWORD_TAGS = List.of(
                 ItemTags.SWORDS,
                 ItemTags.DURABILITY_ENCHANTABLE,

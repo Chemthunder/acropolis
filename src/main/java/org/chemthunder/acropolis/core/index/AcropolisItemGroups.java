@@ -34,7 +34,5 @@ public interface AcropolisItemGroups {
         for (Item item : AcropolisItems.plugin.toRegister) {
             entries.add(item);
         }
-
-        AcropolisBlocks.PLUSHIES.forEach(plushRegistration -> entries.add(plushRegistration.plush()));
     }
 }

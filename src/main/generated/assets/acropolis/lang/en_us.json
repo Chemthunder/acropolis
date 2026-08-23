@@ -1,12 +1,6 @@
 {
   "acropolis.midnightconfig.epilepsyMode": "Epilepsy Mode",
   "acropolis.midnightconfig.title": "Acropolis",
-  "block.acropolis.fleur_plush": "Fleur Plush",
-  "block.acropolis.fleur_plush.desc": "the op lumiere",
-  "block.acropolis.mede_plush": "Mede Plush",
-  "block.acropolis.mede_plush.desc": "mikeiscooler than me",
-  "block.acropolis.ryn_plush": "Ryn Plush",
-  "block.acropolis.ryn_plush.desc": "idk what to put here",
   "death.attack.gaze": "%1$s stared into the abyss",
   "death.attack.gaze.item": "%1$s stared into the abyss whilst fighting %2$s, wielding %3$s",
   "death.attack.gaze.player": "%1$s stared into the abyss whilst fighting %2$s",

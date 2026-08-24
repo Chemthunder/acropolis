@@ -98,20 +98,20 @@ public class GrimoireEditScreen extends Screen {
             drawableFunctions.add(context -> BORDER);
             this.addDrawableChild(BORDER);
 
-            ButtonWidget TRUST = ButtonWidget.builder(Text.literal("Trust Self"), (button -> {
-                        this.close();
-
-                        GrimoireEditPayload.send(CelestialGrimoireItem.TRUSTSELF);
-
-                        player.swingHand(player.getActiveHand());
-                    }))
-                    .size(64, 16)
-                    .position(s.width / 2 - 32, s.height / 2 + (64 + 32))
-                    .tooltip(Tooltip.of(Text.literal("check yoself cuh")))
-                    .build();
-
-            drawableFunctions.add(context -> TRUST);
-            this.addDrawableChild(TRUST);
+//            ButtonWidget TRUST = ButtonWidget.builder(Text.literal("Trust Self"), (button -> {
+//                        this.close();
+//
+//                        GrimoireEditPayload.send(CelestialGrimoireItem.TRUSTSELF);
+//
+//                        player.swingHand(player.getActiveHand());
+//                    }))
+//                    .size(64, 16)
+//                    .position(s.width / 2 - 32, s.height / 2 + (64 + 32))
+//                    .tooltip(Tooltip.of(Text.literal("check yoself cuh")))
+//                    .build();
+//
+//            drawableFunctions.add(context -> TRUST);
+//            this.addDrawableChild(TRUST);
         }
     }
 

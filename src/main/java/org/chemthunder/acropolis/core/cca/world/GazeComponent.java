@@ -43,13 +43,13 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
     public void tick() {
         if (angered) {
-            if (world.getTime() % 20 == 0) {
+            if (world.getTime() % 40 == 0) {
                 if (pos != null && present) {
 
                     PlayerEntity closest = world.getClosestPlayer(pos.x, pos.y + 50, pos.z, 150, false);
 
                     if (closest != null) {
-                        for (int i = 0; i < new Random().nextInt(3, 9); i++) {
+                        for (int i = 0; i < new Random().nextInt(3, 6); i++) {
                             Random random = new Random();
                             SpellshotEntity shot = new SpellshotEntity(AcropolisEntityTypes.SPELL_SHOT, world);
 
@@ -126,7 +126,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
 
         if (gaze.isBorder()) {
             if (gaze.getPos() != null) {
-                Box box = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y, gaze.getPos().z)).expand(RANGE);
+                Box box = new Box(new BlockPos.Mutable(gaze.getPos().x, 360, gaze.getPos().z)).expand(RANGE);
 
                 return box.contains(entity.getEntityPos());
             }

@@ -32,24 +32,12 @@ public class SpellshotEntity extends ThrownEntity {
     public void tick() {
         super.tick();
 
-        if (this.age >= 900) {
+        if (this.age >= 400) {
             this.discard();
         }
 
         if (collided) {
             if (this.getEntityWorld() instanceof ServerWorld serverWorld) {
-                serverWorld.spawnParticles(
-                        ParticleTypes.SMOKE,
-                        this.getX(),
-                        this.getY(),
-                        this.getZ(),
-                        15,
-                        2,
-                        0,
-                        2,
-                        0.02F
-                );
-
                 this.getEntityWorld().getEntitiesByClass(PlayerEntity.class, new Box(this.getBlockPos()).expand(2.5, 2, 2.5), entity -> true).forEach(entity -> {
                     if (!PlayerData.trusted(entity)) {
                         entity.damage(serverWorld, entity.getDamageSources().create(AcropolisDamageTypes.SMOKE), 4.0F);

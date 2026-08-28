@@ -19,7 +19,7 @@ public class Acropolis implements ModInitializer {
     public static final String MOD_ID = "acropolis";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final boolean PLAYTEST = true;
+    public static final boolean PLAYTEST = false;
 
     public void onInitialize() {
         AcropolisNetworking.register();

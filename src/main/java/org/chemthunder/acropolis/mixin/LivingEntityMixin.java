@@ -1,11 +1,20 @@
 package org.chemthunder.acropolis.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.waypoint.ServerWaypoint;
+import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
 import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +25,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @author Chemthunder
  */
 @Mixin(value = LivingEntity.class)
-public abstract class LivingEntityMixin {
+public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint {
+
+    public LivingEntityMixin(EntityType<?> type, World world) {
+        super(type, world);
+    }
 
     @Inject(method = "tryUseDeathProtector", at = @At(value = "HEAD"))
     private void acropolis$chargeSimulacrum(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
@@ -33,5 +46,13 @@ public abstract class LivingEntityMixin {
                 }
             }
         }
+    }
+
+    @WrapMethod(method = "damage")
+    private boolean acropolis$swapDamage(ServerWorld world, DamageSource source, float amount, Operation<Boolean> original) {
+        if (source.getAttacker() instanceof PestilenceEntity) {
+            return original.call(world, this.getDamageSources().create(AcropolisDamageTypes.PESTILENCE), amount);
+        }
+        return original.call(world, source, amount);
     }
 }

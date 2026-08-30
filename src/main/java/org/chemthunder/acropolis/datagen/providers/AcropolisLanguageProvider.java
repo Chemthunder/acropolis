@@ -66,5 +66,13 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s was ripped apart violently by %2$s, wielding %3$s",
                 "%1$s was ripped apart violently by %2$s"
         );
+
+        DataUtils.registerDamageType(
+                translationBuilder,
+                AcropolisDamageTypes.PESTILENCE,
+                "%1$s was consumed",
+                "%1$s was consumed violently by %2$s, wielding %3$s",
+                "%1$s was consumed violently by %2$s"
+        );
     }
 }

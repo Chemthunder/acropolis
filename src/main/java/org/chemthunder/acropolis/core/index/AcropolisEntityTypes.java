@@ -1,12 +1,18 @@
 package org.chemthunder.acropolis.core.index;
 
 import net.acoyt.acornlib.api.registrants.EntityTypeRegistrant;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.client.render.entity.EmptyEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactories;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.attribute.EntityAttributes;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.client.entity.PestilenceEntityRenderer;
+import org.chemthunder.acropolis.core.client.entity.SwarmEntityRenderer;
+import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.entity.SpellshotEntity;
+import org.chemthunder.acropolis.core.entity.SwarmEntity;
 
 /**
  * @author Chemthunder
@@ -19,9 +25,23 @@ public interface AcropolisEntityTypes {
             SpawnGroup.MISC
     ).dimensions(1.0F, 1.0F));
 
-    static void init() {}
+    EntityType<PestilenceEntity> PESTILENCE = plugin.register("pestilence", EntityType.Builder.<PestilenceEntity>create(
+            PestilenceEntity::new,
+            SpawnGroup.MISC
+    ).dimensions(1.0F, 1.6F));
+
+    EntityType<SwarmEntity> SWARM = plugin.register("swarm", EntityType.Builder.create(
+            SwarmEntity::new,
+            SpawnGroup.MISC
+    ).dimensions(0.7F, 1.4F));
+
+    static void init() {
+        FabricDefaultAttributeRegistry.register(PESTILENCE, PestilenceEntity.createAttributes());
+    }
 
     static void clinit() {
         EntityRendererFactories.register(SPELL_SHOT, EmptyEntityRenderer::new);
+        EntityRendererFactories.register(PESTILENCE, PestilenceEntityRenderer::new);
+        EntityRendererFactories.register(SWARM, SwarmEntityRenderer::new);
     }
 }

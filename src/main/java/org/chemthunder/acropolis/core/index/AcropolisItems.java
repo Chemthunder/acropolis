@@ -8,6 +8,7 @@ import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
 import org.chemthunder.acropolis.core.item.ExaltedIdolItem;
 import org.chemthunder.acropolis.core.item.RaptureItem;
+import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
 
 /**
  * @author Chemthunder
@@ -18,6 +19,12 @@ public interface AcropolisItems {
     Item CELESTIAL_GRIMOIRE = plugin.register("celestial_grimoire", CelestialGrimoireItem::new, new Item.Settings()
             .maxCount(1)
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
+            .fireproof()
+    );
+
+    Item TAMPERED_GRIMOIRE = plugin.register("tampered_grimoire", TamperedGrimoireItem::new, new Item.Settings()
+            .maxCount(1)
+            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("tampered"))
             .fireproof()
     );
 

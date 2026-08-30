@@ -12,6 +12,7 @@ import org.chemthunder.acropolis.core.event.SightDamageEvent;
 import org.chemthunder.acropolis.core.event.StareDamageEvent;
 import org.chemthunder.acropolis.core.index.*;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
+import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ public class Acropolis implements ModInitializer {
         ServerTickEvents.START_WORLD_TICK.register(new SightDamageEvent());
 
         BetterItemTooltipEvent.EVENT.register(new CelestialGrimoireItem.Tooltip());
+        BetterItemTooltipEvent.EVENT.register(new TamperedGrimoireItem.Tooltip());
 
         CommandRegistrationCallback.EVENT.register(new MercyCommand());
 

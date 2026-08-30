@@ -17,4 +17,6 @@ public interface AcropolisDamageTypes {
     RegistryKey<DamageType> RETRIBUTION = plugin.register("retribution", new DamageType("retribution", 0.0F));
 
     RegistryKey<DamageType> RAPTURE = plugin.register("rapture", new DamageType("rapture", 0.0F));
+
+    RegistryKey<DamageType> PESTILENCE = plugin.register("pestilence", new DamageType("pestilence", 4.0F));
 }

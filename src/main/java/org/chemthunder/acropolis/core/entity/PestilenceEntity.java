@@ -60,62 +60,67 @@ public class PestilenceEntity extends HostileEntity implements Ownable {
         }
 
         if (this.targeted) {
-        PlayerEntity target = this.getEntityWorld().getClosestPlayer(this, 10);
-        if (target != null) {
-            if (!target.getInventory().contains(AcropolisItems.TAMPERED_GRIMOIRE.getDefaultStack())) {
-                Random random1 = new Random();
-                float bound = 0.4F;
+            PlayerEntity target = this.getEntityWorld().getClosestPlayer(this, 10);
+            if (target != null) {
+                this.setTarget(target);
 
-                Vec3d spawnPos = new Vec3d(
-                        target.getX() + random1.nextFloat(-bound, bound),
-                        (target.getY() + 1.0F) + random1.nextFloat(-bound, bound),
-                        target.getZ() + random1.nextFloat(-bound, bound)
-                );
+                if (!target.getInventory().contains(AcropolisItems.TAMPERED_GRIMOIRE.getDefaultStack())) {
+                    Random random1 = new Random();
+                    float bound = 0.4F;
 
-                Vec3d velocityExcluding = spawnPos.subtract(new Vec3d(
-                                this.getX(),
-                                this.getY() + 1.0F,
-                                this.getZ()
-                        ))
-                        .normalize()
-                        .negate()
-                        .multiply(0.6F);
-
-                Vec3d velocity = spawnPos.subtract(new Vec3d(
-                                this.getX(),
-                                this.getY() + 1.0F,
-                                this.getZ()
-                        ))
-                        .normalize()
-                        .negate()
-                        .multiply(this.getDistanceToCenter(target) / 10);
-
-                for (int i = 0; i < 1; i++) {
-                    this.getEntityWorld().addParticleClient(
-                            ParticleTypes.END_ROD,
-                            spawnPos.x,
-                            spawnPos.y,
-                            spawnPos.z,
-                            velocity.x,
-                            velocity.y,
-                            velocity.z
+                    Vec3d spawnPos = new Vec3d(
+                            target.getX() + random1.nextFloat(-bound, bound),
+                            (target.getY() + 1.0F) + random1.nextFloat(-bound, bound),
+                            target.getZ() + random1.nextFloat(-bound, bound)
                     );
+
+                    Vec3d velocityExcluding = spawnPos.subtract(new Vec3d(
+                                    this.getX(),
+                                    this.getY() + 1.0F,
+                                    this.getZ()
+                            ))
+                            .normalize()
+                            .negate()
+                            .multiply(0.6F);
+
+                    Vec3d velocity = spawnPos.subtract(new Vec3d(
+                                    this.getX(),
+                                    this.getY() + 1.0F,
+                                    this.getZ()
+                            ))
+                            .normalize()
+                            .negate()
+                            .multiply(this.getDistanceToCenter(target) / 10);
+
+                    for (int i = 0; i < 1; i++) {
+                        this.getEntityWorld().addParticleClient(
+                                ParticleTypes.END_ROD,
+                                spawnPos.x,
+                                spawnPos.y,
+                                spawnPos.z,
+                                velocity.x,
+                                velocity.y,
+                                velocity.z
+                        );
+                    }
+
+                    float strength = 15;
+
+                    target.addVelocity(
+                            new Vec3d(
+                                    velocityExcluding.x / strength,
+                                    velocityExcluding.y / strength,
+                                    velocityExcluding.z / strength
+                            )
+                    );
+
+                    target.velocityDirty = false;
+                    return;
                 }
-
-                float strength = 15;
-
-                target.addVelocity(
-                        new Vec3d(
-                                velocityExcluding.x / strength,
-                                velocityExcluding.y / strength,
-                                velocityExcluding.z / strength
-                        )
-                );
-
-                target.velocityDirty = false;
             }
         }
-        }
+
+        this.setTarget(null);
     }
 
     protected void initGoals() {

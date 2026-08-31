@@ -28,7 +28,7 @@ public class SwarmEntity extends ThrownEntity {
         this.setPos(this.getX(), this.getY() + 0.1F, this.getZ());
 
         if (this.age == (10 * 20)) {
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 100; i++) {
                 PestilenceEntity p = new PestilenceEntity(world);
 
                 Random random1 = new Random();

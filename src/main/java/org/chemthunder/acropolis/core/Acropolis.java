@@ -6,6 +6,8 @@ import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.command.MercyCommand;
 import org.chemthunder.acropolis.core.event.SightDamageEvent;
@@ -42,8 +44,14 @@ public class Acropolis implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(new MercyCommand());
 
-        ALib.registerModIcon(MOD_ID, Acropolis.id("mini_icon.png"));
-        ALib.registerModMenu(MOD_ID, 0xFFac61d0);
+        ALib.registerModData(MOD_ID,
+            new ALib.ModMenuData(
+                    Text.literal("Acropolis // MEDIAN").withColor(0xFFac61d0),
+                    Text.literal("MERCY").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f),
+                    Text.literal("THEN FELL THE HEAVENS, FOR THEN THE DAWNS SHALL RISE.").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f)
+            )
+        );
+//        ALib.registerModMenu(MOD_ID, 0xFFac61d0);
 
         MidnightConfig.init(MOD_ID, AcropolisConfig.class);
 

@@ -13,7 +13,7 @@ import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
 import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
-import org.chemthunder.acropolis.core.client.Nitro;
+import org.chemthunder.acropolis.core.client.api.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
 import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
 

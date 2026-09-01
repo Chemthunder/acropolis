@@ -3,7 +3,7 @@ package org.chemthunder.acropolis.core.index;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.client.entity.PestilenceEntityModel;
+import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
 
 /**

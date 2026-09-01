@@ -1,7 +1,5 @@
-package org.chemthunder.acropolis.core.client.entity;
+package org.chemthunder.acropolis.core.client.entity.render;
 
-import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;

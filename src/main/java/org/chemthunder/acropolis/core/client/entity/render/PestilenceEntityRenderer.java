@@ -1,9 +1,11 @@
-package org.chemthunder.acropolis.core.client.entity;
+package org.chemthunder.acropolis.core.client.entity.render;
 
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
+import org.chemthunder.acropolis.core.client.entity.state.PestilenceEntityRenderState;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
 

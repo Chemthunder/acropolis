@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.client;
+package org.chemthunder.acropolis.core.client.api;
 
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;

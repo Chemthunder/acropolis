@@ -9,6 +9,9 @@ import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
 import org.chemthunder.acropolis.core.item.ExaltedIdolItem;
 import org.chemthunder.acropolis.core.item.RaptureItem;
 import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
+import org.chemthunder.acropolis.core.item.component.OmenComponent;
+
+import java.util.ArrayList;
 
 /**
  * @author Chemthunder
@@ -25,6 +28,13 @@ public interface AcropolisItems {
     Item TAMPERED_GRIMOIRE = plugin.register("tampered_grimoire", TamperedGrimoireItem::new, new Item.Settings()
             .maxCount(1)
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("tampered"))
+            .fireproof()
+    );
+
+    Item FATAL_OMEN = plugin.register("fatal_omen", Item::new, new Item.Settings()
+            .maxCount(1)
+            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("omen"))
+            .component(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>()))
             .fireproof()
     );
 

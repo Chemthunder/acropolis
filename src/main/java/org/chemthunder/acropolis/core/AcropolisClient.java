@@ -2,12 +2,16 @@ package org.chemthunder.acropolis.core;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
+import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipComponent;
+import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
 import org.chemthunder.acropolis.core.event.client.MercyHudEvents;
 import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
@@ -40,6 +44,13 @@ public class AcropolisClient implements ClientModInitializer {
         ClientTickEvents.START_CLIENT_TICK.register(new PurpleVignetteEvents.Ticker());
         ClientTickEvents.START_CLIENT_TICK.register(new FlashEvents.Ticker());
         ClientTickEvents.START_CLIENT_TICK.register(new MercyHudEvents.Ticker());
+
+        TooltipComponentCallback.EVENT.register(tooltipData -> {
+            if (tooltipData instanceof OmenTooltipData(ItemStack self)) {
+                return new OmenTooltipComponent(self);
+            }
+            return null;
+        });
 
         HudElementRegistry.addFirst(Acropolis.id("vignette"), new PurpleVignetteEvents.Render());
         HudElementRegistry.addFirst(Acropolis.id("flash"), new FlashEvents.Render());

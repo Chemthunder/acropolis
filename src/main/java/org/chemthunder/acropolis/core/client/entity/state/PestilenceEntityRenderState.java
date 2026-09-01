@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.client.entity;
+package org.chemthunder.acropolis.core.client.entity.state;
 
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.AnimationState;

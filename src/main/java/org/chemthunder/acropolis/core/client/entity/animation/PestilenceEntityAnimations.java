@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.client.entity;// Save this class in your mod and generate all required imports
+package org.chemthunder.acropolis.core.client.entity.animation;// Save this class in your mod and generate all required imports
 
 import net.minecraft.client.render.entity.animation.AnimationDefinition;
 import net.minecraft.client.render.entity.animation.AnimationHelper;

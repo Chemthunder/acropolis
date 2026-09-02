@@ -1,9 +1,20 @@
 package org.chemthunder.acropolis.core.client.tooltip;
 
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.StyleSpriteSource;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
+import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.item.component.OmenComponent;
+import org.joml.Matrix3x2fStack;
+
+import java.util.Random;
 
 /**
  * @author Chemthunder
@@ -16,11 +27,11 @@ public class OmenTooltipComponent implements TooltipComponent {
     }
 
     public int getHeight(TextRenderer textRenderer) {
-        return 32;
+        return 48;
     }
 
     public int getWidth(TextRenderer textRenderer) {
-        return 48;
+        return (98 + 16);
     }
 
     public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
@@ -28,6 +39,120 @@ public class OmenTooltipComponent implements TooltipComponent {
     }
 
     public void drawText(DrawContext context, TextRenderer textRenderer, int x, int y) {
-        //
+        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+
+        if (omen != null) {
+            Random random = new Random();
+            Matrix3x2fStack matrices = context.getMatrices();
+
+            if (omen.closed()) {
+                float rate1 = 0.3F;
+                float rate2 = 0.3F;
+
+                matrices.pushMatrix();
+
+                matrices.translate(x + 4, y + getHeight(textRenderer) / 8F);
+                matrices.scale(1.5F);
+
+                context.drawGuiTexture(
+                        RenderPipelines.GUI_TEXTURED,
+                        Acropolis.id("acrop_eye"),
+                        0, 0,
+                        32,
+                        32
+                );
+
+                matrices.popMatrix();
+
+                matrices.pushMatrix();
+
+                matrices.translate(x + 48, y + getHeight(textRenderer) / 6F - 10);
+                matrices.translate(random.nextFloat(-rate1, rate1), random.nextFloat(-rate2, rate2));
+
+                matrices.scale(2F);
+
+                context.drawText(
+                        textRenderer,
+                        Text.literal("SIGNAL").styled(style -> style.withFont(new StyleSpriteSource.Font(Identifier.ofVanilla("alt")))),
+                        0, 0,
+                        ColorHelper.withAlpha(40, 0xFFffffff),
+                        false
+                );
+
+                matrices.popMatrix();
+
+                matrices.pushMatrix();
+
+                matrices.translate(x + 48, y + getHeight(textRenderer) / 6F + 10);
+                matrices.translate(random.nextFloat(-rate1, rate1), random.nextFloat(-rate2, rate2));
+
+                matrices.scale(2F);
+
+                context.drawText(
+                        textRenderer,
+                        Text.literal("LIGHTS").styled(style -> style.withFont(new StyleSpriteSource.Font(Identifier.ofVanilla("alt")))),
+                        0, 0,
+                        ColorHelper.withAlpha(40, 0xFFffffff),
+                        false
+                );
+
+                matrices.popMatrix();
+            } else {
+                float rate = 0.3F;
+                float rate1 = 0.4F;
+                float rate2 = 0.2F;
+
+                matrices.pushMatrix();
+
+                matrices.translate(random.nextFloat(-rate, rate), random.nextFloat(-rate, rate));
+
+                matrices.translate(x + 4, y + getHeight(textRenderer) / 8F);
+
+                matrices.scale(1.5F);
+
+                context.drawGuiTexture(
+                        RenderPipelines.GUI_TEXTURED,
+                        Acropolis.id("acropolis"),
+                        0, 0,
+                        32,
+                        32
+                );
+
+                matrices.popMatrix();
+
+                matrices.pushMatrix();
+
+                matrices.translate(x + 48, y + getHeight(textRenderer) / 6F);
+                matrices.translate(random.nextFloat(-rate1, rate1), random.nextFloat(-rate2, rate2));
+
+                matrices.scale(2F);
+
+                context.drawText(
+                        textRenderer,
+                        Text.literal("DEATHS").styled(style -> style.withFont(new StyleSpriteSource.Font(Identifier.ofVanilla("alt")))),
+                        0, 0,
+                        ColorHelper.withAlpha(40, 0xFFffffff),
+                        false
+                );
+
+                matrices.popMatrix();
+
+                matrices.pushMatrix();
+
+                matrices.translate(x + (64 + 16), y + getHeight(textRenderer) / 6F);
+                matrices.translate(random.nextFloat(-rate2, rate2), random.nextFloat(-rate2, rate2));
+
+                matrices.scale(2F);
+
+                context.drawCenteredTextWithShadow(
+                        textRenderer,
+                        Text.literal(omen.containedNames().size() + ""),
+                        0, 0,
+                        0xFFffffff
+                );
+
+                matrices.popMatrix();
+            }
+        }
     }
 }

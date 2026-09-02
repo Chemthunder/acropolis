@@ -22,7 +22,11 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
         this.getTagBuilder(DamageTypeTags.NO_KNOCKBACK)
                 .add(AcropolisDamageTypes.GAZE.getValue())
                 .add(AcropolisDamageTypes.SMOKE.getValue())
-                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue())
+                .add(AcropolisDamageTypes.ABSORB.getValue());
+
+        this.getTagBuilder(DamageTypeTags.BYPASSES_COOLDOWN)
+                .add(AcropolisDamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .add(AcropolisDamageTypes.GAZE.getValue());

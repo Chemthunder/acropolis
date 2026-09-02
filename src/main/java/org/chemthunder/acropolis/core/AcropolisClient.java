@@ -6,10 +6,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.item.property.bool.BooleanProperties;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
+import org.chemthunder.acropolis.core.client.item.OmenProperty;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipComponent;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
@@ -35,6 +37,8 @@ public class AcropolisClient implements ClientModInitializer {
         AcropolisBlockEntities.clinit();
 
         AcropolisNetworking.s2c();
+
+        BooleanProperties.ID_MAPPER.put(OmenProperty.ID, OmenProperty.CODEC);
 
         WorldRenderEvents.END_MAIN.register(new GazeRenderEvent());
         WorldRenderEvents.END_MAIN.register(new SightRenderEvent());

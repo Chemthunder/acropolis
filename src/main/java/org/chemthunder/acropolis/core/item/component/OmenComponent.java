@@ -11,9 +11,10 @@ import java.util.List;
 /**
  * @author Chemthunder
  */
-public record OmenComponent(List<String> containedNames) {
+public record OmenComponent(List<String> containedNames, boolean closed) {
     public static final Codec<OmenComponent> CODEC = RecordCodecBuilder.create(codec -> codec.group(
-            Codec.STRING.listOf().fieldOf("names").forGetter(OmenComponent::containedNames)
+            Codec.STRING.listOf().fieldOf("names").forGetter(OmenComponent::containedNames),
+            Codec.BOOL.fieldOf("closed").forGetter(OmenComponent::closed)
     ).apply(codec, OmenComponent::new));
 
     public static final PacketCodec<ByteBuf, OmenComponent> PACKET_CODEC = PacketCodecs.codec(CODEC);

@@ -22,6 +22,7 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
 //        translationBuilder.add(AcropolisItems.EXTOLLED_SIMULACRUM, "Extolled Simulacrum");
         translationBuilder.add(AcropolisItems.RAPTURE, "Rapture");
         translationBuilder.add(AcropolisItems.EXALTED_IDOL, "Exalted Idol");
+        translationBuilder.add(AcropolisItems.FATAL_OMEN, "Fatal Omen");
 
         translationBuilder.add("acropolis.midnightconfig.title", "Acropolis");
         translationBuilder.add("acropolis.midnightconfig.epilepsyMode", "Epilepsy Mode");

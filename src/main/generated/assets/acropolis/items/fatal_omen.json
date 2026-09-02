@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "acropolis:item/fatal_omen_open"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "acropolis:item/fatal_omen_closed"
+    },
+    "property": "acropolis:omen"
+  }
+}

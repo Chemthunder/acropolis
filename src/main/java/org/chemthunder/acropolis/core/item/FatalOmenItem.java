@@ -1,13 +1,28 @@
 package org.chemthunder.acropolis.core.item;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
+import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.item.component.OmenComponent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * @author Chemthunder
@@ -17,12 +32,101 @@ public class FatalOmenItem extends Item {
         super(settings);
     }
 
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+
+        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+
+        if (omen != null) {
+            if (user.isSneaking()) {
+                Entity entity = MinecraftClient.getInstance().targetedEntity;
+
+                if (entity != null) {
+                    if (!omen.containedNames().contains(entity.getName().getString())) {
+                        if (!user.getItemCooldownManager().isCoolingDown(stack)) {
+                            user.setCurrentHand(hand);
+                        }
+                    }
+                }
+            } else {
+                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(omen.containedNames(), !omen.closed()));
+            }
+        }
+        return super.use(world, user, hand);
+    }
+
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+        return 72000;
+    }
+
+    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+        Entity entity = MinecraftClient.getInstance().targetedEntity;
+        int time = this.getMaxUseTime(stack, user) - remainingUseTicks;
+        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+
+        if (omen != null) {
+            if (entity instanceof LivingEntity target) {
+                Random random = new Random();
+                float bound = target.getWidth();
+
+                Vec3d spawnPos = new Vec3d(
+                        target.getX() + random.nextFloat(-bound, bound),
+                        (target.getY() + (target.getHeight() / 2F)) + random.nextFloat(-bound, bound),
+                        target.getZ() + random.nextFloat(-bound, bound)
+                );
+
+                Vec3d velocity = spawnPos.subtract(new Vec3d(
+                                user.getX(),
+                                user.getY() + 1.0F,
+                                user.getZ()
+                        ))
+                        .normalize()
+                        .negate()
+                        .multiply(0.6F);
+
+                for (int i = 0; i < random.nextInt(3, 16); i++) {
+                    world.addImportantParticleClient(
+                            ParticleTypes.END_ROD,
+                            spawnPos.x,
+                            spawnPos.y,
+                            spawnPos.z,
+                            velocity.x,
+                            velocity.y,
+                            velocity.z
+                    );
+                }
+
+                if (time >= 80) {
+                    user.stopUsingItem();
+
+                    if (user instanceof PlayerEntity playerEntity) {
+                        playerEntity.sendMessage(Text.literal("abosrb"), true);
+                        playerEntity.getItemCooldownManager().set(stack, 10);
+                    }
+
+                    List<String> entries = new ArrayList<>(omen.containedNames());
+
+                    entries.add(target.getName().getString());
+
+                    stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                            entries,
+                            omen.closed()
+                    ));
+                }
+            }
+        }
+    }
+
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
         TooltipDisplayComponent display = stack.getOrDefault(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT);
 
-        return !display.shouldDisplay(ModDataComponentTypes.TABLET)
+        return !display.shouldDisplay(AcropolisComponentTypes.OMEN)
                 ? Optional.empty()
-                : Optional.of(tablet).map(component -> new OmenTooltipData(stack)
+                : Optional.of(AcropolisComponentTypes.OMEN).map(component -> new OmenTooltipData(stack)
         );
+    }
+
+    public Text getName(ItemStack stack) {
+        return super.getName(stack).copy().withColor(0xFFac61d0);
     }
 }

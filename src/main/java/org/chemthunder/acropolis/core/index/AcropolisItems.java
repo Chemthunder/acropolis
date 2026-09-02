@@ -5,10 +5,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
-import org.chemthunder.acropolis.core.item.ExaltedIdolItem;
-import org.chemthunder.acropolis.core.item.RaptureItem;
-import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
+import org.chemthunder.acropolis.core.item.*;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
 
 import java.util.ArrayList;
@@ -31,10 +28,10 @@ public interface AcropolisItems {
             .fireproof()
     );
 
-    Item FATAL_OMEN = plugin.register("fatal_omen", Item::new, new Item.Settings()
+    Item FATAL_OMEN = plugin.register("fatal_omen", FatalOmenItem::new, new Item.Settings()
             .maxCount(1)
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("omen"))
-            .component(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>()))
+            .component(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>(), true))
             .fireproof()
     );
 

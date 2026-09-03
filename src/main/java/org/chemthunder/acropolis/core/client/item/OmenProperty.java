@@ -26,6 +26,6 @@ public class OmenProperty implements BooleanProperty {
     }
 
     public boolean test(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity entity, int seed, ItemDisplayContext displayContext) {
-        return stack.getOrDefault(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>(), true)).closed();
+        return stack.getOrDefault(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>(), true, false)).closed();
     }
 }

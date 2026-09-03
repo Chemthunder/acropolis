@@ -1,14 +1,29 @@
 {
   "model": {
-    "type": "minecraft:condition",
-    "on_false": {
-      "type": "minecraft:model",
-      "model": "acropolis:item/fatal_omen_open"
-    },
-    "on_true": {
-      "type": "minecraft:model",
-      "model": "acropolis:item/fatal_omen_closed"
-    },
-    "property": "acropolis:omen"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "acropolis:item/fatal_omen_closed"
+        },
+        "when": "omen_closed"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "acropolis:item/fatal_omen_open"
+        },
+        "when": "omen_open"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "acropolis:item/fatal_omen_finalized"
+        },
+        "when": "omen_finalized"
+      }
+    ],
+    "property": "acropolis:fatal_omen"
   }
 }

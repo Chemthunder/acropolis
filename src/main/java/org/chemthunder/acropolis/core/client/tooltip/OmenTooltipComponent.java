@@ -40,65 +40,12 @@ public class OmenTooltipComponent implements TooltipComponent {
 
     public void drawText(DrawContext context, TextRenderer textRenderer, int x, int y) {
         OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        Random random = new Random();
+        Matrix3x2fStack matrices = context.getMatrices();
 
         if (omen != null) {
-            Random random = new Random();
-            Matrix3x2fStack matrices = context.getMatrices();
-
-            if (omen.closed()) {
-                float rate1 = 0.3F;
-                float rate2 = 0.3F;
-
-                matrices.pushMatrix();
-
-                matrices.translate(x + 4, y + getHeight(textRenderer) / 8F);
-                matrices.scale(1.5F);
-
-                context.drawGuiTexture(
-                        RenderPipelines.GUI_TEXTURED,
-                        Acropolis.id("acrop_eye"),
-                        0, 0,
-                        32,
-                        32
-                );
-
-                matrices.popMatrix();
-
-                matrices.pushMatrix();
-
-                matrices.translate(x + 48, y + getHeight(textRenderer) / 6F - 10);
-                matrices.translate(random.nextFloat(-rate1, rate1), random.nextFloat(-rate2, rate2));
-
-                matrices.scale(2F);
-
-                context.drawText(
-                        textRenderer,
-                        Text.literal("SIGNAL").styled(style -> style.withFont(new StyleSpriteSource.Font(Identifier.ofVanilla("alt")))),
-                        0, 0,
-                        ColorHelper.withAlpha(40, 0xFFffffff),
-                        false
-                );
-
-                matrices.popMatrix();
-
-                matrices.pushMatrix();
-
-                matrices.translate(x + 48, y + getHeight(textRenderer) / 6F + 10);
-                matrices.translate(random.nextFloat(-rate1, rate1), random.nextFloat(-rate2, rate2));
-
-                matrices.scale(2F);
-
-                context.drawText(
-                        textRenderer,
-                        Text.literal("LIGHTS").styled(style -> style.withFont(new StyleSpriteSource.Font(Identifier.ofVanilla("alt")))),
-                        0, 0,
-                        ColorHelper.withAlpha(40, 0xFFffffff),
-                        false
-                );
-
-                matrices.popMatrix();
-            } else {
-                float rate = 0.3F;
+            if (!omen.finalized()) {
+                float rate = !omen.containedNames().isEmpty() ? omen.containedNames().size() / 10.5F : 0.3F;
                 float rate1 = 0.4F;
                 float rate2 = 0.2F;
 
@@ -149,6 +96,50 @@ public class OmenTooltipComponent implements TooltipComponent {
                         Text.literal(omen.containedNames().size() + ""),
                         0, 0,
                         0xFFffffff
+                );
+
+                matrices.popMatrix();
+            } else {
+                context.drawCenteredTextWithShadow(
+                        textRenderer,
+                        Text.literal("Fulfill your purpose."),
+                        x + (getWidth(textRenderer) / 2),
+                        y,
+                        0xFFffffff
+                );
+
+                context.drawCenteredTextWithShadow(
+                        textRenderer,
+                        Text.literal("Swear fealty."),
+                        x + (getWidth(textRenderer) / 2),
+                        y + 16,
+                        0xFFffffff
+                );
+
+                int spacing = 14;
+
+                matrices.pushMatrix();
+
+                context.drawGuiTexture(
+                        RenderPipelines.GUI_TEXTURED,
+                        Acropolis.id("acrop_eye"),
+                        x + (getWidth(textRenderer) / 2) - 16 - spacing,
+                        y + 30,
+                        32,
+                        32
+                );
+
+                matrices.popMatrix();
+
+                matrices.pushMatrix();
+
+                context.drawGuiTexture(
+                        RenderPipelines.GUI_TEXTURED,
+                        Acropolis.id("acrop_eye"),
+                        x + (getWidth(textRenderer) / 2) - 16 + spacing,
+                        y + 30,
+                        32,
+                        32
                 );
 
                 matrices.popMatrix();

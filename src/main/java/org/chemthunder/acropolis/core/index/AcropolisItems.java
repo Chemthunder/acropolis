@@ -31,7 +31,7 @@ public interface AcropolisItems {
     Item FATAL_OMEN = plugin.register("fatal_omen", FatalOmenItem::new, new Item.Settings()
             .maxCount(1)
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("omen"))
-            .component(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>(), true))
+            .component(AcropolisComponentTypes.OMEN, new OmenComponent(new ArrayList<>(), true, false))
             .fireproof()
     );
 

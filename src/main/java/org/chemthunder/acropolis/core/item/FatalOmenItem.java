@@ -42,14 +42,16 @@ public class FatalOmenItem extends Item {
                 Entity entity = MinecraftClient.getInstance().targetedEntity;
 
                 if (entity != null) {
-                    if (!omen.containedNames().contains(entity.getName().getString())) {
-                        if (!user.getItemCooldownManager().isCoolingDown(stack)) {
-                            user.setCurrentHand(hand);
+                    if (!omen.finalized()) {
+                        if (!omen.containedNames().contains(entity.getName().getString())) {
+                            if (!user.getItemCooldownManager().isCoolingDown(stack)) {
+                                user.setCurrentHand(hand);
+                                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(omen.containedNames(), false, omen.finalized()));
+                                return ActionResult.CONSUME;
+                            }
                         }
                     }
                 }
-            } else {
-                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(omen.containedNames(), !omen.closed()));
             }
         }
         return super.use(world, user, hand);
@@ -65,54 +67,103 @@ public class FatalOmenItem extends Item {
         OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
 
         if (omen != null) {
-            if (entity instanceof LivingEntity target) {
-                Random random = new Random();
-                float bound = target.getWidth();
-
-                Vec3d spawnPos = new Vec3d(
-                        target.getX() + random.nextFloat(-bound, bound),
-                        (target.getY() + (target.getHeight() / 2F)) + random.nextFloat(-bound, bound),
-                        target.getZ() + random.nextFloat(-bound, bound)
-                );
-
-                Vec3d velocity = spawnPos.subtract(new Vec3d(
-                                user.getX(),
-                                user.getY() + 1.0F,
-                                user.getZ()
-                        ))
-                        .normalize()
-                        .negate()
-                        .multiply(0.6F);
-
-                for (int i = 0; i < random.nextInt(3, 16); i++) {
-                    world.addImportantParticleClient(
-                            ParticleTypes.END_ROD,
-                            spawnPos.x,
-                            spawnPos.y,
-                            spawnPos.z,
-                            velocity.x,
-                            velocity.y,
-                            velocity.z
-                    );
+            if (user.isSneaking()) {
+                if (entity == null) {
+                    haltUsage(stack, user, true);
                 }
+                if (entity instanceof LivingEntity target) {
+                    Random random = new Random();
+                    float bound = target.getWidth();
 
-                if (time >= 80) {
-                    user.stopUsingItem();
+                    Vec3d spawnPos = new Vec3d(
+                            target.getX() + random.nextFloat(-bound, bound),
+                            (target.getY() + (target.getHeight() / 2F)) + random.nextFloat(-bound, bound),
+                            target.getZ() + random.nextFloat(-bound, bound)
+                    );
 
-                    if (user instanceof PlayerEntity playerEntity) {
-                        playerEntity.sendMessage(Text.literal("abosrb"), true);
-                        playerEntity.getItemCooldownManager().set(stack, 10);
+                    Vec3d velocity = spawnPos.subtract(new Vec3d(
+                                    user.getX(),
+                                    user.getY() + 1.0F,
+                                    user.getZ()
+                            ))
+                            .normalize()
+                            .negate()
+                            .multiply(0.4F);
+
+                    for (int i = 0; i < random.nextInt(3, 16); i++) {
+                        world.addImportantParticleClient(
+                                ParticleTypes.END_ROD,
+                                spawnPos.x,
+                                spawnPos.y,
+                                spawnPos.z,
+                                velocity.x,
+                                velocity.y,
+                                velocity.z
+                        );
                     }
 
-                    List<String> entries = new ArrayList<>(omen.containedNames());
+                    if (time >= 80) {
+                        user.stopUsingItem();
 
-                    entries.add(target.getName().getString());
+                        if (user instanceof PlayerEntity playerEntity) {
+                            playerEntity.getItemCooldownManager().set(stack, 10);
+                        }
 
-                    stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
-                            entries,
-                            omen.closed()
-                    ));
+                        List<String> entries = new ArrayList<>(omen.containedNames());
+
+                        entries.add(target.getName().getString());
+
+                        stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                                entries,
+                                true,
+                                omen.finalized()
+                        ));
+
+                        OmenComponent postOmen = stack.get(AcropolisComponentTypes.OMEN);
+
+                        if (postOmen != null) {
+                            if (postOmen.containedNames().size() >= 24) {
+                                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                                        postOmen.containedNames(),
+                                        postOmen.closed(),
+                                        true
+                                ));
+                            }
+                        }
+                    }
                 }
+            } else {
+                haltUsage(stack, user, true);
+            }
+        }
+    }
+
+    public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        int time = this.getMaxUseTime(stack, user) - remainingUseTicks;
+        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+
+        if (omen != null) {
+            if (time < 80) {
+                haltUsage(stack, user, false);
+            }
+        }
+        return super.onStoppedUsing(stack, world, user, remainingUseTicks);
+    }
+
+    public static void haltUsage(ItemStack stack, LivingEntity user, boolean stop) {
+        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+
+        if (omen != null) {
+            if (stop) {
+                user.stopUsingItem();
+            }
+            if (user instanceof PlayerEntity playerEntity) {
+                playerEntity.getItemCooldownManager().set(stack, 10);
+                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                        omen.containedNames(),
+                        true,
+                        omen.finalized()
+                ));
             }
         }
     }

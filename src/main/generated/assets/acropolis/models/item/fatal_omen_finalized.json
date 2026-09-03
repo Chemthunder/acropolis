@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "acropolis:item/fatal_omen_finalized"
+  }
+}

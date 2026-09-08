@@ -1,8 +1,11 @@
 package org.chemthunder.acropolis.core.entity;
 
+import net.acoyt.acornlib.data.provider.resources.AcornParticleGen;
+import net.acoyt.acornlib.impl.index.AcornParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.Ownable;
+import net.minecraft.entity.Targeter;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
@@ -11,6 +14,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.HuskEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -23,6 +27,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
+import org.chemthunder.acropolis.core.index.AcropolisParticleTypes;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Random;
@@ -30,7 +35,7 @@ import java.util.Random;
 /**
  * @author Chemthunder
  */
-public class PestilenceEntity extends HostileEntity implements Ownable {
+public class PestilenceEntity extends HostileEntity implements Ownable, Targeter {
     private @Nullable LazyEntityReference<MobEntity> owner;
 
     private boolean targeted = false;
@@ -52,6 +57,10 @@ public class PestilenceEntity extends HostileEntity implements Ownable {
     public void tick() {
         super.tick();
 
+        if (this.getTarget() != null) {
+            this.setTarget(null);
+        }
+
         if (this.age % 20 == 0) {
             if (new Random().nextInt(2) == 1) {
                 this.targeted = !this.targeted;
@@ -59,11 +68,11 @@ public class PestilenceEntity extends HostileEntity implements Ownable {
         }
 
         if (this.targeted) {
-            PlayerEntity target = this.getEntityWorld().getClosestPlayer(this, 10);
+            PlayerEntity target = this.getEntityWorld().getClosestPlayer(this, 90);
             if (target != null) {
-                this.setTarget(target);
-
                 if (!target.getInventory().contains(AcropolisItems.TAMPERED_GRIMOIRE.getDefaultStack())) {
+                    this.setTarget(target);
+
                     Random random1 = new Random();
                     float bound = 0.4F;
 
@@ -80,7 +89,7 @@ public class PestilenceEntity extends HostileEntity implements Ownable {
                             ))
                             .normalize()
                             .negate()
-                            .multiply(0.6F);
+                            .multiply(0.3F);
 
                     Vec3d velocity = spawnPos.subtract(new Vec3d(
                                     this.getX(),
@@ -91,17 +100,25 @@ public class PestilenceEntity extends HostileEntity implements Ownable {
                             .negate()
                             .multiply(this.getDistanceToCenter(target) / 10);
 
-                    for (int i = 0; i < 1; i++) {
-                        this.getEntityWorld().addParticleClient(
-                                ParticleTypes.END_ROD,
-                                spawnPos.x,
-                                spawnPos.y,
-                                spawnPos.z,
-                                velocity.x,
-                                velocity.y,
-                                velocity.z
-                        );
-                    }
+                    target.getEntityWorld().addParticleClient(
+                            ParticleTypes.END_ROD,
+                            spawnPos.x,
+                            spawnPos.y,
+                            spawnPos.z,
+                            velocity.x,
+                            velocity.y,
+                            velocity.z
+                    );
+
+                    target.getEntityWorld().addParticleClient(
+                            ParticleTypes.RAID_OMEN,
+                            spawnPos.x,
+                            spawnPos.y,
+                            spawnPos.z,
+                            velocity.x,
+                            velocity.y,
+                            velocity.z
+                    );
 
                     float strength = 15;
 
@@ -114,28 +131,25 @@ public class PestilenceEntity extends HostileEntity implements Ownable {
                     );
 
                     target.velocityDirty = false;
-                    return;
+
+                    target.getHungerManager().addExhaustion(1.0F);
                 }
             }
         }
-
-        this.setTarget(null);
     }
 
     protected void initGoals() {
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-        this.goalSelector.add(7, new FlyGoal(this, 2.0F));
+        this.goalSelector.add(7, new FlyGoal(this, 4.0F));
         this.goalSelector.add(8, new AttackGoal(this));
         this.goalSelector.add(9, new PounceAtTargetGoal(this, 4));
 
         this.targetSelector.add(9, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.add(8, new PounceAtTargetGoal(this, 1));
-
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        return super.damage(world, source, amount / 2);
+        return super.damage(world, source, amount / 6);
     }
 
     protected EntityNavigation createNavigation(World world) {

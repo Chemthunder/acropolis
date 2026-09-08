@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
+import org.chemthunder.acropolis.core.client.entity.model.SwarmEntityModel;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
 
 /**
@@ -12,6 +13,7 @@ import org.chemthunder.acropolis.core.client.model.PlaneModel;
 public interface AcropolisEntityModelLayers {
     EntityModelLayer PLANE = register("plane");
     EntityModelLayer PESTILENCE = register("pestilence");
+    EntityModelLayer SWARM = register("swarm");
 
     private static EntityModelLayer register(String s) {
         return new EntityModelLayer(Acropolis.id(s), "bone");
@@ -20,5 +22,6 @@ public interface AcropolisEntityModelLayers {
     static void clinit() {
         EntityModelLayerRegistry.registerModelLayer(PLANE, PlaneModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(PESTILENCE, PestilenceEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(SWARM, SwarmEntityModel::getTexturedModelData);
     }
 }

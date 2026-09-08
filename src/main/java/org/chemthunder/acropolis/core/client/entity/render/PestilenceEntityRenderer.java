@@ -1,7 +1,10 @@
 package org.chemthunder.acropolis.core.client.entity.render;
 
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.state.CameraRenderState;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
@@ -29,5 +32,15 @@ public class PestilenceEntityRenderer extends MobEntityRenderer<PestilenceEntity
         super.updateRenderState(livingEntity, livingEntityRenderState, f);
         livingEntityRenderState.tickProgress = f;
         livingEntityRenderState.entity = livingEntity;
+    }
+
+    public void render(PestilenceEntityRenderState livingEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState) {
+        super.render(livingEntityRenderState, matrixStack, orderedRenderCommandQueue, cameraRenderState);
+
+        matrixStack.push();
+
+        matrixStack.scale(4, 4, 4);
+
+        matrixStack.pop();
     }
 }

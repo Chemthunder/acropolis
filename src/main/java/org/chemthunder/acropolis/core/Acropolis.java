@@ -35,6 +35,7 @@ public class Acropolis implements ModInitializer {
         AcropolisBlocks.init();
         AcropolisItemGroups.init();
         AcropolisBlockEntities.init();
+        AcropolisParticleTypes.init();
 
         ServerTickEvents.START_WORLD_TICK.register(new StareDamageEvent());
         ServerTickEvents.START_WORLD_TICK.register(new SightDamageEvent());

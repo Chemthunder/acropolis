@@ -1,11 +1,22 @@
 package org.chemthunder.acropolis.core.item;
 
 import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.TeleportTarget;
+import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.entity.PestilenceEntity;
+import org.chemthunder.acropolis.core.entity.SwarmEntity;
+import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 
 import java.util.List;
@@ -22,6 +33,44 @@ public class TamperedGrimoireItem extends Item {
 
     public Text getName(ItemStack stack) {
         return Text.literal("Tampered").withColor(0xFFa71010).formatted(Formatting.OBFUSCATED, Formatting.BOLD).append(Text.literal(" Grimoire")).withColor(0xFFa71010);
+    }
+
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+        List<PestilenceEntity> gremlins = world.getEntitiesByClass(PestilenceEntity.class, new Box(user.getBlockPos()).expand(world.getWorldBorder().getSize() / 6), entity -> true);
+
+        if (gremlins.isEmpty()) {
+            SwarmEntity entity = new SwarmEntity(AcropolisEntityTypes.SWARM, world);
+
+            Vec3d pos = user.getBlockPos().toCenterPos();
+
+            entity.setPosition(pos.x, pos.y, pos.z);
+            entity.setOwner(user);
+
+            world.spawnEntity(entity);
+            user.swingHand(hand);
+        } else {
+            if (user.isSneaking()) {
+                if (world instanceof ServerWorld serverWorld) {
+                    for (PestilenceEntity entity : gremlins) {
+                        entity.teleportTo(
+                                new TeleportTarget(
+                                        serverWorld,
+                                        user.getEntityPos(),
+                                        new Vec3d(
+                                                0,
+                                                0,
+                                                0
+                                        ),
+                                        user.getYaw(),
+                                        user.getPitch(),
+                                        TeleportTarget.NO_OP
+                                )
+                        );
+                    }
+                }
+            }
+        }
+        return super.use(world, user, hand);
     }
 
     public static class Tooltip implements BetterItemTooltipEvent {

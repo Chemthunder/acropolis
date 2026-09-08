@@ -49,7 +49,7 @@ public class SwarmEntity extends ThrownEntity {
 
                 if (world instanceof ServerWorld serverWorld) {
                     serverWorld.spawnParticles(
-                            ParticleTypes.END_ROD,
+                            ParticleTypes.SMOKE,
                             this.getX(),
                             this.getY(),
                             this.getZ(),

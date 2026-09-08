@@ -1,7 +1,8 @@
 // 1.21.11	-999999999-01-01T00:00:00	Acropolis/Tags for minecraft:damage_type
-e0ebd3b3f19e19f615196e3c59f5269ca52573aa data/minecraft/tags/damage_type/bypasses_armor.json
-9182fa67cc05e27cc6739bbc41a8ed308121ee0e data/minecraft/tags/damage_type/bypasses_cooldown.json
-1e1b03b49ea6af611c5c778e0f3d3f92021706e3 data/minecraft/tags/damage_type/bypasses_enchantments.json
+d2c284a69e7192cec8b7f4ec9ad2b4a925fd9bf1 data/minecraft/tags/damage_type/bypasses_armor.json
+e770ef75c18bccecb51b848a2abf8469f4174029 data/minecraft/tags/damage_type/bypasses_cooldown.json
+dcb3ab60fa7aa199e9b0880a62861593a7b55a0b data/minecraft/tags/damage_type/bypasses_enchantments.json
 21b108f09331f93b270ce54ab26a987e3cd833da data/minecraft/tags/damage_type/bypasses_invulnerability.json
+2498314c921c2003dd11fe8ac07a1cf6b36f4062 data/minecraft/tags/damage_type/bypasses_resistance.json
 1e1b03b49ea6af611c5c778e0f3d3f92021706e3 data/minecraft/tags/damage_type/bypasses_shield.json
-129a1fcbe771d497854ff359c97d34242935074c data/minecraft/tags/damage_type/no_knockback.json
+e95830b39d51f3b17fd40e361962bc01f7c45c95 data/minecraft/tags/damage_type/no_knockback.json

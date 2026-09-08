@@ -19,6 +19,7 @@ public class AcropolisDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(AcropolisLanguageProvider::new);
         pack.addProvider(AcropolisModelProvider::new);
         pack.addProvider(AcropolisSoundProvider::new);
+        pack.addProvider(AcropolisParticleProvider::new);
 	}
 
     public void buildRegistry(RegistryBuilder registryBuilder) {

@@ -37,6 +37,7 @@ public class AcropolisClient implements ClientModInitializer {
         AcropolisEntityTypes.clinit();
         AcropolisBlocks.clinit();
         AcropolisBlockEntities.clinit();
+        AcropolisParticleTypes.clinit();
 
         AcropolisNetworking.s2c();
 

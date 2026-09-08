@@ -23,9 +23,11 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
                 .add(AcropolisDamageTypes.GAZE.getValue())
                 .add(AcropolisDamageTypes.SMOKE.getValue())
                 .add(AcropolisDamageTypes.RETRIBUTION.getValue())
+                .add(AcropolisDamageTypes.PESTILENCE.getValue())
                 .add(AcropolisDamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_COOLDOWN)
+                .add(AcropolisDamageTypes.PESTILENCE.getValue())
                 .add(AcropolisDamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
@@ -36,9 +38,14 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
                 .add(AcropolisDamageTypes.RETRIBUTION.getValue())
+                .add(AcropolisDamageTypes.PESTILENCE.getValue())
                 .add(AcropolisDamageTypes.SMOKE.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ENCHANTMENTS)
-                .add(AcropolisDamageTypes.RETRIBUTION.getValue());
+                .add(AcropolisDamageTypes.RETRIBUTION.getValue())
+                .add(AcropolisDamageTypes.PESTILENCE.getValue());
+
+        this.getTagBuilder(DamageTypeTags.BYPASSES_RESISTANCE)
+                .add(AcropolisDamageTypes.PESTILENCE.getValue());
     }
 }

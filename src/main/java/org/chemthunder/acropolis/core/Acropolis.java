@@ -33,8 +33,7 @@ public class Acropolis implements ModInitializer {
         AcropolisComponentTypes.init();
         AcropolisSoundEvents.init();
         AcropolisBlocks.init();
-        AcropolisItemGroups.init();
-        AcropolisBlockEntities.init();
+        AcropolisBlockEntityTypes.init();
         AcropolisParticleTypes.init();
 
         ServerTickEvents.START_WORLD_TICK.register(new StareDamageEvent());
@@ -47,7 +46,7 @@ public class Acropolis implements ModInitializer {
 
         ALib.registerModData(MOD_ID,
             new ALib.ModMenuData(
-                    Text.literal("Acropolis // MEDIAN").withColor(0xFFac61d0),
+                    Text.literal("Acropolis").withColor(0xFFac61d0),
                     Text.literal("MERCY").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f),
                     Text.literal("THEN FELL THE HEAVENS, FOR THEN THE DAWNS SHALL RISE.").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f)
             )

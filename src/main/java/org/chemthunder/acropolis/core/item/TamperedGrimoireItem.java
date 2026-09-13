@@ -1,9 +1,12 @@
 package org.chemthunder.acropolis.core.item;
 
 import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -55,14 +58,18 @@ public class TamperedGrimoireItem extends Item {
                         entity.teleportTo(
                                 new TeleportTarget(
                                         serverWorld,
-                                        user.getEntityPos(),
+                                        new Vec3d(
+                                                user.getEntityPos().x,
+                                                user.getEntityPos().y + 3,
+                                                user.getEntityPos().z
+                                        ),
                                         new Vec3d(
                                                 0,
                                                 0,
                                                 0
                                         ),
-                                        user.getYaw(),
-                                        user.getPitch(),
+                                        entity.getYaw(),
+                                        entity.getPitch(),
                                         TeleportTarget.NO_OP
                                 )
                         );
@@ -71,6 +78,21 @@ public class TamperedGrimoireItem extends Item {
             }
         }
         return super.use(world, user, hand);
+    }
+
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        BlockState state = context.getWorld().getBlockState(context.getBlockPos());
+        PlayerEntity player = context.getPlayer();
+
+        if (player != null) {
+            if (state.isOf(Blocks.AMETHYST_BLOCK)) {
+                ItemStack stack = player.getStackInHand(context.getHand());
+
+                stack.decrement(1);
+                player.equipStack(context.getHand().getEquipmentSlot(), new ItemStack(AcropolisItems.CELESTIAL_GRIMOIRE));
+            }
+        }
+        return super.useOnBlock(context);
     }
 
     public static class Tooltip implements BetterItemTooltipEvent {

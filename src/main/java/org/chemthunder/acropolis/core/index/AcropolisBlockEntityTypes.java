@@ -9,7 +9,7 @@ import org.chemthunder.acropolis.core.block.MeteorBlockEntity;
 /**
  * @author Chemthunder
  */
-public interface AcropolisBlockEntities {
+public interface AcropolisBlockEntityTypes {
     BlockEntityTypeRegistrant plugin = new BlockEntityTypeRegistrant(Acropolis.MOD_ID);
 
     BlockEntityType<MeteorBlockEntity> METEOR = plugin.register("meteor", FabricBlockEntityTypeBuilder.create(

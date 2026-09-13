@@ -22,17 +22,17 @@ public interface AcropolisEntityTypes {
     EntityType<SpellshotEntity> SPELL_SHOT = plugin.register("spell_shot", EntityType.Builder.create(
             SpellshotEntity::new,
             SpawnGroup.MISC
-    ).dimensions(1.0F, 1.0F));
+    ).dimensions(1.0F, 1.0F).disableSummon());
 
     EntityType<PestilenceEntity> PESTILENCE = plugin.register("pestilence", EntityType.Builder.<PestilenceEntity>create(
             PestilenceEntity::new,
             SpawnGroup.MISC
-    ).dimensions(1.0F, 1.6F));
+    ).dimensions(1.0F, 1.6F).disableSummon());
 
     EntityType<SwarmEntity> SWARM = plugin.register("swarm", EntityType.Builder.create(
             SwarmEntity::new,
             SpawnGroup.MISC
-    ).dimensions(0.7F, 1.4F));
+    ).dimensions(0.7F, 1.4F).disableSummon());
 
     static void init() {
         FabricDefaultAttributeRegistry.register(PESTILENCE, PestilenceEntity.createAttributes());

@@ -1,7 +1,5 @@
 package org.chemthunder.acropolis.core.entity;
 
-import net.acoyt.acornlib.data.provider.resources.AcornParticleGen;
-import net.acoyt.acornlib.impl.index.AcornParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.Ownable;
@@ -14,7 +12,6 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.HuskEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -27,7 +24,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
-import org.chemthunder.acropolis.core.index.AcropolisParticleTypes;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Random;
@@ -102,16 +98,6 @@ public class PestilenceEntity extends HostileEntity implements Ownable, Targeter
 
                     target.getEntityWorld().addParticleClient(
                             ParticleTypes.END_ROD,
-                            spawnPos.x,
-                            spawnPos.y,
-                            spawnPos.z,
-                            velocity.x,
-                            velocity.y,
-                            velocity.z
-                    );
-
-                    target.getEntityWorld().addParticleClient(
-                            ParticleTypes.RAID_OMEN,
                             spawnPos.x,
                             spawnPos.y,
                             spawnPos.z,

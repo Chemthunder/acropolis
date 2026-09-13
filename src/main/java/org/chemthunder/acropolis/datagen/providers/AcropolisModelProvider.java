@@ -7,7 +7,6 @@ import net.minecraft.client.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.client.item.FatalOmenProperty;
-import org.chemthunder.acropolis.core.client.item.OmenProperty;
 import org.chemthunder.acropolis.core.index.AcropolisBlocks;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 

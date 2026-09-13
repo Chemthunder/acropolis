@@ -42,12 +42,14 @@ public class FatalOmenItem extends Item {
                 Entity entity = MinecraftClient.getInstance().targetedEntity;
 
                 if (entity != null) {
-                    if (!omen.finalized()) {
-                        if (!omen.containedNames().contains(entity.getName().getString())) {
-                            if (!user.getItemCooldownManager().isCoolingDown(stack)) {
-                                user.setCurrentHand(hand);
-                                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(omen.containedNames(), false, omen.finalized()));
-                                return ActionResult.CONSUME;
+                    if (entity instanceof PlayerEntity) {
+                        if (!omen.finalized()) {
+                            if (!omen.containedNames().contains(entity.getName().getString())) {
+                                if (!user.getItemCooldownManager().isCoolingDown(stack)) {
+                                    user.setCurrentHand(hand);
+                                    stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(omen.containedNames(), false, omen.finalized()));
+                                    return ActionResult.CONSUME;
+                                }
                             }
                         }
                     }
@@ -71,7 +73,7 @@ public class FatalOmenItem extends Item {
                 if (entity == null) {
                     haltUsage(stack, user, true);
                 }
-                if (entity instanceof LivingEntity target) {
+                if (entity instanceof PlayerEntity target) {
                     Random random = new Random();
                     float bound = target.getWidth();
 

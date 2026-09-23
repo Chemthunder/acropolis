@@ -1,6 +1,5 @@
 package org.chemthunder.acropolis.core.item;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
@@ -10,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -39,7 +39,7 @@ public class FatalOmenItem extends Item {
 
         if (omen != null) {
             if (user.isSneaking()) {
-                Entity entity = MinecraftClient.getInstance().targetedEntity;
+                Entity entity = getRaycastEntity(user);
 
                 if (entity != null) {
                     if (entity instanceof PlayerEntity) {
@@ -59,12 +59,17 @@ public class FatalOmenItem extends Item {
         return super.use(world, user, hand);
     }
 
+    public static Entity getRaycastEntity(LivingEntity user) {
+        Vec3d pos = user.raycast(3, 0, true).getPos();
+        return user.getEntityWorld().getClosestPlayer(pos.x, pos.y, pos.z, 3, (entity -> entity != user));
+    }
+
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return 72000;
     }
 
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        Entity entity = MinecraftClient.getInstance().targetedEntity;
+        Entity entity = getRaycastEntity(user);
         int time = this.getMaxUseTime(stack, user) - remainingUseTicks;
         OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
 

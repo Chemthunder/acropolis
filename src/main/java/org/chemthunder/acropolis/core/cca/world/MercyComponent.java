@@ -9,8 +9,8 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.networking.s2c.BeginMercyPayload;
-import org.chemthunder.acropolis.core.networking.s2c.MercyHudPayload;
+import org.chemthunder.acropolis.core.networking.s2c.TriggerMercyShadersPayload;
+import org.chemthunder.acropolis.core.networking.s2c.MercyOpeningTextTriggerPayload;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -48,7 +48,7 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
 
                 if (server != null) {
                     for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
-                        ServerPlayNetworking.send(serverPlayer, new MercyHudPayload());
+                        ServerPlayNetworking.send(serverPlayer, new MercyOpeningTextTriggerPayload());
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
 
                     if (server != null) {
                         for (ServerPlayerEntity serverPlayer : server.getPlayerManager().getPlayerList()) {
-                            ServerPlayNetworking.send(serverPlayer, new BeginMercyPayload());
+                            ServerPlayNetworking.send(serverPlayer, new TriggerMercyShadersPayload());
                             server.getPlayerManager().sendToAll(new WorldTimeUpdateS2CPacket(18000, 18000, false));
                         }
                     }

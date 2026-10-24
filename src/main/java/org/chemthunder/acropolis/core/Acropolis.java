@@ -15,6 +15,7 @@ import org.chemthunder.acropolis.core.event.StareDamageEvent;
 import org.chemthunder.acropolis.core.index.*;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
 import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
+import org.chemthunder.acropolis.core.networking.AcropolisNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

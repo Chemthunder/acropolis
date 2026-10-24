@@ -35,12 +35,12 @@ public interface AcropolisItems {
             .fireproof()
     );
 
-//    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
-//            .maxCount(1)
-//            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
-//            .component(AcropolisComponentTypes.CHARGES, 0)
-//            .fireproof()
-//    );
+    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
+            .maxCount(1)
+            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
+            .component(AcropolisComponentTypes.CHARGES, 0)
+            .fireproof()
+    );
 
     Item RAPTURE = plugin.register("rapture", RaptureItem::new, new Item.Settings()
             .maxCount(1)

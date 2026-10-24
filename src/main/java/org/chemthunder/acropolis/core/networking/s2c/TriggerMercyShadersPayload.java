@@ -11,17 +11,17 @@ import org.chemthunder.acropolis.mixin.client.access.GameRendererAccessor;
 /**
  * @author Chemthunder
  */
-public record BeginMercyPayload() implements CustomPayload {
-    public static final Id<BeginMercyPayload> ID = new Id<>(Acropolis.id("flash"));
+public record TriggerMercyShadersPayload() implements CustomPayload {
+    public static final Id<TriggerMercyShadersPayload> ID = new Id<>(Acropolis.id("flash"));
 
     public Id<? extends CustomPayload> getId() {
         return ID;
     }
 
-    public static final PacketCodec<RegistryByteBuf, BeginMercyPayload> CODEC = PacketCodec.unit(new BeginMercyPayload());
+    public static final PacketCodec<RegistryByteBuf, TriggerMercyShadersPayload> CODEC = PacketCodec.unit(new TriggerMercyShadersPayload());
 
-    public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<BeginMercyPayload> {
-        public void receive(BeginMercyPayload payload, ClientPlayNetworking.Context context) {
+    public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<TriggerMercyShadersPayload> {
+        public void receive(TriggerMercyShadersPayload payload, ClientPlayNetworking.Context context) {
             context.client().execute(() -> {
                 FlashEvents.Ticker.opacity = 1.0F;
 

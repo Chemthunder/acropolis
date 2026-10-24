@@ -17,9 +17,11 @@ import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
 import org.chemthunder.acropolis.core.event.client.MercyHudEvents;
 import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
+import org.chemthunder.acropolis.core.event.client.entities.ExordiumRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
 import org.chemthunder.acropolis.core.index.*;
+import org.chemthunder.acropolis.core.networking.AcropolisNetworking;
 import org.chemthunder.acropolis.mixin.client.access.GameRendererAccessor;
 
 import java.util.Objects;
@@ -43,6 +45,7 @@ public class AcropolisClient implements ClientModInitializer {
 
         WorldRenderEvents.END_MAIN.register(new GazeRenderEvent());
         WorldRenderEvents.END_MAIN.register(new SightRenderEvent());
+        WorldRenderEvents.END_MAIN.register(new ExordiumRenderEvent());
 
         ClientTickEvents.START_CLIENT_TICK.register(minecraftClient -> AGE++);
 

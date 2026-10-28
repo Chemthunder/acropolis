@@ -45,7 +45,7 @@ public class ExordiumRenderEvent implements WorldRenderEvents.EndMain {
                         stack,
                         consumers.getBuffer(RenderLayers.endGateway()),
                         0, 0, 0,
-                        EasingType.OUT_EXPO.apply(ex.lerped()) * 60,
+                        EasingType.OUT_EXPO.apply(ex.lerped()) * 80,
                         140,
                         0.0F
                 );

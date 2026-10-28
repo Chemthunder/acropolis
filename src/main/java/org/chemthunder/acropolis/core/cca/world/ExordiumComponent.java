@@ -32,7 +32,7 @@ public class ExordiumComponent implements AutoSyncedComponent, CommonTickingComp
     public void tick() {
         if (pos != null) {
             if (active) {
-                if (radius < 60) {
+                if (radius < 80) {
                     radius += 0.5F;
                     sync();
                 }
@@ -93,6 +93,6 @@ public class ExordiumComponent implements AutoSyncedComponent, CommonTickingComp
     }
 
     public float lerped() {
-        return this.radius / 60;
+        return this.radius / 80;
     }
 }

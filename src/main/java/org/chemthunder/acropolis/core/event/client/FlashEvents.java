@@ -2,20 +2,30 @@ package org.chemthunder.acropolis.core.event.client;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
+import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Easing;
+import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
 
 /**
  * @author Chemthunder
  */
 public class FlashEvents {
+    public static void flash(int color, EasingType type) {
+        Ticker.color = color;
+        Ticker.opacity = 1.0F;
+        Ticker.type = type;
+    }
+
     public static class Ticker implements ClientTickEvents.StartTick {
         public static float opacity = 0.0F;
+        public static int color = 0x000000;
+        public static EasingType type = EasingType.OUT_SINE;
 
         public void onStartTick(MinecraftClient client) {
             if (!client.isPaused()) {
@@ -40,7 +50,7 @@ public class FlashEvents {
                         0,
                         drawContext.getScaledWindowWidth(),
                         drawContext.getScaledWindowHeight(),
-                        ColorHelper.withAlpha(Easing.outSine(o), 0x000000)
+                        ColorHelper.withAlpha(Ticker.type.apply(o), Ticker.color)
                 );
             }
         }

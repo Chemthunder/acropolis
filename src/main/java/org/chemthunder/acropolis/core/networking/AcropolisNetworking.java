@@ -6,10 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
-import org.chemthunder.acropolis.core.networking.s2c.TriggerMercyShadersPayload;
-import org.chemthunder.acropolis.core.networking.s2c.MercyOpeningTextTriggerPayload;
-import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
-import org.chemthunder.acropolis.core.networking.s2c.VignetteTriggerPayload;
+import org.chemthunder.acropolis.core.networking.s2c.*;
 
 /**
  * @author Chemthunder
@@ -22,6 +19,7 @@ public interface AcropolisNetworking {
         PayloadTypeRegistry.playS2C().register(OpenGrimoirePayload.ID, OpenGrimoirePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(TriggerMercyShadersPayload.ID, TriggerMercyShadersPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(MercyOpeningTextTriggerPayload.ID, MercyOpeningTextTriggerPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(FlashPayload.ID, FlashPayload.CODEC);
     }
 
     static void c2s() {
@@ -34,5 +32,6 @@ public interface AcropolisNetworking {
         ClientPlayNetworking.registerGlobalReceiver(OpenGrimoirePayload.ID, new OpenGrimoirePayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(TriggerMercyShadersPayload.ID, new TriggerMercyShadersPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(MercyOpeningTextTriggerPayload.ID, new MercyOpeningTextTriggerPayload.Receiver());
+        ClientPlayNetworking.registerGlobalReceiver(FlashPayload.ID, new FlashPayload.Receiever());
     }
 }

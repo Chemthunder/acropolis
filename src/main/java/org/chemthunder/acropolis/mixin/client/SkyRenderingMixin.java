@@ -11,7 +11,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.GpuSampler;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.state.SkyRenderState;
@@ -40,11 +39,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
-import static org.chemthunder.acropolis.core.AcropolisClient.fallActive;
-import static org.chemthunder.acropolis.core.AcropolisClient.mercyActive;
+import static org.chemthunder.acropolis.core.AcropolisClient.*;
 
 @Mixin(value = SkyRendering.class)
 public abstract class SkyRenderingMixin {
@@ -64,31 +61,48 @@ public abstract class SkyRenderingMixin {
 
     @Shadow protected abstract void renderStars(float brightness, MatrixStack matrices);
 
-    @Shadow @Final private GpuBuffer topSkyVertexBuffer;
-
     @Inject(method = "<init>", at = @At("TAIL"))
     private void acropolis$createBuffer(TextureManager textureManager, AtlasManager atlasManager, CallbackInfo ci) {
         customSunVertexBuffer = createQuadVertexBuffer("Custom sun quad", this.celestialAtlasTexture.getSprite(CUSTOM_SUN_TEXTURE));
+
         customStarVertexBuffer = createCustomStars();
-        customTopSkyBuffer = createCustomSkyBuffer("Custom Top Sky quad");
+
+        customTopSkyBuffer = createCustomSkyBuffer();
+
+//        try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(10 * VertexFormats.POSITION.getVertexSize())) {
+//            BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION);
+//            this.editToSkyBuffer(bufferBuilder, 16.0F);
+//
+//            try (BuiltBuffer builtBuffer = bufferBuilder.end()) {
+//                this.customTopSkyBuffer = RenderSystem.getDevice().createBuffer(() -> "Custom top sky buffer", GpuBuffer.USAGE_VERTEX, builtBuffer.getBuffer());
+//            }
+//        }
     }
 
     @Unique
-    private static GpuBuffer createCustomSkyBuffer(String description) {
+    private void editToSkyBuffer(VertexConsumer vertexConsumer, float height) {
+        float f = Math.signum(height) * 512.0F;
+        vertexConsumer.vertex(0.0F, height, 0.0F);
+
+        for (int i = -180; i <= 180; i += 45) {
+            vertexConsumer.vertex((f * MathHelper.cos(i * (float) (Math.PI / 180.0))), height, 512.0F * MathHelper.sin(i * (float) (Math.PI / 180.0)));
+        }
+    }
+
+    @Unique
+    private GpuBuffer createCustomSkyBuffer() {
         VertexFormat vertexFormat = VertexFormats.POSITION;
 
-        try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(4 * vertexFormat.getVertexSize())) {
-            BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.QUADS, vertexFormat);
-            bufferBuilder.vertex(-1.0F, 0.0F, -1.0F);
-            bufferBuilder.vertex(1.0F, 0.0F, -1.0F);
-            bufferBuilder.vertex(1.0F, 0.0F, 1.0F);
-            bufferBuilder.vertex(-1.0F, 0.0F, 1.0F);
+        try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(36 * vertexFormat.getVertexSize())) {
+            BufferBuilder bufferBuilder = SkyRenderingLoader.buildSkyBuffer(bufferAllocator, vertexFormat);
 
             try (BuiltBuffer builtBuffer = bufferBuilder.end()) {
-                return RenderSystem.getDevice().createBuffer(() -> description, GpuBuffer.USAGE_VERTEX, builtBuffer.getBuffer());
+                return RenderSystem.getDevice().createBuffer(() -> "Custom Top Sky quad", GpuBuffer.USAGE_VERTEX, builtBuffer.getBuffer());
             }
         }
     }
+
+
 
     @Unique
     private GpuBuffer createCustomStars() {
@@ -206,7 +220,7 @@ public abstract class SkyRenderingMixin {
 
     @WrapMethod(method = "renderMoon")
     private void acropolis$haltMoonIfActive(MoonPhase moonPhase, float alpha, MatrixStack matrices, Operation<Void> original) {
-        if (!(mercyActive() || fallActive())) {
+        if (!(mercyActive() || fall().isActive())) {
             original.call(moonPhase, alpha, matrices);
         }
     }
@@ -223,24 +237,31 @@ public abstract class SkyRenderingMixin {
         SkyRenderingLoader.tweakRenderState(world, tickProgress, camera, state, ci);
     }
 
-    @WrapOperation(method = "renderGlowingSky", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
+    @WrapOperation(
+            method = "renderGlowingSky",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"
+            )
+    )
     private void acropolis$removeSunrise(RenderPass instance, int i, GpuBuffer gpuBuffer, Operation<Void> original) {
         if (!(mercyActive() || fallActive())) {
             original.call(instance, i, gpuBuffer);
         }
     }
 
-//    @WrapMethod(method = "renderTopSky")
-//    private void redirect(int i, Operation<Void> original) {
-//        createFathomedSky(i);
-//    }
+    @WrapMethod(method = "renderTopSky")
+    private void redirect(int i, Operation<Void> original) {
+        if (fall().externalVisible) {
+            createFathomedSky(i);
+        }
+    }
 
     @Unique
     private void createFathomedSky(int i) {
         GpuBufferSlice gpuBufferSlice = RenderSystem.getDynamicUniforms()
                 .write(RenderSystem.getModelViewMatrix(), ColorHelper.toRgbaVector(i), new Vector3f(), new Matrix4f());
         GpuTextureView gpuTextureView = MinecraftClient.getInstance().getFramebuffer().getColorAttachmentView();
-        GpuTextureView gpuTextureView2 = MinecraftClient.getInstance().getFramebuffer().getDepthAttachmentView();
 
         TextureManager manager = MinecraftClient.getInstance().getTextureManager();
 
@@ -248,11 +269,11 @@ public abstract class SkyRenderingMixin {
         AbstractTexture sampler1 = manager.getTexture(Identifier.ofVanilla("textures/entity/end_portal.png"));
 
         RenderSystem.ShapeIndexBuffer quadIndices = RenderSystem.getSequentialBuffer(VertexFormat.DrawMode.QUADS);
-        GpuBuffer indexBuffer = quadIndices.getIndexBuffer(6);
+        GpuBuffer indexBuffer = quadIndices.getIndexBuffer(36);
 
         try (RenderPass renderPass = RenderSystem.getDevice()
                 .createCommandEncoder()
-                .createRenderPass(() -> "Sky disc", gpuTextureView, OptionalInt.empty(), gpuTextureView2, OptionalDouble.empty())) {
+                .createRenderPass(() -> "Sky disc", gpuTextureView, OptionalInt.empty())) {
 
             renderPass.setPipeline(RenderPipelines.END_PORTAL);
             RenderSystem.bindDefaultUniforms(renderPass);
@@ -273,9 +294,7 @@ public abstract class SkyRenderingMixin {
             renderPass.setVertexBuffer(0, this.customTopSkyBuffer);
 
             renderPass.setIndexBuffer(indexBuffer, quadIndices.getIndexType());
-            renderPass.drawIndexed(0, 0, 6, 1);
-
-
+            renderPass.drawIndexed(0, 0, 36, 1);
         }
     }
 }

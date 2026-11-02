@@ -1,15 +1,21 @@
 package org.chemthunder.acropolis.core.cca.world;
 
+import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.networking.s2c.FlashPayload;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
+
+import java.util.UUID;
 
 /**
  * @author Chemthunder
@@ -21,20 +27,85 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     );
     private final World world;
 
-    private @Nullable Vec3d pos = null;
-    private boolean active = false;
-
     public static final float MAX_SUNSCALE = 14;
+
+    public static final int TIME_UNTIL_SUN = (6 * 20);
+    public static final int TIME_UNTIL_FLASH = (2 * 20);
+
+    private @Nullable Vec3d pos = null;
+    private @Nullable Vec3d boxTarget = null;
+
+    private @Nullable UUID boxEntityUuid = null;
+
+    public boolean active = false;
+    public boolean sunVisible = false;
+    public boolean externalVisible = false;
+    public boolean tickingUntilFlash = false;
+    private boolean boxActive = false;
+
     private float sunscale = 0.0F;
+
+    private int timeUntilSun = TIME_UNTIL_SUN;
+    private int timeUntilFlash = TIME_UNTIL_FLASH;
+
+    private float boxLerp = 0.0F;
+    private float boxLerpUp = 0.0F;
 
     public SkyfallComponent(World world) {
         this.world = world;
     }
 
     public void tick() {
-        if (active) {
-            if (sunscale < MAX_SUNSCALE) {
-                sunscale += 0.001F;
+        if (active) { // FINALE
+            if (timeUntilSun > 0) {
+                timeUntilSun--;
+                if (timeUntilSun == 0) {
+                    sunVisible = true;
+                    sync();
+                }
+            }
+
+            if (sunVisible) {
+                if (sunscale < MAX_SUNSCALE) {
+                    sunscale += 0.025F;
+                }
+            }
+
+            if (!tickingUntilFlash) {
+                if (sunscale >= MAX_SUNSCALE) {
+                    tickingUntilFlash = true;
+                    sync();
+                }
+            }
+
+            if (tickingUntilFlash) {
+                if (timeUntilFlash > 0) {
+                    timeUntilFlash--;
+                    if (timeUntilFlash == 0) { // final flash
+                        NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFa503fc, EasingType.OUT_EXPO));
+                        externalVisible = true;
+                        sync();
+                    }
+                }
+            }
+        }
+
+        if (boxActive && boxTarget != null) { // permakill box
+            if (boxLerp > 0.0F) {
+                boxLerp -= 0.01F;
+                if (boxLerp <= 0) {
+                    boxActive = false;
+                    boxTarget = null;
+                    NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFffffff, EasingType.LINEAR));
+                    sync();
+                }
+            }
+
+            if (boxLerpUp < 1.0F) {
+                boxLerpUp += 0.01F;
+                if (boxLerpUp >= 1.0F) {
+                    sync();
+                }
             }
         }
     }
@@ -45,18 +116,72 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
 
     public void readData(ReadView readView) {
         pos = readView.read("Pos", Vec3d.CODEC).orElse(null);
+        boxTarget = readView.read("BoxTarget", Vec3d.CODEC).orElse(null);
+        /*boxEntityUuid = readView.read("BoxEntityUUID", Codecs.UUI)*/
 
         active = readView.getBoolean("Active", false);
+        sunVisible = readView.getBoolean("SunVisible", false);
+        externalVisible = readView.getBoolean("ExternalVisible", false);
+        tickingUntilFlash = readView.getBoolean("TickingUntilFlash", false);
+        boxActive = readView.getBoolean("BoxActive", false);
 
         sunscale = readView.getFloat("Sunscale", 0.0F);
+        boxLerp = readView.getFloat("BoxLerp", 0.0F);
+        boxLerpUp = readView.getFloat("BoxLerpUp", 0.0F);
+
+        timeUntilSun = readView.getInt("TimeUntilSun", TIME_UNTIL_SUN);
+        timeUntilFlash = readView.getInt("TimeUntilFlash", TIME_UNTIL_FLASH);
     }
 
     public void writeData(WriteView writeView) {
         if (pos != null) writeView.put("Pos", Vec3d.CODEC, pos);
+        if (boxTarget != null) writeView.put("BoxTarget", Vec3d.CODEC, boxTarget);
 
         writeView.putBoolean("Active", active);
+        writeView.putBoolean("SunVisible", sunVisible);
+        writeView.putBoolean("ExternalVisible", externalVisible);
+        writeView.putBoolean("TickingUntilFlash", tickingUntilFlash);
+        writeView.putBoolean("BoxActive", boxActive);
 
         writeView.putFloat("Sunscale", sunscale);
+        writeView.putFloat("BoxLerp", boxLerp);
+        writeView.putFloat("BoxLerpUp", boxLerpUp);
+
+        writeView.putInt("TimeUntilSun", timeUntilSun);
+        writeView.putInt("TimeUntilFlash", timeUntilFlash);
+    }
+
+    public void activate() {
+        active = true;
+        sunVisible = false;
+        externalVisible = false;
+        tickingUntilFlash = false;
+
+        sunscale = 0.0F;
+
+        timeUntilSun = TIME_UNTIL_SUN;
+        sync();
+    }
+
+    public void close() {
+        active = false;
+        sunVisible = false;
+        externalVisible = false;
+        tickingUntilFlash = false;
+
+        sunscale = 0.0F;
+
+        timeUntilSun = TIME_UNTIL_SUN;
+        timeUntilFlash = TIME_UNTIL_FLASH;
+        sync();
+    }
+
+    public void createBox(Vec3d target) {
+        boxTarget = target;
+        boxLerp = 1.0F;
+        boxLerpUp = 0.0F;
+        boxActive = true;
+        sync();
     }
 
     public boolean isActive() {
@@ -78,6 +203,10 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         sync();
     }
 
+    public @Nullable Vec3d getBoxTarget() {
+        return boxTarget;
+    }
+
     public float getSunscale() {
         return sunscale;
     }
@@ -85,5 +214,13 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     public void setSunscale(float sunscale) {
         this.sunscale = sunscale;
         sync();
+    }
+
+    public float getBoxLerp() {
+        return boxLerp;
+    }
+
+    public float getBoxLerpUp() {
+        return boxLerpUp;
     }
 }

@@ -18,7 +18,7 @@ public abstract class FogRendererMixin {
         if (AcropolisClient.mercyActive()) {
             return ColorHelper.toRgbaVector(0xFF000000);
         }
-        if (AcropolisClient.fallActive()) {
+        if (AcropolisClient.fall().externalVisible) {
             return ColorHelper.toRgbaVector(0xFF8b32a8);
         }
         return original;

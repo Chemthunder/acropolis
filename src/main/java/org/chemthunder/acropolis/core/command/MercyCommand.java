@@ -45,6 +45,24 @@ public class MercyCommand implements CommandRegistrationCallback {
         );
 
         dispatcher.register(literal("exordium")
+                .then(literal("box")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                Vec3d pos = new Vec3d(
+                                        player.getBlockPos().toCenterPos().x,
+                                        player.getBlockPos().toCenterPos().y + 1,
+                                        player.getBlockPos().toCenterPos().z
+                                );
+
+                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
+
+                                ex.createBox(pos);
+                            }
+
+                            return 1;
+                        }))
                 .then(literal("spawn")
                         .executes(context -> {
                             PlayerEntity player = context.getSource().getPlayer();
@@ -78,9 +96,7 @@ public class MercyCommand implements CommandRegistrationCallback {
 
                                 SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
 
-                                ex.setActive(false);
-                                ex.setSunscale(0.0F);
-                                ex.setPos(null);
+                                ex.close();
                             }
 
                             return 1;

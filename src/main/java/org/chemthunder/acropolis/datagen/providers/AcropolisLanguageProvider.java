@@ -75,5 +75,11 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s was consumed violently by %2$s, wielding %3$s",
                 "%1$s was consumed violently by %2$s"
         );
+
+        DataUtils.registerDamageTypeAll(
+                translationBuilder,
+                AcropolisDamageTypes.REPURPOSE,
+                "%1$s was absolved into the cosmos"
+        );
     }
 }

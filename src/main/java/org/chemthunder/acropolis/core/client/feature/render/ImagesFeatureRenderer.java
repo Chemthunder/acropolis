@@ -15,6 +15,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.Vec3d;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
 import org.chemthunder.acropolis.core.cca.entity.ImagesComponent;
@@ -53,6 +54,12 @@ public class ImagesFeatureRenderer<S extends BipedEntityRenderState, M extends B
                     uploadedState.relativeHeadYaw = image.headYaw();
                     uploadedState.pitch = image.pitch();
 
+                    Vec3d renderTarget = image.position().subtract(new Vec3d(state.x, state.y, state.z));
+
+                    matrices.push();
+
+                    matrices.translate(renderTarget);
+
                     queue.submitModel(
                             playerModel,
                             uploadedState,
@@ -63,6 +70,8 @@ public class ImagesFeatureRenderer<S extends BipedEntityRenderState, M extends B
                             0x00,
                             null
                     );
+
+                    matrices.pop();
                 }
             }
         }

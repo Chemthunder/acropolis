@@ -22,6 +22,7 @@ import org.chemthunder.acropolis.core.event.client.MercyHudEvents;
 import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
 import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
+import org.chemthunder.acropolis.core.event.client.entities.SkyfallRenderEvent;
 import org.chemthunder.acropolis.core.index.*;
 import org.chemthunder.acropolis.core.index.client.AcropolisRenderLayers;
 import org.chemthunder.acropolis.core.index.client.AcropolisRenderPipelines;
@@ -55,6 +56,7 @@ public class AcropolisClient implements ClientModInitializer {
 
         WorldRenderEvents.END_MAIN.register(new GazeRenderEvent());
         WorldRenderEvents.END_MAIN.register(new SightRenderEvent());
+        WorldRenderEvents.END_MAIN.register(new SkyfallRenderEvent());
 
         ClientTickEvents.START_CLIENT_TICK.register(minecraftClient -> AGE++);
 
@@ -108,5 +110,9 @@ public class AcropolisClient implements ClientModInitializer {
             return SkyfallComponent.KEY.get(world).isActive();
         }
         return false;
+    }
+
+    public static SkyfallComponent fall() {
+        return SkyfallComponent.KEY.get(MinecraftClient.getInstance().world);
     }
 }

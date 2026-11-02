@@ -11,6 +11,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -73,9 +74,11 @@ public class FatalOmenItem extends Item {
                 if (context.getPlayer().isSneaking()) {
                     SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
 
-                    fall.setPos(context.getHitPos());
-                    fall.setActive(true);
-                    fall.setSunscale(0);
+                    fall.activate();
+
+                    if (context.getWorld() instanceof ServerWorld serverWorld) {
+                        serverWorld.setTimeOfDay(18000);
+                    }
                 }
             }
         }

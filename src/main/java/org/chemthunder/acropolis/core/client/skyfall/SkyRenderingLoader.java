@@ -1,11 +1,14 @@
 package org.chemthunder.acropolis.core.client.skyfall;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.state.SkyRenderState;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.attribute.timeline.EasingType;
@@ -31,12 +34,14 @@ public class SkyRenderingLoader {
         }
 
         if (fallActive()) {
-            SkyfallComponent fall = SkyfallComponent.KEY.get(MinecraftClient.getInstance().world);
+            if (MinecraftClient.getInstance().world != null) {
+                SkyfallComponent fall = SkyfallComponent.KEY.get(MinecraftClient.getInstance().world);
 
-            instance.rotate(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks()) / 4));
-            instance.scale((EasingType.OUT_EXPO.apply(fall.getSunscale() / SkyfallComponent.MAX_SUNSCALE) * SkyfallComponent.MAX_SUNSCALE));
+                instance.rotate(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks()) / 4));
+                instance.scale((EasingType.OUT_EXPO.apply(fall.getSunscale() / SkyfallComponent.MAX_SUNSCALE) * SkyfallComponent.MAX_SUNSCALE));
 
-            return original.call(instance, x, y, z);
+                return original.call(instance, x, y, z);
+            }
         }
         return original.call(instance, x, y, z);
     }
@@ -52,5 +57,50 @@ public class SkyRenderingLoader {
             state.skyColor = 0xFF000000;
             state.starBrightness = 0.0F;
         }
+
+    }
+
+    public static BufferBuilder buildSkyBuffer(BufferAllocator allocator, VertexFormat format) {
+        final float dist = 16.0F;
+
+        BufferBuilder bufferBuilder = new BufferBuilder(allocator, VertexFormat.DrawMode.QUADS, format);
+
+        // top
+        bufferBuilder.vertex(-dist, dist, -dist);
+        bufferBuilder.vertex(dist, dist, -dist);
+        bufferBuilder.vertex(dist, dist, dist);
+        bufferBuilder.vertex(-dist, dist, dist);
+
+        // bottom
+        bufferBuilder.vertex(-dist, -dist, dist);
+        bufferBuilder.vertex(dist, -dist, dist);
+        bufferBuilder.vertex(dist, -dist, -dist);
+        bufferBuilder.vertex(-dist, -dist, -dist);
+
+        // north
+        bufferBuilder.vertex(-dist, -dist, -dist);
+        bufferBuilder.vertex(dist, -dist, -dist);
+        bufferBuilder.vertex(dist, dist, -dist);
+        bufferBuilder.vertex(-dist, dist, -dist);
+
+        // south
+        bufferBuilder.vertex(-dist, dist, dist);
+        bufferBuilder.vertex(dist, dist, dist);
+        bufferBuilder.vertex(dist, -dist, dist);
+        bufferBuilder.vertex(-dist, -dist, dist);
+
+        // west
+        bufferBuilder.vertex(-dist, -dist, dist);
+        bufferBuilder.vertex(-dist, -dist, -dist);
+        bufferBuilder.vertex(-dist, dist, -dist);
+        bufferBuilder.vertex(-dist, dist, dist);
+
+        // east
+        bufferBuilder.vertex(dist, -dist, -dist);
+        bufferBuilder.vertex(dist, -dist, dist);
+        bufferBuilder.vertex(dist, dist, dist);
+        bufferBuilder.vertex(dist, dist, -dist);
+
+        return bufferBuilder;
     }
 }

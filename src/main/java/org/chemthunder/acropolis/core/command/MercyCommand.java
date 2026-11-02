@@ -10,7 +10,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.cca.world.ExordiumComponent;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -56,11 +56,31 @@ public class MercyCommand implements CommandRegistrationCallback {
                                         player.getBlockPos().toCenterPos().z
                                 );
 
-                                ExordiumComponent ex = ExordiumComponent.KEY.get(player.getEntityWorld());
+                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
 
                                 ex.setActive(true);
                                 ex.setPos(pos);
-                                ex.setRadius(0.0F);
+                            }
+
+                            return 1;
+                        })
+                )
+                .then(literal("remove")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                Vec3d pos = new Vec3d(
+                                        player.getBlockPos().toCenterPos().x,
+                                        player.getBlockPos().toCenterPos().y + 1,
+                                        player.getBlockPos().toCenterPos().z
+                                );
+
+                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
+
+                                ex.setActive(false);
+                                ex.setSunscale(0.0F);
+                                ex.setPos(null);
                             }
 
                             return 1;

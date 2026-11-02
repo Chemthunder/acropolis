@@ -5,27 +5,28 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.GpuSampler;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.state.SkyRenderState;
-import net.minecraft.client.texture.AtlasManager;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.texture.TextureManager;
+import net.minecraft.client.texture.*;
 import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.MoonPhase;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.AcropolisClient;
-import org.chemthunder.acropolis.core.AcropolisConfig;
+import org.chemthunder.acropolis.core.client.skyfall.SkyRenderingLoader;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
@@ -39,6 +40,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+
+import static org.chemthunder.acropolis.core.AcropolisClient.fallActive;
 import static org.chemthunder.acropolis.core.AcropolisClient.mercyActive;
 
 @Mixin(value = SkyRendering.class)
@@ -47,6 +52,7 @@ public abstract class SkyRenderingMixin {
 
     @Unique private GpuBuffer customSunVertexBuffer;
     @Unique private GpuBuffer customStarVertexBuffer;
+    @Unique private GpuBuffer customTopSkyBuffer;
 
     @Shadow @Final private SpriteAtlasTexture celestialAtlasTexture;
     @Shadow private int starIndexCount;
@@ -56,20 +62,37 @@ public abstract class SkyRenderingMixin {
         throw new UnsupportedOperationException("Implemented via mixin");
     }
 
-    @Shadow
-    protected abstract void renderStars(float brightness, MatrixStack matrices);
+    @Shadow protected abstract void renderStars(float brightness, MatrixStack matrices);
+
+    @Shadow @Final private GpuBuffer topSkyVertexBuffer;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void acropolis$createBuffer(TextureManager textureManager, AtlasManager atlasManager, CallbackInfo ci) {
         customSunVertexBuffer = createQuadVertexBuffer("Custom sun quad", this.celestialAtlasTexture.getSprite(CUSTOM_SUN_TEXTURE));
         customStarVertexBuffer = createCustomStars();
+        customTopSkyBuffer = createCustomSkyBuffer("Custom Top Sky quad");
+    }
+
+    @Unique
+    private static GpuBuffer createCustomSkyBuffer(String description) {
+        VertexFormat vertexFormat = VertexFormats.POSITION;
+
+        try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(4 * vertexFormat.getVertexSize())) {
+            BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.QUADS, vertexFormat);
+            bufferBuilder.vertex(-1.0F, 0.0F, -1.0F);
+            bufferBuilder.vertex(1.0F, 0.0F, -1.0F);
+            bufferBuilder.vertex(1.0F, 0.0F, 1.0F);
+            bufferBuilder.vertex(-1.0F, 0.0F, 1.0F);
+
+            try (BuiltBuffer builtBuffer = bufferBuilder.end()) {
+                return RenderSystem.getDevice().createBuffer(() -> description, GpuBuffer.USAGE_VERTEX, builtBuffer.getBuffer());
+            }
+        }
     }
 
     @Unique
     private GpuBuffer createCustomStars() {
         Random random = Random.create(10842L);
-        float f = 100.0F;
-
         Sprite sprite = this.celestialAtlasTexture.getSprite(Acropolis.id("stars"));
 
         GpuBuffer var19;
@@ -112,7 +135,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private GpuBuffer acropolis$applyBuffer(GpuBuffer original) {
-        return mercyActive() ? customSunVertexBuffer : original;
+        return (mercyActive() || fallActive()) ? customSunVertexBuffer : original;
     }
 
     @Inject(
@@ -124,7 +147,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private void acropolis$alwaysStars(MatrixStack matrices, float sunAngle, float moonAngle, float starAngle, MoonPhase moonPhase, float alpha, float starBrightness, CallbackInfo ci) {
-        if (mercyActive()) {
+        if (mercyActive() || fallActive()) {
             matrices.push();
             matrices.multiply(RotationAxis.POSITIVE_X.rotation(18000));
             this.renderStars(starBrightness, matrices);
@@ -140,8 +163,8 @@ public abstract class SkyRenderingMixin {
                 moonAngle,
                 starAngle,
                 moonPhase,
-                mercyActive() ? 1.0F : alpha,
-                mercyActive() ? 0.4F : starBrightness
+                (mercyActive() || fallActive()) ? 1.0F : alpha,
+                (mercyActive() || fallActive()) ? 0.4F : starBrightness
         );
     }
 
@@ -153,7 +176,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private void acropolis$removeVanillaStars(SkyRendering instance, float brightness, MatrixStack matrices, Operation<Void> original) {
-        if (!mercyActive()) {
+        if (!(mercyActive() || fallActive())) {
             original.call(instance, brightness, matrices);
         }
     }
@@ -167,7 +190,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private GpuBuffer acropolis$applyStars(GpuBuffer original) {
-        return mercyActive() ? customStarVertexBuffer : original;
+        return (mercyActive() || fallActive()) ? customStarVertexBuffer : original;
     }
 
     @WrapOperation(
@@ -178,16 +201,12 @@ public abstract class SkyRenderingMixin {
             )
     )
     private Matrix4f acropolis$applyMatrixRotations(Matrix4fStack instance, float x, float y, float z, Operation<Matrix4f> original) {
-        if (mercyActive()) {
-            instance.rotate(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks()) / 4));
-            return original.call(instance, x + 60, y, z + 60);
-        }
-        return original.call(instance, x, y, z);
+        return SkyRenderingLoader.applySolarRotations(instance, x, y, z, original);
     }
 
     @WrapMethod(method = "renderMoon")
     private void acropolis$haltMoonIfActive(MoonPhase moonPhase, float alpha, MatrixStack matrices, Operation<Void> original) {
-        if (!mercyActive()) {
+        if (!(mercyActive() || fallActive())) {
             original.call(moonPhase, alpha, matrices);
         }
     }
@@ -196,20 +215,67 @@ public abstract class SkyRenderingMixin {
     private void fuckassMojang(CallbackInfo ci) {
         customSunVertexBuffer.close();
         customStarVertexBuffer.close();
+        customTopSkyBuffer.close();
     }
 
     @Inject(method = "updateRenderState", at = @At(value = "TAIL"))
     private void acropolis$applyTweaks(ClientWorld world, float tickProgress, Camera camera, SkyRenderState state, CallbackInfo ci) {
-        if (mercyActive()) {
-            state.sunAngle = 6000;
-            state.skyColor = AcropolisConfig.epilepsyMode ? 0xFF693a7f : 0xFF8c2197;
-        }
+        SkyRenderingLoader.tweakRenderState(world, tickProgress, camera, state, ci);
     }
 
     @WrapOperation(method = "renderGlowingSky", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
     private void acropolis$removeSunrise(RenderPass instance, int i, GpuBuffer gpuBuffer, Operation<Void> original) {
-        if (!mercyActive()) {
+        if (!(mercyActive() || fallActive())) {
             original.call(instance, i, gpuBuffer);
+        }
+    }
+
+//    @WrapMethod(method = "renderTopSky")
+//    private void redirect(int i, Operation<Void> original) {
+//        createFathomedSky(i);
+//    }
+
+    @Unique
+    private void createFathomedSky(int i) {
+        GpuBufferSlice gpuBufferSlice = RenderSystem.getDynamicUniforms()
+                .write(RenderSystem.getModelViewMatrix(), ColorHelper.toRgbaVector(i), new Vector3f(), new Matrix4f());
+        GpuTextureView gpuTextureView = MinecraftClient.getInstance().getFramebuffer().getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = MinecraftClient.getInstance().getFramebuffer().getDepthAttachmentView();
+
+        TextureManager manager = MinecraftClient.getInstance().getTextureManager();
+
+        AbstractTexture sampler0 = manager.getTexture(Identifier.ofVanilla("textures/environment/end_sky.png"));
+        AbstractTexture sampler1 = manager.getTexture(Identifier.ofVanilla("textures/entity/end_portal.png"));
+
+        RenderSystem.ShapeIndexBuffer quadIndices = RenderSystem.getSequentialBuffer(VertexFormat.DrawMode.QUADS);
+        GpuBuffer indexBuffer = quadIndices.getIndexBuffer(6);
+
+        try (RenderPass renderPass = RenderSystem.getDevice()
+                .createCommandEncoder()
+                .createRenderPass(() -> "Sky disc", gpuTextureView, OptionalInt.empty(), gpuTextureView2, OptionalDouble.empty())) {
+
+            renderPass.setPipeline(RenderPipelines.END_PORTAL);
+            RenderSystem.bindDefaultUniforms(renderPass);
+            renderPass.setUniform("DynamicTransforms", gpuBufferSlice);
+
+            renderPass.bindTexture(
+                    "Sampler0",
+                    sampler0.getGlTextureView(),
+                    sampler0.getSampler()
+            );
+
+            renderPass.bindTexture(
+                    "Sampler1",
+                    sampler1.getGlTextureView(),
+                    sampler1.getSampler()
+            );
+
+            renderPass.setVertexBuffer(0, this.customTopSkyBuffer);
+
+            renderPass.setIndexBuffer(indexBuffer, quadIndices.getIndexType());
+            renderPass.drawIndexed(0, 0, 6, 1);
+
+
         }
     }
 }

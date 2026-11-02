@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -15,6 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
 import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
@@ -28,6 +30,8 @@ import java.util.Random;
  * @author Chemthunder
  */
 public class FatalOmenItem extends Item {
+    public static final int REQUIRED_AMNT = 3;
+
     public FatalOmenItem(Settings settings) {
         super(settings);
     }
@@ -59,6 +63,26 @@ public class FatalOmenItem extends Item {
         return super.use(world, user, hand);
     }
 
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        ItemStack stack = context.getStack();
+
+        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+
+        if (context.getPlayer() != null) {
+            if (omen != null) {
+                if (context.getPlayer().isSneaking()) {
+                    SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
+
+                    fall.setPos(context.getHitPos());
+                    fall.setActive(true);
+                    fall.setSunscale(0);
+                }
+            }
+        }
+
+        return super.useOnBlock(context);
+    }
+
     public static Entity getRaycastEntity(LivingEntity user) {
         Vec3d pos = user.raycast(3, 0, true).getPos();
         return user.getEntityWorld().getClosestPlayer(pos.x, pos.y, pos.z, 3, (entity -> entity != user));
@@ -78,6 +102,7 @@ public class FatalOmenItem extends Item {
                 if (entity == null) {
                     haltUsage(stack, user, true);
                 }
+
                 if (entity instanceof PlayerEntity target) {
                     Random random = new Random();
                     float bound = target.getWidth();
@@ -129,7 +154,7 @@ public class FatalOmenItem extends Item {
                         OmenComponent postOmen = stack.get(AcropolisComponentTypes.OMEN);
 
                         if (postOmen != null) {
-                            if (postOmen.containedNames().size() >= 24) {
+                            if (postOmen.containedNames().size() >= REQUIRED_AMNT) {
                                 stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
                                         postOmen.containedNames(),
                                         postOmen.closed(),

@@ -20,7 +20,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
-import org.chemthunder.acropolis.core.cca.entity.PlayerDataComponent;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.index.AcropolisItems;
 import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
@@ -176,9 +175,6 @@ public class CelestialGrimoireItem extends Item {
             }
 
             case TRUSTSELF: {
-                PlayerDataComponent data = PlayerDataComponent.KEY.get(player);
-
-                data.setTrusted(!data.isTrusted());
 
                 if (player instanceof ServerPlayerEntity serverPlayer) {
                     MinecraftServer server = world.getServer();

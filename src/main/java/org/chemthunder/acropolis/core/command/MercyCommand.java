@@ -58,7 +58,7 @@ public class MercyCommand implements CommandRegistrationCallback {
 
                                 SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
 
-                                ex.createBox(pos);
+                                ex.createBox(pos, player);
                             }
 
                             return 1;

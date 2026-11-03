@@ -24,6 +24,7 @@ import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SkyfallRenderEvent;
 import org.chemthunder.acropolis.core.index.*;
+import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
 import org.chemthunder.acropolis.core.index.client.AcropolisRenderLayers;
 import org.chemthunder.acropolis.core.index.client.AcropolisRenderPipelines;
 import org.chemthunder.acropolis.core.networking.AcropolisNetworking;

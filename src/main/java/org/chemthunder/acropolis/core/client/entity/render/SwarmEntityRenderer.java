@@ -14,7 +14,7 @@ import net.minecraft.util.math.RotationAxis;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.SwarmEntityModel;
 import org.chemthunder.acropolis.core.entity.SwarmEntity;
-import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
 
 /**
  * @author Chemthunder

@@ -1,13 +1,19 @@
 package org.chemthunder.acropolis.core.cca.world;
 
 import net.acoyt.acornlib.api.util.NetworkingUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.Uuids;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
 import org.chemthunder.acropolis.core.networking.s2c.FlashPayload;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -35,7 +41,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     private @Nullable Vec3d pos = null;
     private @Nullable Vec3d boxTarget = null;
 
-    private @Nullable UUID boxEntityUuid = null;
+    private @Nullable UUID boxTargetUUID = null;
 
     public boolean active = false;
     public boolean sunVisible = false;
@@ -91,22 +97,31 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         }
 
         if (boxActive && boxTarget != null) { // permakill box
-            if (boxLerp > 0.0F) {
-                boxLerp -= 0.01F;
-                if (boxLerp <= 0) {
-                    boxActive = false;
-                    boxTarget = null;
-                    NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFffffff, EasingType.LINEAR));
-                    sync();
-                }
-            }
+                if (boxLerp > 0.0F) {
+                    boxLerp -= 0.01F;
+                    if (boxLerp <= 0) {
+                        boxActive = false;
+                        boxTarget = null;
+                        NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFffffff, EasingType.LINEAR));
+                        if (boxTargetUUID != null) {
+                            PlayerEntity target = world.getPlayerByUuid(boxTargetUUID);
 
-            if (boxLerpUp < 1.0F) {
-                boxLerpUp += 0.01F;
-                if (boxLerpUp >= 1.0F) {
-                    sync();
+                            if (target != null) {
+                                if (world instanceof ServerWorld serverWorld) {
+                                    target.damage(serverWorld, target.getDamageSources().create(AcropolisDamageTypes.REPURPOSE), Float.MAX_VALUE);
+                                }
+                            }
+                        }
+                        sync();
+                    }
                 }
-            }
+
+                if (boxLerpUp < 1.0F) {
+                    boxLerpUp += 0.01F;
+                    if (boxLerpUp >= 1.0F) {
+                        sync();
+                    }
+                }
         }
     }
 
@@ -117,7 +132,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     public void readData(ReadView readView) {
         pos = readView.read("Pos", Vec3d.CODEC).orElse(null);
         boxTarget = readView.read("BoxTarget", Vec3d.CODEC).orElse(null);
-        /*boxEntityUuid = readView.read("BoxEntityUUID", Codecs.UUI)*/
+        boxTargetUUID = readView.read("BoxTargetUUID", Uuids.CODEC).orElse(null);
 
         active = readView.getBoolean("Active", false);
         sunVisible = readView.getBoolean("SunVisible", false);
@@ -176,11 +191,15 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         sync();
     }
 
-    public void createBox(Vec3d target) {
+    public void createBox(Vec3d target, Entity entity) {
         boxTarget = target;
         boxLerp = 1.0F;
         boxLerpUp = 0.0F;
         boxActive = true;
+
+        if (entity instanceof LivingEntity living) {
+            boxTargetUUID = living.getUuid();
+        }
         sync();
     }
 

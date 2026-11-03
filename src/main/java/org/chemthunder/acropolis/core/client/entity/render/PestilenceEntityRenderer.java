@@ -10,7 +10,7 @@ import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
 import org.chemthunder.acropolis.core.client.entity.state.PestilenceEntityRenderState;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
-import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
 
 /**
  * @author Chemthunder

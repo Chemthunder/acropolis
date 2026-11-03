@@ -15,7 +15,7 @@ import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.client.api.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
-import org.chemthunder.acropolis.core.index.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
 
 /**
  * @author Chemthunder

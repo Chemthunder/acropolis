@@ -71,7 +71,7 @@ public class FatalOmenItem extends Item {
 
         if (context.getPlayer() != null) {
             if (omen != null) {
-                if (context.getPlayer().isSneaking()) {
+                if (context.getPlayer().isSneaking() && omen.finalized()) {
                     SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
 
                     fall.activate();
@@ -163,6 +163,10 @@ public class FatalOmenItem extends Item {
                                         postOmen.closed(),
                                         true
                                 ));
+
+                                SkyfallComponent fall = SkyfallComponent.KEY.get(world);
+
+                                fall.createBox(target.getEntityPos(), target);
                             }
                         }
                     }

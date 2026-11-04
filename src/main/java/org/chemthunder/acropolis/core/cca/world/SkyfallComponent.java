@@ -151,6 +151,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     public void writeData(WriteView writeView) {
         if (pos != null) writeView.put("Pos", Vec3d.CODEC, pos);
         if (boxTarget != null) writeView.put("BoxTarget", Vec3d.CODEC, boxTarget);
+        if (boxTargetUUID != null) writeView.put("BoxTargetUUID", Uuids.CODEC, boxTargetUUID);
 
         writeView.putBoolean("Active", active);
         writeView.putBoolean("SunVisible", sunVisible);

@@ -38,8 +38,14 @@ public class MeteorEntityRenderer extends EntityRenderer<MeteorEntity, MeteorEnt
 
         matrices.push();
 
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((renderState.age + delta) * 2));
-        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((renderState.age + delta) * 2));
+//        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((renderState.age + delta) * 2),
+//                0,
+//                0,
+//                0);
+//        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((renderState.age + delta) * 2),
+//                0,
+//                0,
+//                0);
 
         queue.submitModel(
                 this.model,

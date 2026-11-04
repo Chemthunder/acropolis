@@ -15,6 +15,7 @@ import org.chemthunder.acropolis.core.cca.entity.ImagesComponent;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.client.item.FatalOmenProperty;
+import org.chemthunder.acropolis.core.client.shout.ShoutEvents;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipComponent;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
@@ -75,6 +76,8 @@ public class AcropolisClient implements ClientModInitializer {
         HudElementRegistry.addFirst(Acropolis.id("vignette"), new PurpleVignetteEvents.Render());
         HudElementRegistry.addFirst(Acropolis.id("flash"), new FlashEvents.Render());
         HudElementRegistry.addFirst(Acropolis.id("mercy"), new MercyHudEvents.Render());
+
+        ShoutEvents.init();
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             GameRendererAccessor accessor = (GameRendererAccessor) client.gameRenderer;

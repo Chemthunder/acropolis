@@ -19,7 +19,9 @@ public interface AcropolisNetworking {
         PayloadTypeRegistry.playS2C().register(OpenGrimoirePayload.ID, OpenGrimoirePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(TriggerMercyShadersPayload.ID, TriggerMercyShadersPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(MercyOpeningTextTriggerPayload.ID, MercyOpeningTextTriggerPayload.CODEC);
+
         PayloadTypeRegistry.playS2C().register(FlashPayload.ID, FlashPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(ShoutPayload.ID, ShoutPayload.CODEC);
     }
 
     static void c2s() {
@@ -32,6 +34,8 @@ public interface AcropolisNetworking {
         ClientPlayNetworking.registerGlobalReceiver(OpenGrimoirePayload.ID, new OpenGrimoirePayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(TriggerMercyShadersPayload.ID, new TriggerMercyShadersPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(MercyOpeningTextTriggerPayload.ID, new MercyOpeningTextTriggerPayload.Receiver());
+
         ClientPlayNetworking.registerGlobalReceiver(FlashPayload.ID, new FlashPayload.Receiever());
+        ClientPlayNetworking.registerGlobalReceiver(ShoutPayload.ID, new ShoutPayload.Receiver());
     }
 }

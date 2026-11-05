@@ -15,7 +15,9 @@ import org.chemthunder.acropolis.core.cca.entity.ImagesComponent;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.client.item.FatalOmenProperty;
-import org.chemthunder.acropolis.core.client.shout.ShoutEvents;
+import org.chemthunder.acropolis.core.client.skyfall.PowerHudEvents;
+import org.chemthunder.acropolis.core.client.skyfall.ShoutEvents;
+import org.chemthunder.acropolis.core.client.skyfall.SwoonEvents;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipComponent;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
@@ -25,10 +27,11 @@ import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SkyfallRenderEvent;
 import org.chemthunder.acropolis.core.index.*;
-import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
-import org.chemthunder.acropolis.core.index.client.AcropolisRenderLayers;
-import org.chemthunder.acropolis.core.index.client.AcropolisRenderPipelines;
-import org.chemthunder.acropolis.core.networking.AcropolisNetworking;
+import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.ARenderLayers;
+import org.chemthunder.acropolis.core.index.client.ARenderPipelines;
+import org.chemthunder.acropolis.core.networking.ANetworking;
+import org.chemthunder.acropolis.core.skyfall.AKeybindings;
 import org.chemthunder.acropolis.mixin.client.access.GameRendererAccessor;
 
 import java.util.List;
@@ -43,16 +46,18 @@ public class AcropolisClient implements ClientModInitializer {
     public static final RenderStateDataKey<List<ImagesComponent.Image>> AFTER_IMAGES = RenderStateDataKey.create();
 
     public void onInitializeClient() {
-        AcropolisRenderPipelines.clinit();
-        AcropolisRenderLayers.clinit();
+        ARenderPipelines.clinit();
+        ARenderLayers.clinit();
 
-        AcropolisEntityModelLayers.clinit();
-        AcropolisEntityTypes.clinit();
-        AcropolisBlocks.clinit();
-        AcropolisBlockEntityTypes.clinit();
-        AcropolisParticleTypes.clinit();
+        AEntityModelLayers.clinit();
+        AEntityTypes.clinit();
+        ABlocks.clinit();
+        ABlockEntityTypes.clinit();
+        AParticleTypes.clinit();
 
-        AcropolisNetworking.s2c();
+        ANetworking.s2c();
+
+        AKeybindings.init();
 
         SelectProperties.ID_MAPPER.put(FatalOmenProperty.ID, FatalOmenProperty.TYPE);
 
@@ -78,6 +83,8 @@ public class AcropolisClient implements ClientModInitializer {
         HudElementRegistry.addFirst(Acropolis.id("mercy"), new MercyHudEvents.Render());
 
         ShoutEvents.init();
+        PowerHudEvents.init();
+        SwoonEvents.init();
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             GameRendererAccessor accessor = (GameRendererAccessor) client.gameRenderer;

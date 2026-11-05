@@ -29,6 +29,11 @@
       "acropolis:event/mercy_start"
     ]
   },
+  "event.swoon": {
+    "sounds": [
+      "acropolis:event/swoon"
+    ]
+  },
   "item.rapture_hit": {
     "sounds": [
       "acropolis:item/rapture_hit"

@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
-import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
+import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 
 /**
  * @author Chemthunder
@@ -26,7 +26,7 @@ public class StareDamageEvent implements ServerTickEvents.StartWorldTick  {
                 if (detectionRange.raycast(serverPlayer.getEntityPos(), raycastPos).isPresent()) {
                     if (false) {
                         if (!gaze.isBorder()) {
-                            serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(AcropolisDamageTypes.GAZE), 1.0F);
+                            serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(ADamageTypes.GAZE), 1.0F);
                         }
                     }
                 }

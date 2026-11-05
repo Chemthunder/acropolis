@@ -31,7 +31,7 @@ public record GrimoireEditPayload(int code) implements CustomPayload {
         ClientPlayNetworking.send(new GrimoireEditPayload(code));
     }
 
-    public static class Reciever implements ServerPlayNetworking.PlayPayloadHandler<GrimoireEditPayload> {
+    public static class Receiver implements ServerPlayNetworking.PlayPayloadHandler<GrimoireEditPayload> {
         public void receive(GrimoireEditPayload grimoireEditPayload, ServerPlayNetworking.Context context) {
             PlayerEntity player = context.player();
             World world = player.getEntityWorld();

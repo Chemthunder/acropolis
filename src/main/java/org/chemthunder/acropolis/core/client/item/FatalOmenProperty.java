@@ -9,7 +9,7 @@ import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
 import org.jspecify.annotations.Nullable;
 
@@ -26,7 +26,7 @@ public class FatalOmenProperty implements SelectProperty<String> {
     );
 
     public @Nullable String getValue(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user, int seed, ItemDisplayContext displayContext) {
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (omen != null) {
             if (!omen.finalized()) {

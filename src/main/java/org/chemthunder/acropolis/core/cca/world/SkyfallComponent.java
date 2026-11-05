@@ -8,12 +8,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Uuids;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
+import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.networking.s2c.FlashPayload;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -108,7 +107,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
 
                             if (target != null) {
                                 if (world instanceof ServerWorld serverWorld) {
-                                    target.damage(serverWorld, target.getDamageSources().create(AcropolisDamageTypes.REPURPOSE), Float.MAX_VALUE);
+                                    target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.REPURPOSE), Float.MAX_VALUE);
                                 }
                             }
                         }

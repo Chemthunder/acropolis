@@ -15,7 +15,7 @@ import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.client.api.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
-import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 
 /**
  * @author Chemthunder
@@ -33,7 +33,7 @@ public class GazeRenderEvent implements WorldRenderEvents.EndMain {
         if (world != null) {
             GazeComponent gaze = GazeComponent.KEY.get(world);
 
-            PlaneModel model = new PlaneModel(MinecraftClient.getInstance().getLoadedEntityModels().getModelPart(AcropolisEntityModelLayers.PLANE));
+            PlaneModel model = new PlaneModel(MinecraftClient.getInstance().getLoadedEntityModels().getModelPart(AEntityModelLayers.PLANE));
 
             if (gaze.isPresent() && gaze.getPos() != null) {
                 float x = (float) (gaze.getPos().x - camera.getCameraPos().x);

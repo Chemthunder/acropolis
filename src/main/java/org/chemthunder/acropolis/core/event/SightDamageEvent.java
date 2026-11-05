@@ -6,7 +6,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
-import org.chemthunder.acropolis.core.index.AcropolisDamageTypes;
+import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 
 /**
  * @author Chemthunder
@@ -24,7 +24,7 @@ public class SightDamageEvent implements ServerTickEvents.StartWorldTick {
                     .expand(5, 360, 5);
 
             if (hitbox.contains(serverPlayer.getEntityPos())) {
-                serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(AcropolisDamageTypes.RETRIBUTION), 4.0F);
+                serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(ADamageTypes.RETRIBUTION), 4.0F);
             }
         }
     }

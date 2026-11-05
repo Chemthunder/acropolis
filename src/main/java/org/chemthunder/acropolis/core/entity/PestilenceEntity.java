@@ -22,8 +22,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
-import org.chemthunder.acropolis.core.index.AcropolisItems;
+import org.chemthunder.acropolis.core.index.AEntityTypes;
+import org.chemthunder.acropolis.core.index.AItems;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Random;
@@ -44,7 +44,7 @@ public class PestilenceEntity extends HostileEntity implements Ownable, Targeter
     }
 
     public PestilenceEntity(World world) {
-        super(AcropolisEntityTypes.PESTILENCE, world);
+        super(AEntityTypes.PESTILENCE, world);
         this.moveControl = new FlightMoveControl(this, 90, true);
 
         this.noClip = true;
@@ -66,7 +66,7 @@ public class PestilenceEntity extends HostileEntity implements Ownable, Targeter
         if (this.targeted) {
             PlayerEntity target = this.getEntityWorld().getClosestPlayer(this, 90);
             if (target != null) {
-                if (!target.getInventory().contains(AcropolisItems.TAMPERED_GRIMOIRE.getDefaultStack())) {
+                if (!target.getInventory().contains(AItems.TAMPERED_GRIMOIRE.getDefaultStack())) {
                     this.setTarget(target);
 
                     Random random1 = new Random();

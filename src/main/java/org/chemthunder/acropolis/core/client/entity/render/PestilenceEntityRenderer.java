@@ -10,14 +10,14 @@ import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
 import org.chemthunder.acropolis.core.client.entity.state.PestilenceEntityRenderState;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
-import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 
 /**
  * @author Chemthunder
  */
 public class PestilenceEntityRenderer extends MobEntityRenderer<PestilenceEntity, PestilenceEntityRenderState, PestilenceEntityModel> {
     public PestilenceEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new PestilenceEntityModel(context.getPart(AcropolisEntityModelLayers.PESTILENCE)), 0.0F);
+        super(context, new PestilenceEntityModel(context.getPart(AEntityModelLayers.PESTILENCE)), 0.0F);
     }
 
     public Identifier getTexture(PestilenceEntityRenderState state) {

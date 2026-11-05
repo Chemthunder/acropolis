@@ -1,0 +1,145 @@
+package org.chemthunder.acropolis.core.command;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.cca.entity.AvatarComponent;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.cca.world.MercyComponent;
+import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
+
+import static net.minecraft.server.command.CommandManager.argument;
+import static net.minecraft.server.command.CommandManager.literal;
+
+/**
+ * @author Chemthunder
+ */
+public class ACommand implements CommandRegistrationCallback {
+    public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess access, CommandManager.RegistrationEnvironment environment) {
+        dispatcher.register(literal("acropolis::mercy").requires(ACommand::isViable)
+                .then(literal("toggle").then(argument("state", BoolArgumentType.bool())
+                        .executes(context -> {
+                            boolean bool = BoolArgumentType.getBool(context, "state");
+                            World world = context.getSource().getWorld();
+
+                            MercyComponent.KEY.get(world).setActive(bool);
+                            return 1;
+                        }))
+                )
+                .then(literal("begin")
+                        .executes(context -> {
+                            World world = context.getSource().getWorld();
+
+                            MercyComponent m = MercyComponent.KEY.get(world);
+
+                            m.setCountdown(MercyComponent.COUNTDOWN);
+                            m.setTicks(0);
+                            return 1;
+                        })
+                )
+        );
+
+        dispatcher.register(literal("exordium")
+                .then(literal("box")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                Vec3d pos = new Vec3d(
+                                        player.getBlockPos().toCenterPos().x,
+                                        player.getBlockPos().toCenterPos().y + 1,
+                                        player.getBlockPos().toCenterPos().z
+                                );
+
+                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
+
+                                ex.createBox(pos, player);
+                            }
+
+                            return 1;
+                        }))
+                .then(literal("spawn")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                Vec3d pos = new Vec3d(
+                                        player.getBlockPos().toCenterPos().x,
+                                        player.getBlockPos().toCenterPos().y + 1,
+                                        player.getBlockPos().toCenterPos().z
+                                );
+
+                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
+
+                                ex.setActive(true);
+                                ex.setPos(pos);
+                            }
+
+                            return 1;
+                        })
+                )
+                .then(literal("remove")
+                        .executes(context -> {
+                            PlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                Vec3d pos = new Vec3d(
+                                        player.getBlockPos().toCenterPos().x,
+                                        player.getBlockPos().toCenterPos().y + 1,
+                                        player.getBlockPos().toCenterPos().z
+                                );
+
+                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
+
+                                ex.close();
+                            }
+
+                            return 1;
+                        })
+                )
+                .then(literal("shout")
+                        .then(argument("input", StringArgumentType.string())
+                                .executes(context -> {
+                                    String value = StringArgumentType.getString(context, "input");
+                                    ServerPlayerEntity player = context.getSource().getPlayer();
+
+                                    if (player != null) {
+                                        ServerPlayNetworking.send(
+                                                player,
+                                                new ShoutPayload(value)
+                                        );
+                                    }
+                                    return 1;
+                                })
+                        )
+                )
+        );
+
+        dispatcher.register(literal("ability")
+                .then(literal("enable")
+                        .executes(context -> {
+                            ServerPlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                AvatarComponent avatar = player.getComponent(AvatarComponent.KEY);
+                            }
+                            return 1;
+                        })
+                )
+        );
+    }
+
+    public static boolean isViable(ServerCommandSource source) {
+        return Acropolis.PLAYTEST;
+    }
+}

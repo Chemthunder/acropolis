@@ -26,7 +26,7 @@ public record FlashPayload(int color, EasingType easing) implements CustomPayloa
             FlashPayload::new
     );
 
-    public static class Receiever implements ClientPlayNetworking.PlayPayloadHandler<FlashPayload> {
+    public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<FlashPayload> {
         public void receive(FlashPayload payload, ClientPlayNetworking.Context context) {
             FlashEvents.flash(payload.color, payload.easing);
         }

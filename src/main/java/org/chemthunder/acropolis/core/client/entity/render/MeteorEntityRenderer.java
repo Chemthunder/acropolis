@@ -9,12 +9,11 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.RotationAxis;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.MeteorEntityModel;
 import org.chemthunder.acropolis.core.client.entity.state.MeteorEntityRenderState;
 import org.chemthunder.acropolis.core.entity.MeteorEntity;
-import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 
 /**
  * @author Chemthunder
@@ -24,7 +23,7 @@ public class MeteorEntityRenderer extends EntityRenderer<MeteorEntity, MeteorEnt
 
     public MeteorEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.model = new MeteorEntityModel(context.getEntityModels().getModelPart(AcropolisEntityModelLayers.METEOR));
+        this.model = new MeteorEntityModel(context.getEntityModels().getModelPart(AEntityModelLayers.METEOR));
     }
 
     public MeteorEntityRenderState createRenderState() {

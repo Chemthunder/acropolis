@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
 import org.joml.Matrix3x2fStack;
 
@@ -34,12 +34,8 @@ public class OmenTooltipComponent implements TooltipComponent {
         return (98 + 16);
     }
 
-    public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
-        //
-    }
-
     public void drawText(DrawContext context, TextRenderer textRenderer, int x, int y) {
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
         Random random = new Random();
         Matrix3x2fStack matrices = context.getMatrices();
 

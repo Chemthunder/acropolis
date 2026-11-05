@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -19,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.client.tooltip.OmenTooltipData;
-import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class FatalOmenItem extends Item {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
 
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (omen != null) {
             if (user.isSneaking()) {
@@ -52,7 +51,7 @@ public class FatalOmenItem extends Item {
                             if (!omen.containedNames().contains(entity.getName().getString())) {
                                 if (!user.getItemCooldownManager().isCoolingDown(stack)) {
                                     user.setCurrentHand(hand);
-                                    stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(omen.containedNames(), false, omen.finalized()));
+                                    stack.set(AComponentTypes.OMEN, new OmenComponent(omen.containedNames(), false, omen.finalized()));
                                     return ActionResult.CONSUME;
                                 }
                             }
@@ -67,7 +66,7 @@ public class FatalOmenItem extends Item {
     public ActionResult useOnBlock(ItemUsageContext context) {
         ItemStack stack = context.getStack();
 
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (context.getPlayer() != null) {
             if (omen != null) {
@@ -98,7 +97,7 @@ public class FatalOmenItem extends Item {
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         Entity entity = getRaycastEntity(user);
         int time = this.getMaxUseTime(stack, user) - remainingUseTicks;
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (omen != null) {
             if (user.isSneaking()) {
@@ -148,17 +147,17 @@ public class FatalOmenItem extends Item {
 
                         entries.add(target.getName().getString());
 
-                        stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                        stack.set(AComponentTypes.OMEN, new OmenComponent(
                                 entries,
                                 true,
                                 omen.finalized()
                         ));
 
-                        OmenComponent postOmen = stack.get(AcropolisComponentTypes.OMEN);
+                        OmenComponent postOmen = stack.get(AComponentTypes.OMEN);
 
                         if (postOmen != null) {
                             if (postOmen.containedNames().size() >= REQUIRED_AMNT) {
-                                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                                stack.set(AComponentTypes.OMEN, new OmenComponent(
                                         postOmen.containedNames(),
                                         postOmen.closed(),
                                         true
@@ -179,7 +178,7 @@ public class FatalOmenItem extends Item {
 
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int time = this.getMaxUseTime(stack, user) - remainingUseTicks;
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (omen != null) {
             if (time < 80) {
@@ -190,7 +189,7 @@ public class FatalOmenItem extends Item {
     }
 
     public static void haltUsage(ItemStack stack, LivingEntity user, boolean stop) {
-        OmenComponent omen = stack.get(AcropolisComponentTypes.OMEN);
+        OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (omen != null) {
             if (stop) {
@@ -198,7 +197,7 @@ public class FatalOmenItem extends Item {
             }
             if (user instanceof PlayerEntity playerEntity) {
                 playerEntity.getItemCooldownManager().set(stack, 10);
-                stack.set(AcropolisComponentTypes.OMEN, new OmenComponent(
+                stack.set(AComponentTypes.OMEN, new OmenComponent(
                         omen.containedNames(),
                         true,
                         omen.finalized()
@@ -210,9 +209,9 @@ public class FatalOmenItem extends Item {
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
         TooltipDisplayComponent display = stack.getOrDefault(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT);
 
-        return !display.shouldDisplay(AcropolisComponentTypes.OMEN)
+        return !display.shouldDisplay(AComponentTypes.OMEN)
                 ? Optional.empty()
-                : Optional.of(AcropolisComponentTypes.OMEN).map(component -> new OmenTooltipData(stack)
+                : Optional.of(AComponentTypes.OMEN).map(component -> new OmenTooltipData(stack)
         );
     }
 

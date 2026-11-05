@@ -14,7 +14,7 @@ import net.minecraft.util.math.RotationAxis;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.SwarmEntityModel;
 import org.chemthunder.acropolis.core.entity.SwarmEntity;
-import org.chemthunder.acropolis.core.index.client.AcropolisEntityModelLayers;
+import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 
 /**
  * @author Chemthunder
@@ -25,8 +25,8 @@ public class SwarmEntityRenderer extends EmptyEntityRenderer<SwarmEntity> {
 
     public SwarmEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.firstPlane = new SwarmEntityModel(context.getPart(AcropolisEntityModelLayers.SWARM));
-        this.secondPlane = new SwarmEntityModel(context.getPart(AcropolisEntityModelLayers.SWARM));
+        this.firstPlane = new SwarmEntityModel(context.getPart(AEntityModelLayers.SWARM));
+        this.secondPlane = new SwarmEntityModel(context.getPart(AEntityModelLayers.SWARM));
     }
 
     public void render(EntityRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {

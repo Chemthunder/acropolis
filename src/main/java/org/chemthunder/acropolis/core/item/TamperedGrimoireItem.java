@@ -19,8 +19,8 @@ import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.entity.SwarmEntity;
-import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
-import org.chemthunder.acropolis.core.index.AcropolisItems;
+import org.chemthunder.acropolis.core.index.AEntityTypes;
+import org.chemthunder.acropolis.core.index.AItems;
 
 import java.util.List;
 import java.util.Random;
@@ -42,7 +42,7 @@ public class TamperedGrimoireItem extends Item {
         List<PestilenceEntity> gremlins = world.getEntitiesByClass(PestilenceEntity.class, new Box(user.getBlockPos()).expand(world.getWorldBorder().getSize() / 6), entity -> true);
 
         if (gremlins.isEmpty()) {
-            SwarmEntity entity = new SwarmEntity(AcropolisEntityTypes.SWARM, world);
+            SwarmEntity entity = new SwarmEntity(AEntityTypes.SWARM, world);
 
             Vec3d pos = user.getBlockPos().toCenterPos();
 
@@ -89,7 +89,7 @@ public class TamperedGrimoireItem extends Item {
                 ItemStack stack = player.getStackInHand(context.getHand());
 
                 stack.decrement(1);
-                player.equipStack(context.getHand().getEquipmentSlot(), new ItemStack(AcropolisItems.CELESTIAL_GRIMOIRE));
+                player.equipStack(context.getHand().getEquipmentSlot(), new ItemStack(AItems.CELESTIAL_GRIMOIRE));
             }
         }
         return super.useOnBlock(context);
@@ -97,7 +97,7 @@ public class TamperedGrimoireItem extends Item {
 
     public static class Tooltip implements BetterItemTooltipEvent {
         public void getTooltip(ItemStack stack, TooltipContext tooltipContext, TooltipType tooltipFlag, Consumer<Text> lines) {
-            if (stack.isOf(AcropolisItems.TAMPERED_GRIMOIRE)) {
+            if (stack.isOf(AItems.TAMPERED_GRIMOIRE)) {
                 List<String> list = List.of(
                         "morality.",
                         "impotence.",

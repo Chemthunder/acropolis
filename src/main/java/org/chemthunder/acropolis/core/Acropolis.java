@@ -9,13 +9,13 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import org.chemthunder.acropolis.core.command.MercyCommand;
+import org.chemthunder.acropolis.core.command.ACommand;
 import org.chemthunder.acropolis.core.event.SightDamageEvent;
 import org.chemthunder.acropolis.core.event.StareDamageEvent;
 import org.chemthunder.acropolis.core.index.*;
 import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
 import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
-import org.chemthunder.acropolis.core.networking.AcropolisNetworking;
+import org.chemthunder.acropolis.core.networking.ANetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,16 +26,18 @@ public class Acropolis implements ModInitializer {
     public static final boolean PLAYTEST = false;
 
     public void onInitialize() {
-        AcropolisNetworking.register();
-        AcropolisNetworking.c2s();
+        ANetworking.register();
+        ANetworking.c2s();
 
-        AcropolisEntityTypes.init();
-        AcropolisItems.init();
-        AcropolisComponentTypes.init();
-        AcropolisSoundEvents.init();
-        AcropolisBlocks.init();
-        AcropolisBlockEntityTypes.init();
-        AcropolisParticleTypes.init();
+        AEntityTypes.init();
+        AItems.init();
+        AComponentTypes.init();
+        ASoundEvents.init();
+        ABlocks.init();
+        ABlockEntityTypes.init();
+        AParticleTypes.init();
+        ARegistries.init();
+        APowerTypes.init();
 
         ServerTickEvents.START_WORLD_TICK.register(new StareDamageEvent());
         ServerTickEvents.START_WORLD_TICK.register(new SightDamageEvent());
@@ -43,7 +45,7 @@ public class Acropolis implements ModInitializer {
         BetterItemTooltipEvent.EVENT.register(new CelestialGrimoireItem.Tooltip());
         BetterItemTooltipEvent.EVENT.register(new TamperedGrimoireItem.Tooltip());
 
-        CommandRegistrationCallback.EVENT.register(new MercyCommand());
+        CommandRegistrationCallback.EVENT.register(new ACommand());
 
         ALib.registerModData(MOD_ID,
             new ALib.ModMenuData(

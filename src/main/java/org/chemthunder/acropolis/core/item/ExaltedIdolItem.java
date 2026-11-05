@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.api.EntityAssembler;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
-import org.chemthunder.acropolis.core.index.AcropolisSoundEvents;
+import org.chemthunder.acropolis.core.index.ASoundEvents;
 
 /**
  * @author Chemthunder
@@ -28,7 +28,7 @@ public class ExaltedIdolItem extends Item {
         BlockPos blockPos = entity.getBlockPos();
 
         if (!mercy.isActive()) {
-            world.playSound(null, blockPos, AcropolisSoundEvents.MERCY_START, SoundCategory.MASTER, 1, 1);
+            world.playSound(null, blockPos, ASoundEvents.MERCY_START, SoundCategory.MASTER, 1, 1);
 
             EntityAssembler.create(world, EntityType.LIGHTNING_BOLT)
                     .build((lightningEntity, world1) -> {

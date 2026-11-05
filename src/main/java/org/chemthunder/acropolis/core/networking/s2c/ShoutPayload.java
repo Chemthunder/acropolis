@@ -6,12 +6,16 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.client.shout.ShoutEvents;
+import org.chemthunder.acropolis.core.client.skyfall.ShoutEvents;
 
 /**
  * @author Chemthunder
  */
-public record ShoutPayload(String text2Shout) implements CustomPayload {
+public record ShoutPayload(String text2Shout, int color) implements CustomPayload {
+    public ShoutPayload(String text2Shout) {
+        this(text2Shout, 0xFFffffff);
+    }
+
     public static final Id<ShoutPayload> ID = new Id<>(Acropolis.id("shout"));
 
     public Id<? extends CustomPayload> getId() {
@@ -20,12 +24,13 @@ public record ShoutPayload(String text2Shout) implements CustomPayload {
 
     public static final PacketCodec<ByteBuf, ShoutPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.STRING, ShoutPayload::text2Shout,
+            PacketCodecs.INTEGER, ShoutPayload::color,
             ShoutPayload::new
     );
 
     public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<ShoutPayload> {
         public void receive(ShoutPayload payload, ClientPlayNetworking.Context context) {
-            context.client().execute(() -> ShoutEvents.send(payload.text2Shout));
+            context.client().execute(() -> ShoutEvents.send(payload.text2Shout, payload.color));
         }
     }
 }

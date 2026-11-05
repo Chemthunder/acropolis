@@ -10,7 +10,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
-import org.chemthunder.acropolis.core.index.AcropolisComponentTypes;
+import org.chemthunder.acropolis.core.index.AComponentTypes;
 
 /**
  * @author Chemthunder
@@ -24,7 +24,7 @@ public class ExtolledSimulacrumItem extends Item {
         SightComponent sight = SightComponent.KEY.get(world);
         ItemStack stack = user.getStackInHand(hand);
 
-        if (sight.getPos() == null && stack.getOrDefault(AcropolisComponentTypes.CHARGES, 0) > 0) {
+        if (sight.getPos() == null && stack.getOrDefault(AComponentTypes.CHARGES, 0) > 0) {
             HitResult raycast = user.raycast(250, 0.1F, false);
             Vec3d tail = raycast.getPos();
 
@@ -33,7 +33,7 @@ public class ExtolledSimulacrumItem extends Item {
             sight.setPos(tail);
             sight.setScale(0.0F);
 
-            stack.set(AcropolisComponentTypes.CHARGES, stack.getOrDefault(AcropolisComponentTypes.CHARGES, 0) - 1);
+            stack.set(AComponentTypes.CHARGES, stack.getOrDefault(AComponentTypes.CHARGES, 0) - 1);
         }
         return super.use(world, user, hand);
     }
@@ -43,7 +43,7 @@ public class ExtolledSimulacrumItem extends Item {
     }
 
     public int getItemBarStep(ItemStack stack) {
-        return Math.clamp(Math.round((float) stack.getOrDefault(AcropolisComponentTypes.CHARGES, 3) / 3 * 13), 0, 13);
+        return Math.clamp(Math.round((float) stack.getOrDefault(AComponentTypes.CHARGES, 3) / 3 * 13), 0, 13);
     }
 
     public int getItemBarColor(ItemStack stack) {

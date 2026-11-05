@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.entity.SpellshotEntity;
-import org.chemthunder.acropolis.core.index.AcropolisEntityTypes;
+import org.chemthunder.acropolis.core.index.AEntityTypes;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
@@ -51,7 +51,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
                     if (closest != null) {
                         for (int i = 0; i < new Random().nextInt(3, 6); i++) {
                             Random random = new Random();
-                            SpellshotEntity shot = new SpellshotEntity(AcropolisEntityTypes.SPELL_SHOT, world);
+                            SpellshotEntity shot = new SpellshotEntity(AEntityTypes.SPELL_SHOT, world);
 
                             shot.setPos(pos.x, pos.y + 50, pos.z);
                             shot.setVelocity(random.nextFloat(-1.0F, 1.0F), 1, random.nextFloat(-1.0F, 1.0F));

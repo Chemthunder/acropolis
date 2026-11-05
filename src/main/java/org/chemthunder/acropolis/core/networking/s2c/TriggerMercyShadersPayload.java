@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.event.client.FlashEvents;
 import org.chemthunder.acropolis.mixin.client.access.GameRendererAccessor;
@@ -23,7 +24,7 @@ public record TriggerMercyShadersPayload() implements CustomPayload {
     public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<TriggerMercyShadersPayload> {
         public void receive(TriggerMercyShadersPayload payload, ClientPlayNetworking.Context context) {
             context.client().execute(() -> {
-                FlashEvents.Ticker.opacity = 1.0F;
+                FlashEvents.flash(0x000000, EasingType.OUT_SINE);
 
                 GameRendererAccessor accessor = (GameRendererAccessor) context.client().gameRenderer;
 

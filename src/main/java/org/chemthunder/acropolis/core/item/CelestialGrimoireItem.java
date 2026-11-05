@@ -21,7 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
-import org.chemthunder.acropolis.core.index.AcropolisItems;
+import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
 
 import java.util.function.Consumer;
@@ -193,7 +193,7 @@ public class CelestialGrimoireItem extends Item {
         public void getTooltip(ItemStack itemStack, TooltipContext tooltipContext, TooltipType tooltipType, Consumer<Text> consumer) {
             int color = 0xFF9740aa;
 
-            if (itemStack.isOf(AcropolisItems.CELESTIAL_GRIMOIRE)) {
+            if (itemStack.isOf(AItems.CELESTIAL_GRIMOIRE)) {
                 if (MinecraftClient.getInstance().isAltPressed()) {
                     consumer.accept(Text.empty()
                             .append(Text.literal("[SNEAK]").formatted(Formatting.YELLOW))

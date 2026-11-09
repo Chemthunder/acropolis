@@ -4,8 +4,8 @@ import net.acoyt.acornlib.api.util.DataUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryWrapper;
-import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.index.AItems;
+import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 
 import java.util.concurrent.CompletableFuture;
 

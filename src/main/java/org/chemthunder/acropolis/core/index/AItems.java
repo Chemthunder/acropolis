@@ -5,7 +5,10 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.item.*;
+import org.chemthunder.acropolis.core.item.CelestialGrimoireItem;
+import org.chemthunder.acropolis.core.item.ExaltedIdolItem;
+import org.chemthunder.acropolis.core.item.FatalOmenItem;
+import org.chemthunder.acropolis.core.item.TamperedGrimoireItem;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
 import org.chemthunder.acropolis.core.item.skyfall.RaptureItem;
 

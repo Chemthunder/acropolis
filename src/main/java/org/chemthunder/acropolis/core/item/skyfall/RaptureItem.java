@@ -3,21 +3,12 @@ package org.chemthunder.acropolis.core.item.skyfall;
 import net.acoyt.acornlib.api.item.HitEffectsItem;
 import net.acoyt.acornlib.api.util.ParticleUtils;
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
-import org.chemthunder.acropolis.core.index.AComponentTypes;
-import org.chemthunder.acropolis.core.utilities.Skyfall;
-import org.jspecify.annotations.Nullable;
 
 /**
  * @author Chemthunder

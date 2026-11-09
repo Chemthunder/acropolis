@@ -9,8 +9,8 @@ import org.chemthunder.acropolis.datagen.providers.client.AcropolisLanguageProvi
 import org.chemthunder.acropolis.datagen.providers.client.AcropolisModelProvider;
 import org.chemthunder.acropolis.datagen.providers.client.AcropolisParticleProvider;
 import org.chemthunder.acropolis.datagen.providers.client.AcropolisSoundsProvider;
-import org.chemthunder.acropolis.datagen.providers.server.tag.AcropolisDamageTypeTagProvider;
 import org.chemthunder.acropolis.datagen.providers.server.AcropolisDynamicRegistryProvider;
+import org.chemthunder.acropolis.datagen.providers.server.tag.AcropolisDamageTypeTagProvider;
 import org.chemthunder.acropolis.datagen.providers.server.tag.AcropolisItemTagProvider;
 
 public class AcropolisDataGenerator implements DataGeneratorEntrypoint {

@@ -12,7 +12,6 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.cca.world.SightComponent;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.client.api.Nitro;
 

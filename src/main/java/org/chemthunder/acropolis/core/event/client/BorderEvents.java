@@ -16,7 +16,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.AcropolisClient;
 import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;

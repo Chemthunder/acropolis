@@ -1,6 +1,7 @@
 package org.chemthunder.acropolis.core.cca.world;
 
 import net.acoyt.acornlib.api.util.NetworkingUtils;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -61,7 +62,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     }
 
     public void tick() {
-        if (active) { // FINALE
+        if (active && FabricLoader.getInstance().isDevelopmentEnvironment()) { // FINALE
             if (timeUntilSun > 0) {
                 timeUntilSun--;
                 if (timeUntilSun == 0) {
@@ -95,32 +96,32 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
             }
         }
 
-        if (boxActive && boxTarget != null) { // permakill box
-                if (boxLerp > 0.0F) {
-                    boxLerp -= 0.01F;
-                    if (boxLerp <= 0) {
-                        boxActive = false;
-                        boxTarget = null;
-                        NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFffffff, EasingType.LINEAR));
-                        if (boxTargetUUID != null) {
-                            PlayerEntity target = world.getPlayerByUuid(boxTargetUUID);
+        if (FabricLoader.getInstance().isDevelopmentEnvironment() && (boxActive && boxTarget != null)) { // permakill box
+            if (boxLerp > 0.0F) {
+                boxLerp -= 0.01F;
+                if (boxLerp <= 0) {
+                    boxActive = false;
+                    boxTarget = null;
+                    NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFffffff, EasingType.LINEAR));
+                    if (boxTargetUUID != null) {
+                        PlayerEntity target = world.getPlayerByUuid(boxTargetUUID);
 
-                            if (target != null) {
-                                if (world instanceof ServerWorld serverWorld) {
-                                    target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.REPURPOSE), Float.MAX_VALUE);
-                                }
+                        if (target != null) {
+                            if (world instanceof ServerWorld serverWorld) {
+                                target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.REPURPOSE), Float.MAX_VALUE);
                             }
                         }
-                        sync();
                     }
+                    sync();
                 }
+            }
 
-                if (boxLerpUp < 1.0F) {
-                    boxLerpUp += 0.01F;
-                    if (boxLerpUp >= 1.0F) {
-                        sync();
-                    }
+            if (boxLerpUp < 1.0F) {
+                boxLerpUp += 0.01F;
+                if (boxLerpUp >= 1.0F) {
+                    sync();
                 }
+            }
         }
     }
 

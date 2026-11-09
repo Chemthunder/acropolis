@@ -1,15 +1,14 @@
 package org.chemthunder.acropolis.core.cca;
 
-import net.minecraft.client.network.ClientPlayerEntity;
-import org.chemthunder.acropolis.core.cca.entity.AvatarComponent;
-import org.chemthunder.acropolis.core.cca.entity.ImagesComponent;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import net.minecraft.entity.LivingEntity;
+import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
+import org.chemthunder.acropolis.core.cca.entity.TargetComponent;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.cca.world.SightComponent;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
-import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
 import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
 
@@ -25,7 +24,7 @@ public class AcropolisCCA implements WorldComponentInitializer, EntityComponentI
     }
 
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry module) {
-        module.registerFor(ClientPlayerEntity.class, ImagesComponent.KEY, ImagesComponent::new);
-        module.registerForPlayers(AvatarComponent.KEY, AvatarComponent::new, RespawnCopyStrategy.ALWAYS_COPY);
+        module.registerFor(LivingEntity.class, TargetComponent.KEY, TargetComponent::new);
+        module.registerFor(LivingEntity.class, BorderComponent.KEY, BorderComponent::new);
     }
 }

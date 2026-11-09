@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
@@ -15,16 +17,17 @@ import org.chemthunder.acropolis.core.AcropolisConfig;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.client.api.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
+import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
+import org.joml.Vector3f;
 
 /**
  * @author Chemthunder
  */
 public class GazeRenderEvent implements WorldRenderEvents.EndMain {
     public void endMain(WorldRenderContext worldRenderContext) {
-        MatrixStack stack = worldRenderContext.matrices();
+        MatrixStack matrix = worldRenderContext.matrices();
         VertexConsumerProvider consumers = worldRenderContext.consumers();
-        OrderedRenderCommandQueue queue = worldRenderContext.commandQueue();
         float delta = MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks();
 
         Camera camera = worldRenderContext.gameRenderer().getCamera();
@@ -36,111 +39,79 @@ public class GazeRenderEvent implements WorldRenderEvents.EndMain {
             PlaneModel model = new PlaneModel(MinecraftClient.getInstance().getLoadedEntityModels().getModelPart(AEntityModelLayers.PLANE));
 
             if (gaze.isPresent() && gaze.getPos() != null) {
-                float x = (float) (gaze.getPos().x - camera.getCameraPos().x);
-                float y = (float) (gaze.getPos().y - camera.getCameraPos().y);
-                float z = (float) (gaze.getPos().z - camera.getCameraPos().z);
+                Vector3f pos = new Vector3f(
+                        (float) (gaze.getPos().x - camera.getCameraPos().x),
+                        (float) (gaze.getPos().y - camera.getCameraPos().y),
+                        (float) (gaze.getPos().z - camera.getCameraPos().z)
+                );
 
-                if (gaze.isBorder()) {
-                    if (AcropolisConfig.epilepsyMode) {
-                        {
-                            stack.push();
+                //
+                matrix.push();
 
-                            stack.translate(x, y - 120, z);
+                matrix.translate(pos.x, pos.y + 1.5F, pos.z);
 
-                            Nitro.skyBeamAtPos(
-                                    stack,
-                                    consumers.getBuffer(RenderLayers.entityTranslucent(Acropolis.id("textures/entity/border_epilepsy.png"))),
-                                    0,
-                                    0,
-                                    0,
-                                    GazeComponent.RANGE,
-                                    900,
-                                    (AcropolisClient.AGE + delta) / 32
-                            );
+                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + delta)));
 
-                            stack.pop();
-                        }
-                    } else {
-                        {
-                            stack.push();
+                ItemRenderState grimoireState = new ItemRenderState();
+                MinecraftClient.getInstance().getItemModelManager().clearAndUpdate(
+                        grimoireState,
+                        AItems.CELESTIAL_GRIMOIRE.getDefaultStack(),
+                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
+                        world,
+                        null,
+                        0
+                );
 
-                            stack.translate(x, y - 120, z);
+                grimoireState.render(
+                        matrix,
+                        worldRenderContext.commandQueue(),
+                        LightmapTextureManager.MAX_LIGHT_COORDINATE,
+                        OverlayTexture.DEFAULT_UV,
+                        0x00
+                );
 
-                            Nitro.skyBeamAtPos(
-                                    stack,
-                                    consumers.getBuffer(RenderLayers.entityTranslucent(Acropolis.id("textures/entity/border.png"))),
-                                    0,
-                                    0,
-                                    0,
-                                    GazeComponent.RANGE,
-                                    900,
-                                    (AcropolisClient.AGE + delta) / 4
-                            );
+                matrix.pop();
 
-                            stack.pop();
-                        }
-                    }
-                }
+                //
+                matrix.push();
 
-                {
-                    stack.push();
+                matrix.translate(pos.x, pos.y + 50, pos.z + 0.5F);
 
-                    stack.translate(x, y + 1.5F, z);
+                matrix.multiply(camera.getRotation());
+                matrix.scale(25, 25, 25);
 
-                    stack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(90));
+                matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
 
-                    stack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((AcropolisClient.AGE + delta)));
+                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + delta) / 4));
 
-                    model.render(
-                            stack,
-                            consumers.getBuffer(RenderLayers.itemEntityTranslucentCull(Acropolis.id("textures/item/celestial_grimoire.png"))),
-                            LightmapTextureManager.MAX_LIGHT_COORDINATE,
-                            OverlayTexture.DEFAULT_UV
-                    );
+                model.render(
+                        matrix,
+                        consumers.getBuffer(RenderLayers.entityTranslucentEmissive(Acropolis.id("textures/entity/gaze.png"))),
+                        LightmapTextureManager.MAX_LIGHT_COORDINATE,
+                        OverlayTexture.DEFAULT_UV,
+                        ColorHelper.withAlpha(0.2F, gaze.isAngered() ? 0xff004f : 0xffffff)
+                );
 
-                    stack.pop();
-                }
+                matrix.pop();
 
-                {
-                    stack.push();
+                //
+                matrix.push();
 
-                    stack.translate(x, y + 50, z + 0.5F);
+                matrix.translate(pos.x, pos.y + 50, pos.z);
 
-                    stack.multiply(camera.getRotation());
-                    stack.scale(25, 25, 25);
+                matrix.multiply(camera.getRotation());
+                matrix.scale(30, 30, 30);
+                matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
 
-                    stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+                model.render(
+                        matrix,
+                        consumers.getBuffer(RenderLayers.entityTranslucent(Acropolis.id("textures/entity/gaze.png"))),
+                        LightmapTextureManager.MAX_LIGHT_COORDINATE,
+                        OverlayTexture.DEFAULT_UV,
+                        gaze.isAngered() ? 0xFFff004f : 0xFFffffff
+                );
 
-                    stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + delta) / 4));
-
-                    model.render(
-                            stack,
-                            consumers.getBuffer(RenderLayers.entityTranslucentEmissive(Acropolis.id("textures/entity/gaze.png"))),
-                            LightmapTextureManager.MAX_LIGHT_COORDINATE,
-                            OverlayTexture.DEFAULT_UV,
-                            ColorHelper.withAlpha(0.2F, gaze.isAngered() ? 0xff004f : 0xffffff)
-                    );
-
-                    stack.pop();
-
-                    stack.push();
-
-                    stack.translate(x, y + 50, z);
-
-                    stack.multiply(camera.getRotation());
-                    stack.scale(30, 30, 30);
-                    stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
-
-                    model.render(
-                            stack,
-                            consumers.getBuffer(RenderLayers.entityTranslucent(Acropolis.id("textures/entity/gaze.png"))),
-                            LightmapTextureManager.MAX_LIGHT_COORDINATE,
-                            OverlayTexture.DEFAULT_UV,
-                            gaze.isAngered() ? 0xFFff004f : 0xFFffffff
-                    );
-
-                    stack.pop();
-                }
+                matrix.pop();
             }
         }
     }

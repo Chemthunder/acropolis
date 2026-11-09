@@ -6,8 +6,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
-import org.chemthunder.acropolis.core.networking.c2s.IteratePowerPayload;
-import org.chemthunder.acropolis.core.networking.c2s.UsePowerPayload;
 import org.chemthunder.acropolis.core.networking.s2c.*;
 
 /**
@@ -16,8 +14,6 @@ import org.chemthunder.acropolis.core.networking.s2c.*;
 public interface ANetworking {
     static void register() {
         PayloadTypeRegistry.playC2S().register(GrimoireEditPayload.ID, GrimoireEditPayload.CODEC);
-        PayloadTypeRegistry.playC2S().register(IteratePowerPayload.ID, IteratePowerPayload.CODEC);
-        PayloadTypeRegistry.playC2S().register(UsePowerPayload.ID, UsePowerPayload.CODEC);
 
         PayloadTypeRegistry.playS2C().register(VignetteTriggerPayload.ID, VignetteTriggerPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenGrimoirePayload.ID, OpenGrimoirePayload.CODEC);
@@ -26,12 +22,12 @@ public interface ANetworking {
 
         PayloadTypeRegistry.playS2C().register(FlashPayload.ID, FlashPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(ShoutPayload.ID, ShoutPayload.CODEC);
+
+        PayloadTypeRegistry.playS2C().register(CrackBorderHudPayload.ID, CrackBorderHudPayload.CODEC);
     }
 
     static void c2s() {
         ServerPlayNetworking.registerGlobalReceiver(GrimoireEditPayload.ID, new GrimoireEditPayload.Receiver());
-        ServerPlayNetworking.registerGlobalReceiver(IteratePowerPayload.ID, new IteratePowerPayload.Receiver());
-        ServerPlayNetworking.registerGlobalReceiver(UsePowerPayload.ID, new UsePowerPayload.Receiver());
     }
 
     @Environment(EnvType.CLIENT)
@@ -43,5 +39,7 @@ public interface ANetworking {
 
         ClientPlayNetworking.registerGlobalReceiver(FlashPayload.ID, new FlashPayload.Receiver());
         ClientPlayNetworking.registerGlobalReceiver(ShoutPayload.ID, new ShoutPayload.Receiver());
+
+        ClientPlayNetworking.registerGlobalReceiver(CrackBorderHudPayload.ID, new CrackBorderHudPayload.Receiver());
     }
 }

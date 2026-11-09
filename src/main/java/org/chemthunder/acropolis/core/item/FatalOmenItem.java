@@ -1,5 +1,6 @@
 package org.chemthunder.acropolis.core.item;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.Entity;
@@ -30,7 +31,7 @@ import java.util.Random;
  * @author Chemthunder
  */
 public class FatalOmenItem extends Item {
-    public static final int REQUIRED_AMNT = 3;
+    public static final int REQUIRED_AMNT = 10;
 
     public FatalOmenItem(Settings settings) {
         super(settings);
@@ -69,16 +70,20 @@ public class FatalOmenItem extends Item {
         OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (context.getPlayer() != null) {
-            if (omen != null) {
-                if (context.getPlayer().isSneaking() && omen.finalized()) {
-                    SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
+            if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+                if (omen != null) {
+                    if (context.getPlayer().isSneaking() && omen.finalized()) {
+                        SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
 
-                    fall.activate();
+                        fall.activate();
 
-                    if (context.getWorld() instanceof ServerWorld serverWorld) {
-                        serverWorld.setTimeOfDay(18000);
+                        if (context.getWorld() instanceof ServerWorld serverWorld) {
+                            serverWorld.setTimeOfDay(18000);
+                        }
                     }
                 }
+            } else {
+                context.getPlayer().sendMessage(Text.literal("[ACROPOLIS] note to self, disable this while mod is on server, because leaving this in would kinda suck yk? -pastchem"), false);
             }
         }
 

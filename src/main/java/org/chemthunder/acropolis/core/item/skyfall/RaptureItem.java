@@ -6,12 +6,17 @@ import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.index.AComponentTypes;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -37,9 +42,5 @@ public class RaptureItem extends Item implements HitEffectsItem {
 
     public boolean hasGlint(ItemStack stack) {
         return false;
-    }
-
-    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
-        super.inventoryTick(stack, world, entity, slot);
     }
 }

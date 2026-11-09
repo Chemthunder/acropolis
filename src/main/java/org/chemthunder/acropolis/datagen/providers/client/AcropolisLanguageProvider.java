@@ -81,5 +81,11 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 ADamageTypes.REPURPOSE,
                 "%1$s was absolved into the cosmos"
         );
+
+        DataUtils.registerDamageTypeAll(
+                translationBuilder,
+                ADamageTypes.FALL,
+                "%1$s fell before the hand of something higher"
+        );
     }
 }

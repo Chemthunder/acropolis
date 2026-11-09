@@ -10,10 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.waypoint.ServerWaypoint;
+import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.index.AComponentTypes;
-import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.index.AItems;
+import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -75,5 +76,14 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             return original.call(world, this.getDamageSources().create(ADamageTypes.PESTILENCE), amount);
         }
         return original.call(world, source, amount);
+    }
+
+    @Inject(method = "damage", at = @At(value = "HEAD"))
+    private void acropolis$triggerCombat(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity self = (LivingEntity) (Object) this;
+
+        if (source.getAttacker() instanceof PlayerEntity attacker) {
+            BorderComponent.apply(self, attacker);
+        }
     }
 }

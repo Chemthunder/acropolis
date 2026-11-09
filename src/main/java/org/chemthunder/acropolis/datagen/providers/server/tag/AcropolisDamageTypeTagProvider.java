@@ -24,21 +24,26 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
                 .add(ADamageTypes.SMOKE.getValue())
                 .add(ADamageTypes.RETRIBUTION.getValue())
                 .add(ADamageTypes.PESTILENCE.getValue())
+                .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_COOLDOWN)
+                .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.PESTILENCE.getValue())
                 .add(ADamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.GAZE.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_SHIELD)
+                .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.RETRIBUTION.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
                 .add(ADamageTypes.RETRIBUTION.getValue())
                 .add(ADamageTypes.PESTILENCE.getValue())
+                .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.SMOKE.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ENCHANTMENTS)

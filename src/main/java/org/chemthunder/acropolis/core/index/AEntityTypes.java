@@ -39,7 +39,7 @@ public interface AEntityTypes {
     EntityType<MeteorEntity> METEOR = plugin.register("meteor", EntityType.Builder.create(
             MeteorEntity::new,
             SpawnGroup.MISC
-    ).dimensions(1, 1).makeFireImmune());
+    ).dimensions(1, 1).makeFireImmune().disableSummon());
 
     static void init() {
         FabricDefaultAttributeRegistry.register(PESTILENCE, PestilenceEntity.createAttributes());

@@ -68,25 +68,6 @@ public abstract class SkyRenderingMixin {
         customStarVertexBuffer = createCustomStars();
 
         customTopSkyBuffer = createCustomSkyBuffer();
-
-//        try (BufferAllocator bufferAllocator = BufferAllocator.fixedSized(10 * VertexFormats.POSITION.getVertexSize())) {
-//            BufferBuilder bufferBuilder = new BufferBuilder(bufferAllocator, VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION);
-//            this.editToSkyBuffer(bufferBuilder, 16.0F);
-//
-//            try (BuiltBuffer builtBuffer = bufferBuilder.end()) {
-//                this.customTopSkyBuffer = RenderSystem.getDevice().createBuffer(() -> "Custom top sky buffer", GpuBuffer.USAGE_VERTEX, builtBuffer.getBuffer());
-//            }
-//        }
-    }
-
-    @Unique
-    private void editToSkyBuffer(VertexConsumer vertexConsumer, float height) {
-        float f = Math.signum(height) * 512.0F;
-        vertexConsumer.vertex(0.0F, height, 0.0F);
-
-        for (int i = -180; i <= 180; i += 45) {
-            vertexConsumer.vertex((f * MathHelper.cos(i * (float) (Math.PI / 180.0))), height, 512.0F * MathHelper.sin(i * (float) (Math.PI / 180.0)));
-        }
     }
 
     @Unique
@@ -101,8 +82,6 @@ public abstract class SkyRenderingMixin {
             }
         }
     }
-
-
 
     @Unique
     private GpuBuffer createCustomStars() {

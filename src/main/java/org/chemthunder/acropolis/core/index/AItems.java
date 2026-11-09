@@ -8,7 +8,6 @@ import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.item.*;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
 import org.chemthunder.acropolis.core.item.skyfall.RaptureItem;
-import org.chemthunder.acropolis.core.item.skyfall.RequiemItem;
 
 import java.util.ArrayList;
 
@@ -37,12 +36,12 @@ public interface AItems {
             .fireproof()
     );
 
-    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
-            .maxCount(1)
-            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
-            .component(AComponentTypes.CHARGES, 0)
-            .fireproof()
-    );
+//    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
+//            .maxCount(1)
+//            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
+//            .component(AComponentTypes.CHARGES, 0)
+//            .fireproof()
+//    );
 
     Item RAPTURE = plugin.register("rapture", RaptureItem::new, new Item.Settings()
             .maxCount(1)
@@ -54,13 +53,6 @@ public interface AItems {
 
     Item EXALTED_IDOL = plugin.register("exalted_idol", ExaltedIdolItem::new, new Item.Settings()
             .maxCount(1)
-            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
-    );
-
-    Item REQUIEM = plugin.register("requiem", RequiemItem::new, new Item.Settings()
-            .maxCount(1)
-            .sword(ToolMaterial.NETHERITE, 3.0F, -2.4F)
-            .fireproof()
             .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
     );
 

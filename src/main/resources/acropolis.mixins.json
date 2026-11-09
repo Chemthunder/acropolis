@@ -6,7 +6,9 @@
   "mixins": [
     "EnderChestBlockMixin",
     "EnderPearlEntityMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
+    "MaceItemMixin",
     "MinecraftServerMixin",
     "PlayerEntityMixin",
     "ServerWorldMixin",
@@ -20,12 +22,10 @@
     "requireAnnotations": true
   },
   "client": [
-    "afterimages.client.PlayerEntityRendererMixin",
     "client.CameraMixin",
     "client.CloudRendererMixin",
     "client.FogRendererMixin",
     "client.GameRendererMixin",
-    "client.SkyRenderingMixin",
     "client.WeatherRenderingMixin",
     "client.WorldRendererMixin",
     "client.access.GameRendererAccessor"

@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
@@ -13,9 +14,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.cca.entity.AvatarComponent;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
+import org.chemthunder.acropolis.core.cca.entity.TargetComponent;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.networking.s2c.CrackBorderHudPayload;
 import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -49,7 +52,7 @@ public class ACommand implements CommandRegistrationCallback {
                 )
         );
 
-        dispatcher.register(literal("exordium")
+        dispatcher.register(literal("exordium").requires((serverCommandSource -> FabricLoader.getInstance().isDevelopmentEnvironment()))
                 .then(literal("box")
                         .executes(context -> {
                             PlayerEntity player = context.getSource().getPlayer();
@@ -125,13 +128,26 @@ public class ACommand implements CommandRegistrationCallback {
                 )
         );
 
-        dispatcher.register(literal("ability")
+        dispatcher.register(literal("crack_hud")
                 .then(literal("enable")
                         .executes(context -> {
-                            ServerPlayerEntity player = context.getSource().getPlayer();
+                            ServerPlayerEntity serverPlayer = context.getSource().getPlayer();
 
-                            if (player != null) {
-                                AvatarComponent avatar = player.getComponent(AvatarComponent.KEY);
+                            if (serverPlayer != null) {
+                                BorderComponent comp = serverPlayer.getComponent(BorderComponent.KEY);
+                                comp.setCracked(!comp.isCracked());
+                                ServerPlayNetworking.send(serverPlayer, new CrackBorderHudPayload(comp.isCracked()));
+                            }
+                            return 1;
+                        })
+                )
+                .then(literal("inc_state")
+                        .executes(context -> {
+                            ServerPlayerEntity serverPlayer = context.getSource().getPlayer();
+
+                            if (serverPlayer != null) {
+                                BorderComponent comp = serverPlayer.getComponent(BorderComponent.KEY);
+                                comp.incFightState();
                             }
                             return 1;
                         })

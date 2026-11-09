@@ -44,7 +44,6 @@ public class AcropolisItemTagProvider extends FabricTagProvider.ItemTagProvider 
 
         this.valueLookupBuilder(ATagKeys.ITEM_TRANSFORMED)
                 .add(AItems.RAPTURE)
-                .add(AItems.REQUIEM)
                 .add(AItems.CELESTIAL_GRIMOIRE)
                 .setReplace(false);
     }

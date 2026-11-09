@@ -19,6 +19,9 @@ import org.chemthunder.acropolis.core.networking.ANetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Chemthunder
+ */
 public class Acropolis implements ModInitializer {
     public static final String MOD_ID = "acropolis";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -36,8 +39,7 @@ public class Acropolis implements ModInitializer {
         ABlocks.init();
         ABlockEntityTypes.init();
         AParticleTypes.init();
-        ARegistries.init();
-        APowerTypes.init();
+        AAttachmentTypes.init();
 
         ServerTickEvents.START_WORLD_TICK.register(new StareDamageEvent());
         ServerTickEvents.START_WORLD_TICK.register(new SightDamageEvent());
@@ -54,7 +56,6 @@ public class Acropolis implements ModInitializer {
                     Text.literal("THEN FELL THE HEAVENS, FOR THEN THE DAWNS SHALL RISE.").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f)
             )
         );
-//        ALib.registerModMenu(MOD_ID, 0xFFac61d0);
 
         MidnightConfig.init(MOD_ID, AcropolisConfig.class);
 

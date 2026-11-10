@@ -76,6 +76,14 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s was consumed violently by %2$s"
         );
 
+        DataUtils.registerDamageType(
+                translationBuilder,
+                ADamageTypes.BORDER,
+                "%1$s refused its law",
+                "%1$s refused its law whilst fighting %2$s, wielding %3$s",
+                "%1$s refused its law whilst fighting %2$s"
+        );
+
         DataUtils.registerDamageTypeAll(
                 translationBuilder,
                 ADamageTypes.REPURPOSE,
@@ -86,6 +94,12 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 translationBuilder,
                 ADamageTypes.FALL,
                 "%1$s fell before the hand of something higher"
+        );
+
+        DataUtils.registerDamageTypeAll(
+                translationBuilder,
+                ADamageTypes.BORDER_TRUE,
+                "%1$s's heart gave out painfully"
         );
     }
 }

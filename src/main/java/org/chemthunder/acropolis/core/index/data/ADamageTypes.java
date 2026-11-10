@@ -20,4 +20,6 @@ public interface ADamageTypes {
     RegistryKey<DamageType> ABSORB = plugin.register("absorb", new DamageType("absorb", 0.0F));
     RegistryKey<DamageType> REPURPOSE = plugin.register("repurpose", new DamageType("repurpose", 0.0F));
     RegistryKey<DamageType> FALL = plugin.register("fall", new DamageType("fall", 0.0F));
+    RegistryKey<DamageType> BORDER = plugin.register("border", new DamageType("border", 1.4F));
+    RegistryKey<DamageType> BORDER_TRUE = plugin.register("border_true", new DamageType("border_true", 1.6F));
 }

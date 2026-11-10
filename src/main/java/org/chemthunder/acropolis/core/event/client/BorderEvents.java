@@ -61,7 +61,7 @@ public class BorderEvents {
             opacity = MathHelper.clamp(opacity, 0.0F, 0.95F);
             crackSize = MathHelper.clamp(crackSize, 0.0F, 0.95F);
 
-            if (gaze.getPos() != null) {
+            if (gaze.getPos() != null && gaze.isBorder()) {
                 double dist = player.getEntityPos().distanceTo(gaze.getPos());
 
                 if (dist < (85 + 80)) {
@@ -69,13 +69,21 @@ public class BorderEvents {
                         opacity += 0.025F;
                     }
                 } else {
-                    if (opacity > 0.0F) {
-                        opacity -= 0.025F;
+                    if (!comp.inCombat()) {
+                        if (opacity > 0.0F) {
+                            opacity -= 0.025F;
+                        }
                     }
                 }
             }
 
-            if (!comp.isCracked()) {
+            if (!gaze.isBorder()) {
+                if (opacity > 0.0F) {
+                    opacity -= 0.025F;
+                }
+            }
+
+            if (!comp.inCombat()) {
                 if (crackSize > 0.0F) {
                     crackSize -= 0.025F;
                 }
@@ -139,7 +147,8 @@ public class BorderEvents {
             if (opacity > 0.0F) {
                 Matrix3x2fStack matrix = context.getMatrices();
 
-                boolean bl = comp.isCracked();
+                boolean bl = comp.inCombat();
+                int crackLevel = comp.getFightState();
 
                 final float multiplier = 2;
 
@@ -147,19 +156,20 @@ public class BorderEvents {
                 float yS = 40 + (EasingType.IN_OUT_SINE.apply(lerpY) * (multiplier * 2));
 
                 if (crackSize > 0.0F) {
-                    if (!AcropolisConfig.epilepsyMode) {
+                    if (!AcropolisConfig.epilepsyMode && crackLevel > 3) {
                         matrix.pushMatrix();
 
                         final int textBound = 40;
 
                         final String[] texts = new String[] {
-                                "WRONG TURN!",
-                                "PRAY IN ETERNITY",
-                                "BOW BEFORE YOUR CREATORS",
-                                "KNEEL IN SERVICE",
                                 "YOU ARE PATHETIC",
-                                "RUN",
-                                "WITNESS DIVINITY"
+                                "ONE SIMPLE RULE",
+                                "TAKE IT OUTSIDE",
+                                "LISTEN WHEN SPOKEN TO",
+                                "YOU DON'T NEED TO DO THIS",
+                                "BEGONE",
+                                "CRY",
+                                "RUN"
                         };
 
                         for (int i = 0; i < 5; i++) {
@@ -235,4 +245,3 @@ public class BorderEvents {
         }
     }
 }
-

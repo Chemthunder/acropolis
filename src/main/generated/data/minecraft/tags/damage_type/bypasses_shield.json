@@ -1,6 +1,8 @@
 {
   "values": [
     "acropolis:fall",
+    "acropolis:border",
+    "acropolis:border_true",
     "acropolis:retribution"
   ]
 }

@@ -30,8 +30,9 @@ import java.util.Random;
 /**
  * @author Chemthunder
  */
+@SuppressWarnings({"SpellCheckingInspection", "ConstantValue"})
 public class FatalOmenItem extends Item {
-    public static final int REQUIRED_AMNT = 10;
+    public static final int REQUIRED_AMNT = 9;
 
     public FatalOmenItem(Settings settings) {
         super(settings);
@@ -161,16 +162,18 @@ public class FatalOmenItem extends Item {
                         OmenComponent postOmen = stack.get(AComponentTypes.OMEN);
 
                         if (postOmen != null) {
-                            if (postOmen.containedNames().size() >= REQUIRED_AMNT) {
-                                stack.set(AComponentTypes.OMEN, new OmenComponent(
-                                        postOmen.containedNames(),
-                                        postOmen.closed(),
-                                        true
-                                ));
+                            if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+                                if (postOmen.containedNames().size() >= REQUIRED_AMNT) {
+                                    stack.set(AComponentTypes.OMEN, new OmenComponent(
+                                            postOmen.containedNames(),
+                                            postOmen.closed(),
+                                            true
+                                    ));
 
-                                SkyfallComponent fall = SkyfallComponent.KEY.get(world);
+                                    SkyfallComponent fall = SkyfallComponent.KEY.get(world);
 
-                                fall.createBox(target.getEntityPos(), target);
+                                    fall.createBox(target.getEntityPos(), target);
+                                }
                             }
                         }
                     }

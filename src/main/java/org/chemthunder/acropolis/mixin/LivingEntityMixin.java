@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(value = LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint {
-
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -85,5 +84,17 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         if (source.getAttacker() instanceof PlayerEntity attacker) {
             BorderComponent.apply(self, attacker);
         }
+    }
+
+    @WrapMethod(method = "damage")
+    private boolean acropolis$denyAttacking(ServerWorld world, DamageSource source, float amount, Operation<Boolean> original) {
+        if (source.getAttacker() instanceof LivingEntity living) {
+            BorderComponent border = living.getComponent(BorderComponent.KEY);
+
+            if (border.inCombat() && border.getFightState() >= 4) {
+                return false;
+            }
+        }
+        return original.call(world, source, amount);
     }
 }

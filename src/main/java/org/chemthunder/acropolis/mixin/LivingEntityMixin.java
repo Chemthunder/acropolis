@@ -81,7 +81,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
     private void acropolis$triggerCombat(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity) (Object) this;
 
-        if (source.getAttacker() instanceof PlayerEntity attacker) {
+        if (source.getAttacker() instanceof PlayerEntity attacker && self instanceof PlayerEntity) {
             BorderComponent.apply(self, attacker);
         }
     }

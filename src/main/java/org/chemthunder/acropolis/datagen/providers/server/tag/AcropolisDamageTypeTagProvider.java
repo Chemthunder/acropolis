@@ -58,6 +58,7 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_RESISTANCE)
                 .add(ADamageTypes.BORDER.getValue())
+                .add(ADamageTypes.BORDER_TRUE.getValue())
                 .add(ADamageTypes.PESTILENCE.getValue());
     }
 }

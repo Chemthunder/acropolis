@@ -131,10 +131,6 @@ public class BorderComponent implements AutoSyncedComponent, CommonTickingCompon
                     }
                 }
             }
-
-            if (living instanceof PlayerEntity player) {
-                player.sendMessage(Text.literal("FIGHT: " + fightTimer + " || " + (timeSpentInCombat / 20)), true);
-            }
         }
     }
 

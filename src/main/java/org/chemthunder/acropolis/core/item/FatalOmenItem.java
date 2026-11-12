@@ -71,20 +71,17 @@ public class FatalOmenItem extends Item {
         OmenComponent omen = stack.get(AComponentTypes.OMEN);
 
         if (context.getPlayer() != null) {
-            if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-                if (omen != null) {
-                    if (context.getPlayer().isSneaking() && omen.finalized()) {
-                        SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
+            if (omen != null) {
+                if (context.getPlayer().isSneaking() && omen.finalized()) {
+                    SkyfallComponent fall = context.getPlayer().getEntityWorld().getComponent(SkyfallComponent.KEY);
 
-                        fall.activate();
+                    fall.activate();
+                    fall.setPos(context.getHitPos());
 
-                        if (context.getWorld() instanceof ServerWorld serverWorld) {
-                            serverWorld.setTimeOfDay(18000);
-                        }
+                    if (context.getWorld() instanceof ServerWorld serverWorld) {
+                        serverWorld.setTimeOfDay(18000);
                     }
                 }
-            } else {
-                context.getPlayer().sendMessage(Text.literal("[ACROPOLIS] note to self, disable this while mod is on server, because leaving this in would kinda suck yk? -pastchem"), false);
             }
         }
 

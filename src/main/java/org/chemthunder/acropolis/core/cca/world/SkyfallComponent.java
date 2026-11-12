@@ -1,26 +1,30 @@
 package org.chemthunder.acropolis.core.cca.world;
 
 import net.acoyt.acornlib.api.util.NetworkingUtils;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.text.Text;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.networking.s2c.FlashPayload;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -57,12 +61,20 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     private float boxLerp = 0.0F;
     private float boxLerpUp = 0.0F;
 
+    private boolean innovatorActive = false;
+    private float innovatorSize = 0.0F;
+    private int innovatorDialogueIndex = 0;
+
+    private boolean innovatorSpeechOver = false;
+    private int innovatorFinalizeDelay = 80;
+    private int playerId;
+
     public SkyfallComponent(World world) {
         this.world = world;
     }
 
     public void tick() {
-        if (active && FabricLoader.getInstance().isDevelopmentEnvironment()) { // FINALE
+        if (active) { // FINALE
             if (timeUntilSun > 0) {
                 timeUntilSun--;
                 if (timeUntilSun == 0) {
@@ -96,7 +108,29 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
             }
         }
 
-        if (FabricLoader.getInstance().isDevelopmentEnvironment() && (boxActive && boxTarget != null)) { // permakill box
+        if (innovatorActive) {
+            if (innovatorSize < 1.0F) {
+                innovatorSize += 0.01F;
+                sync();
+            }
+        } else {
+            if (innovatorSize > 0.0F) {
+                innovatorSize -= 0.05F;
+                sync();
+            }
+        }
+
+        if (innovatorSpeechOver) {
+            if (innovatorFinalizeDelay > 0) {
+                innovatorFinalizeDelay--;
+                if (innovatorFinalizeDelay <= 0) {
+                    innovatorActive = false;
+                    sync();
+                }
+            }
+        }
+
+        if ((boxActive && boxTarget != null)) { // permakill box
             if (boxLerp > 0.0F) {
                 boxLerp -= 0.01F;
                 if (boxLerp <= 0) {
@@ -146,6 +180,14 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
 
         timeUntilSun = readView.getInt("TimeUntilSun", TIME_UNTIL_SUN);
         timeUntilFlash = readView.getInt("TimeUntilFlash", TIME_UNTIL_FLASH);
+
+        innovatorActive = readView.getBoolean("InnovatorActive", false);
+        innovatorSize = readView.getFloat("InnovatorSize", 0.0F);
+        innovatorDialogueIndex = readView.getInt("InnovatorDialogueIndex", 0);
+        innovatorSpeechOver = readView.getBoolean("InnovatorSpeechOver", false);
+        innovatorFinalizeDelay = readView.getInt("InnovatorFinalizeDelay", 80);
+
+        playerId = readView.getInt("PlayerId", 0);
     }
 
     public void writeData(WriteView writeView) {
@@ -165,6 +207,14 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
 
         writeView.putInt("TimeUntilSun", timeUntilSun);
         writeView.putInt("TimeUntilFlash", timeUntilFlash);
+
+        writeView.putBoolean("InnovatorActive", innovatorActive);
+        writeView.putFloat("InnovatorSize", innovatorSize);
+        writeView.putInt("InnovatorDialogueIndex", innovatorDialogueIndex);
+        writeView.putBoolean("InnovatorSpeechOver", innovatorSpeechOver);
+        writeView.putInt("InnovatorFinalizeDelay", innovatorFinalizeDelay);
+
+        writeView.putInt("PlayerId", playerId);
     }
 
     public void activate() {
@@ -204,13 +254,53 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         sync();
     }
 
-    public boolean isActive() {
-        return active;
+    public void openIv() {
+        this.innovatorSize = 0.0F;
+        this.innovatorActive = true;
+        this.innovatorDialogueIndex = 0;
+
+        this.innovatorSpeechOver = false;
+        this.innovatorFinalizeDelay = 80;
+
+        sync();
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void closeIv() {
+        this.innovatorActive = false;
+
         sync();
+    }
+
+    public void stepIv() {
+        if (this.innovatorDialogueIndex < Skyfall.getInnovatorSpeech().size() - 1) {
+            this.innovatorDialogueIndex++;
+            sync();
+        } else {
+            if (!this.innovatorSpeechOver) {
+                this.innovatorSpeechOver = true;
+                sync();
+            }
+        }
+
+        List<Text> texts = Skyfall.getInnovatorSpeech();
+
+        Text text = texts.get(this.innovatorDialogueIndex);
+
+        if (this.innovatorDialogueIndex == 8) {
+            if (this.getInnovatorTarget() instanceof ServerPlayerEntity serverPlayer) {
+                serverPlayer.changeGameMode(GameMode.SPECTATOR);
+            }
+        }
+
+        for (PlayerEntity player : world.getPlayers()) {
+            if (!text.getString().isBlank()) {
+                player.sendMessage(text, false);
+            }
+        }
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     @Nullable
@@ -231,16 +321,42 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         return sunscale;
     }
 
-    public void setSunscale(float sunscale) {
-        this.sunscale = sunscale;
-        sync();
-    }
-
     public float getBoxLerp() {
         return boxLerp;
     }
 
     public float getBoxLerpUp() {
         return boxLerpUp;
+    }
+
+    public boolean isInnovatorActive() {
+        return innovatorActive;
+    }
+
+    public float getInnovatorSize() {
+        return innovatorSize;
+    }
+
+    public int getInnovatorDialogueIndex() {
+        return innovatorDialogueIndex;
+    }
+
+    @Nullable
+    public PlayerEntity getInnovatorTarget() {
+        Entity entity = this.world.getEntityById(this.playerId);
+
+        if (entity instanceof PlayerEntity player) {
+            return player;
+        }
+        return null;
+    }
+
+    public void setInnovatorTarget(Entity entity) {
+        this.playerId = entity.getId();
+        this.sync();
+    }
+
+    public boolean isPlayerHead(Entity entity) {
+        return entity.getId() == this.playerId && !(entity instanceof ServerPlayerEntity serverPlayer && serverPlayer.isSpectator());
     }
 }

@@ -22,6 +22,7 @@ import org.chemthunder.acropolis.core.event.client.FlashEvents;
 import org.chemthunder.acropolis.core.event.client.MercyHudEvents;
 import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
 import org.chemthunder.acropolis.core.event.client.entities.GazeRenderEvent;
+import org.chemthunder.acropolis.core.event.client.entities.IvRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SightRenderEvent;
 import org.chemthunder.acropolis.core.event.client.entities.SkyfallRenderEvent;
 import org.chemthunder.acropolis.core.index.ABlockEntityTypes;
@@ -58,10 +59,8 @@ public class AcropolisClient implements ClientModInitializer {
 
         WorldRenderEvents.END_MAIN.register(new GazeRenderEvent());
         WorldRenderEvents.END_MAIN.register(new SightRenderEvent());
-
-        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-            WorldRenderEvents.END_MAIN.register(new SkyfallRenderEvent());
-        }
+        WorldRenderEvents.END_MAIN.register(new SkyfallRenderEvent());
+        WorldRenderEvents.END_MAIN.register(new IvRenderEvent());
 
         ClientTickEvents.START_CLIENT_TICK.register(minecraftClient -> AGE++);
 

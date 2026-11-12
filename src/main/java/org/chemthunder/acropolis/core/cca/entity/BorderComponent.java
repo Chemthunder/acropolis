@@ -73,17 +73,19 @@ public class BorderComponent implements AutoSyncedComponent, CommonTickingCompon
         }
 
         if (fightTimer > 0) {
-            double dist = living.getEntityPos().distanceTo(gaze.getPos());
+            if (gaze.getPos() != null) {
+                double dist = living.getEntityPos().distanceTo(gaze.getPos());
 
-            if (fightState < 2) {
-                fightTimer--;
-            } else if (fightState >= 3 && dist > (80 + 80)) {
-                fightTimer--;
-            }
-            timeSpentInCombat++;
-            if (fightTimer <= 0) {
-                timeSpentInCombat = 0;
-                sync();
+                if (fightState < 2) {
+                    fightTimer--;
+                } else if (fightState >= 3 && dist > (80 + 80)) {
+                    fightTimer--;
+                }
+                timeSpentInCombat++;
+                if (fightTimer <= 0) {
+                    timeSpentInCombat = 0;
+                    sync();
+                }
             }
         }
 

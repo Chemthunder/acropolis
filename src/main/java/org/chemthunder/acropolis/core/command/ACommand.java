@@ -1,24 +1,17 @@
 package org.chemthunder.acropolis.core.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
-import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
-import org.chemthunder.acropolis.core.networking.s2c.CrackBorderHudPayload;
-import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
+
+import java.util.UUID;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -28,133 +21,61 @@ import static net.minecraft.server.command.CommandManager.literal;
  */
 public class ACommand implements CommandRegistrationCallback {
     public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess access, CommandManager.RegistrationEnvironment environment) {
-        dispatcher.register(literal("acropolis::mercy").requires(ACommand::isViable)
-                .then(literal("toggle").then(argument("state", BoolArgumentType.bool())
+        dispatcher.register(literal("skyfall").requires(ACommand::isChem)
+                .then(literal("trigger")
                         .executes(context -> {
-                            boolean bool = BoolArgumentType.getBool(context, "state");
-                            World world = context.getSource().getWorld();
-
-                            MercyComponent.KEY.get(world).setActive(bool);
-                            return 1;
-                        }))
-                )
-                .then(literal("begin")
-                        .executes(context -> {
-                            World world = context.getSource().getWorld();
-
-                            MercyComponent m = MercyComponent.KEY.get(world);
-
-                            m.setCountdown(MercyComponent.COUNTDOWN);
-                            m.setTicks(0);
+                            SkyfallComponent sk = Skyfall.getInstance(context.getSource());
+                            sk.activate();
                             return 1;
                         })
                 )
-        );
-
-        dispatcher.register(literal("exordium").requires((serverCommandSource -> FabricLoader.getInstance().isDevelopmentEnvironment()))
-                .then(literal("box")
+                .then(literal("close")
                         .executes(context -> {
-                            PlayerEntity player = context.getSource().getPlayer();
-
-                            if (player != null) {
-                                Vec3d pos = new Vec3d(
-                                        player.getBlockPos().toCenterPos().x,
-                                        player.getBlockPos().toCenterPos().y + 1,
-                                        player.getBlockPos().toCenterPos().z
-                                );
-
-                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
-
-                                ex.createBox(pos, player);
-                            }
-
-                            return 1;
-                        }))
-                .then(literal("spawn")
-                        .executes(context -> {
-                            PlayerEntity player = context.getSource().getPlayer();
-
-                            if (player != null) {
-                                Vec3d pos = new Vec3d(
-                                        player.getBlockPos().toCenterPos().x,
-                                        player.getBlockPos().toCenterPos().y + 1,
-                                        player.getBlockPos().toCenterPos().z
-                                );
-
-                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
-
-                                ex.setActive(true);
-                                ex.setPos(pos);
-                            }
-
+                            SkyfallComponent sk = Skyfall.getInstance(context.getSource());
+                            sk.close();
                             return 1;
                         })
                 )
-                .then(literal("remove")
-                        .executes(context -> {
-                            PlayerEntity player = context.getSource().getPlayer();
 
-                            if (player != null) {
-                                Vec3d pos = new Vec3d(
-                                        player.getBlockPos().toCenterPos().x,
-                                        player.getBlockPos().toCenterPos().y + 1,
-                                        player.getBlockPos().toCenterPos().z
-                                );
+                .then(literal("iv")
+                        .then(literal("open")
+                                .then(argument("target", EntityArgumentType.player())
+                                        .executes(context -> {
+                                            PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
 
-                                SkyfallComponent ex = SkyfallComponent.KEY.get(player.getEntityWorld());
+                                            SkyfallComponent sk = Skyfall.getInstance(context.getSource());
+                                            sk.setInnovatorTarget(player);
+                                            sk.openIv();
 
-                                ex.close();
-                            }
-
-                            return 1;
-                        })
-                )
-                .then(literal("shout")
-                        .then(argument("input", StringArgumentType.string())
+                                            sk.setPos(player.getEntityPos());
+                                            return 1;
+                                        })
+                                )
+                        )
+                        .then(literal("close")
                                 .executes(context -> {
-                                    String value = StringArgumentType.getString(context, "input");
-                                    ServerPlayerEntity player = context.getSource().getPlayer();
-
-                                    if (player != null) {
-                                        ServerPlayNetworking.send(
-                                                player,
-                                                new ShoutPayload(value)
-                                        );
-                                    }
+                                    SkyfallComponent sk = Skyfall.getInstance(context.getSource());
+                                    sk.closeIv();
+                                    return 1;
+                                })
+                        )
+                        .then(literal("step")
+                                .executes(context -> {
+                                    SkyfallComponent sk = Skyfall.getInstance(context.getSource());
+                                    sk.stepIv();
                                     return 1;
                                 })
                         )
                 )
         );
-
-        dispatcher.register(literal("crack_hud")
-                .then(literal("enable")
-                        .executes(context -> {
-                            ServerPlayerEntity serverPlayer = context.getSource().getPlayer();
-
-                            if (serverPlayer != null) {
-                                BorderComponent comp = serverPlayer.getComponent(BorderComponent.KEY);
-                                comp.setCracked(!comp.isCracked());
-                                ServerPlayNetworking.send(serverPlayer, new CrackBorderHudPayload(comp.isCracked()));
-                            }
-                            return 1;
-                        })
-                )
-                .then(literal("inc_state")
-                        .executes(context -> {
-                            ServerPlayerEntity serverPlayer = context.getSource().getPlayer();
-
-                            if (serverPlayer != null) {
-                                BorderComponent comp = serverPlayer.getComponent(BorderComponent.KEY);
-                                comp.incFightState();
-                            }
-                            return 1;
-                        })
-                )
-        );
     }
 
-    public static boolean isViable(ServerCommandSource source) {
-        return Acropolis.PLAYTEST;
+    public static boolean isChem(ServerCommandSource source) {
+        ServerPlayerEntity serverPlayer = source.getPlayer();
+
+        if (serverPlayer != null) {
+            return serverPlayer.getUuid() == UUID.fromString("a26e29f1-532e-4116-9112-ca18ea30d27f") || CommandManager.requirePermissionLevel(CommandManager.GAMEMASTERS_CHECK).test(source);
+        }
+        return false;
     }
 }

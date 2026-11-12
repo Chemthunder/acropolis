@@ -8,14 +8,17 @@ import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.waypoint.ServerWaypoint;
 import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -96,5 +99,27 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             }
         }
         return original.call(world, source, amount);
+    }
+
+    @WrapMethod(method = "applyMovementInput")
+    private Vec3d acropolis$lock(Vec3d movementInput, float slipperiness, Operation<Vec3d> original) {
+        LivingEntity living = (LivingEntity) (Object) this;
+        SkyfallComponent sk = Skyfall.getInstance(living);
+
+        if (sk.isPlayerHead(living)) {
+            return Vec3d.ZERO;
+        }
+        return original.call(movementInput, slipperiness);
+    }
+
+    @WrapMethod(method = "applyFluidMovingSpeed")
+    private Vec3d acropolis$lockF(double gravity, boolean falling, Vec3d motion, Operation<Vec3d> original) {
+        LivingEntity living = (LivingEntity) (Object) this;
+        SkyfallComponent sk = Skyfall.getInstance(living);
+
+        if (sk.isPlayerHead(living)) {
+            return Vec3d.ZERO;
+        }
+        return original.call(gravity, falling, motion);
     }
 }

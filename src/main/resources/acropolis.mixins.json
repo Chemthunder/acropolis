@@ -26,6 +26,7 @@
     "client.CloudRendererMixin",
     "client.FogRendererMixin",
     "client.GameRendererMixin",
+    "client.SkyRenderingMixin",
     "client.WeatherRenderingMixin",
     "client.WorldRendererMixin",
     "client.access.GameRendererAccessor"

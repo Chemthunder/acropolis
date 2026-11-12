@@ -169,7 +169,8 @@ public class BorderEvents {
                                 "YOU DON'T NEED TO DO THIS",
                                 "BEGONE",
                                 "CRY",
-                                "RUN"
+                                "RUN",
+                                ">:3"
                         };
 
                         for (int i = 0; i < 5; i++) {

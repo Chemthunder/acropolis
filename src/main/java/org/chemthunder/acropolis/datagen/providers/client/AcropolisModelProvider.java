@@ -29,6 +29,7 @@ public class AcropolisModelProvider extends FabricModelProvider {
 //        itemModelGenerator.register(AcropolisItems.EXTOLLED_SIMULACRUM);
 
         DataUtils.createSimpleGuiVarying(itemModelGenerator, AItems.RAPTURE);
+        DataUtils.createSimpleGuiVarying(itemModelGenerator, AItems.REQUIEM);
 
         createFatalOmen(itemModelGenerator);
     }

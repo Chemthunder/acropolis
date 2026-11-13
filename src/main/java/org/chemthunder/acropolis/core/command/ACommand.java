@@ -5,12 +5,17 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.index.AComponentTypes;
+import org.chemthunder.acropolis.core.index.AItems;
+import org.chemthunder.acropolis.core.item.component.OmenComponent;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -66,6 +71,20 @@ public class ACommand implements CommandRegistrationCallback {
                                     return 1;
                                 })
                         )
+                )
+
+                .then(literal("giveFinalizedOmen")
+                        .executes(context -> {
+                            ItemStack omen = new ItemStack(AItems.FATAL_OMEN);
+                            omen.set(AComponentTypes.OMEN, new OmenComponent(Collections.emptyList(), true, true));
+
+                            PlayerEntity player = context.getSource().getPlayer();
+
+                            if (player != null) {
+                                player.giveItemStack(omen);
+                            }
+                            return 1;
+                        })
                 )
         );
     }

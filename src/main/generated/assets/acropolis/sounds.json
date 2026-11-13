@@ -39,5 +39,10 @@
       "acropolis:item/rapture_hit"
     ],
     "subtitle": "subtitles.acropolis.rapture_hit"
+  },
+  "item.shockwave": {
+    "sounds": [
+      "acropolis:item/shockwave"
+    ]
   }
 }

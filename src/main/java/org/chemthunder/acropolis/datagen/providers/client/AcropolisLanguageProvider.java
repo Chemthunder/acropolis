@@ -21,6 +21,7 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
         translationBuilder.add(AItems.CELESTIAL_GRIMOIRE, "Celestial Grimoire");
 //        translationBuilder.add(AcropolisItems.EXTOLLED_SIMULACRUM, "Extolled Simulacrum");
         translationBuilder.add(AItems.RAPTURE, "Rapture");
+        translationBuilder.add(AItems.REQUIEM, "Requiem");
         translationBuilder.add(AItems.EXALTED_IDOL, "Exalted Idol");
         translationBuilder.add(AItems.FATAL_OMEN, "Fatal Omen");
 

@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.RotationAxis;

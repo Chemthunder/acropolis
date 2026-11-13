@@ -10,10 +10,7 @@ import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.render.MeteorEntityRenderer;
 import org.chemthunder.acropolis.core.client.entity.render.PestilenceEntityRenderer;
 import org.chemthunder.acropolis.core.client.entity.render.SwarmEntityRenderer;
-import org.chemthunder.acropolis.core.entity.MeteorEntity;
-import org.chemthunder.acropolis.core.entity.PestilenceEntity;
-import org.chemthunder.acropolis.core.entity.SpellshotEntity;
-import org.chemthunder.acropolis.core.entity.SwarmEntity;
+import org.chemthunder.acropolis.core.entity.*;
 
 /**
  * @author Chemthunder
@@ -41,6 +38,11 @@ public interface AEntityTypes {
             SpawnGroup.MISC
     ).dimensions(1, 1).makeFireImmune().disableSummon());
 
+    EntityType<FuneralBloomEntity> FUNERAL_BLOOM = plugin.register("funeral_bloom", EntityType.Builder.create(
+            FuneralBloomEntity::new,
+            SpawnGroup.MISC
+    ).dimensions(4, 0.3F).makeFireImmune());
+
     static void init() {
         FabricDefaultAttributeRegistry.register(PESTILENCE, PestilenceEntity.createAttributes());
     }
@@ -50,5 +52,6 @@ public interface AEntityTypes {
         EntityRendererFactories.register(PESTILENCE, PestilenceEntityRenderer::new);
         EntityRendererFactories.register(SWARM, SwarmEntityRenderer::new);
         EntityRendererFactories.register(METEOR, MeteorEntityRenderer::new);
+        EntityRendererFactories.register(FUNERAL_BLOOM, EmptyEntityRenderer::new);
     }
 }

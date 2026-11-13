@@ -20,6 +20,7 @@ public interface ASoundEvents {
     SoundEvent RAPTURE_HIT = plugin.register("item.rapture_hit");
 
     SoundEvent SWOON = plugin.register("event.swoon");
+    SoundEvent SHOCKWAVE = plugin.register("item.shockwave");
 
     static void init() {}
 }

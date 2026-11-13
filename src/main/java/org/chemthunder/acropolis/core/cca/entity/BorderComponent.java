@@ -3,11 +3,9 @@ package org.chemthunder.acropolis.core.cca.entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.text.Text;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
@@ -90,46 +88,48 @@ public class BorderComponent implements AutoSyncedComponent, CommonTickingCompon
         }
 
         if (fightTimer > 0) {
-            double dist = living.getEntityPos().distanceTo(gaze.getPos());
+            if (gaze.getPos() != null) {
+                double dist = living.getEntityPos().distanceTo(gaze.getPos());
 
-            int newValue = 0;
+                int newValue = 0;
 
-            if (dist < (80 + 80)) {
-                for (int i = 1; i < 5; i++) {
-                    if (timeSpentInCombat > ((i * 10) * 20)) {
-                        newValue = i;
-                    }
-                }
-            }
-
-            if (fightState != newValue) {
-                fightState = newValue;
-                sync();
-            }
-
-            if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
-                if (fightState == 2) {
-                    if (living.age % 20 == 0) {
-                        living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.BORDER), 2.0F);
-                    }
-                }
-                if (fightState == 3) {
-                    if (living.age % 10 == 0) {
-                        living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.BORDER_TRUE), 3.0F);
-                    }
-                }
-                if (fightState == 4) {
-                    if (living.age % 5 == 0) {
-                        living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.BORDER_TRUE), 2.5F);
+                if (dist < (80 + 80)) {
+                    for (int i = 1; i < 5; i++) {
+                        if (timeSpentInCombat > ((i * 10) * 20)) {
+                            newValue = i;
+                        }
                     }
                 }
 
-                if (fightState >= 3) {
-                    if (!living.hasStatusEffect(StatusEffects.GLOWING)) {
-                        living.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, (10 * 20)));
+                if (fightState != newValue) {
+                    fightState = newValue;
+                    sync();
+                }
+
+                if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
+                    if (fightState == 2) {
+                        if (living.age % 20 == 0) {
+                            living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.BORDER), 2.0F);
+                        }
                     }
-                    if (living.hasStatusEffect(StatusEffects.INVISIBILITY)) {
-                        living.removeStatusEffect(StatusEffects.INVISIBILITY);
+                    if (fightState == 3) {
+                        if (living.age % 10 == 0) {
+                            living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.BORDER_TRUE), 3.0F);
+                        }
+                    }
+                    if (fightState == 4) {
+                        if (living.age % 5 == 0) {
+                            living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.BORDER_TRUE), 2.5F);
+                        }
+                    }
+
+                    if (fightState >= 3) {
+                        if (!living.hasStatusEffect(StatusEffects.GLOWING)) {
+                            living.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, (10 * 20)));
+                        }
+                        if (living.hasStatusEffect(StatusEffects.INVISIBILITY)) {
+                            living.removeStatusEffect(StatusEffects.INVISIBILITY);
+                        }
                     }
                 }
             }

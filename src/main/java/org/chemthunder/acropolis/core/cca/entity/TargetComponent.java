@@ -1,7 +1,12 @@
 package org.chemthunder.acropolis.core.cca.entity;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DeathProtectionComponent;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import org.chemthunder.acropolis.core.Acropolis;
@@ -45,6 +50,27 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
                 if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
                     living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.FALL), 8.5F);
                 }
+
+                if (living.getOffHandStack().isOf(Items.TOTEM_OF_UNDYING)) {
+                    if (living.getOffHandStack().contains(DataComponentTypes.DEATH_PROTECTION)) {
+                        DeathProtectionComponent d = living.getOffHandStack().get(DataComponentTypes.DEATH_PROTECTION);
+
+                        if (d != null) {
+                            d.applyDeathEffects(living.getOffHandStack(), living);
+                        }
+                    }
+                    living.getOffHandStack().split(1);
+                }
+                living.getEntityWorld().playSound(
+                        null,
+                        living.getX(),
+                        living.getY(),
+                        living.getZ(),
+                        SoundEvents.ENTITY_ALLAY_ITEM_THROWN,
+                        SoundCategory.PLAYERS,
+                        1,
+                        0.44F
+                );
                 sync();
             }
         }

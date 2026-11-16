@@ -2,6 +2,7 @@
 40a9966982bc7d76f1a2ffa5c7c5f63dbef0c0df data/acropolis/damage_type/absorb.json
 a2cec0ff8812b14aa78be7c4ae6ef477ea544131 data/acropolis/damage_type/border.json
 6ab3c26713b53cd668cb8793dada93f89078df79 data/acropolis/damage_type/border_true.json
+d94960181f61e0b9a07234686b5a83bb65cc653a data/acropolis/damage_type/dagger.json
 216bec9f551deb024fc7a9603e6a0eaf8ed243a3 data/acropolis/damage_type/fall.json
 1fd39a855667f6ced7e262062a76b297a8fff0f3 data/acropolis/damage_type/gaze.json
 b677842b1bf6e016424dbe0f0c1e1cac6897d741 data/acropolis/damage_type/pestilence.json

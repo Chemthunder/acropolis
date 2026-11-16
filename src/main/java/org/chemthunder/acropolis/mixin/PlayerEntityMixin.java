@@ -26,8 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerEntityMixin {
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
-    @Shadow public abstract void sendMessage(Text message, boolean overlay);
-
     @Inject(method = "damage", at = @At(value = "HEAD"))
     private void acropolis$damageSound(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (source.isOf(ADamageTypes.GAZE)) {
@@ -47,8 +45,10 @@ public abstract class PlayerEntityMixin {
     @WrapMethod(method = "damage")
     private boolean acropolis$nofightingkids(ServerWorld world, DamageSource source, float amount, Operation<Boolean> original) {
         if (Skyfall.getInstance(world).isInnovatorActive()) {
-            this.sendMessage(Text.literal("Do not fight in the presence of your creator."), true);
-            return false;
+            if (source.getAttacker() instanceof PlayerEntity player) {
+                player.sendMessage(Text.literal("Do not fight in the presence of your creator."), true);
+                return false;
+            }
         }
         return original.call(world, source, amount);
     }

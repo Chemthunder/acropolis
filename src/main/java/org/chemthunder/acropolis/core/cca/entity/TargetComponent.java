@@ -3,12 +3,14 @@ package org.chemthunder.acropolis.core.cca.entity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DeathProtectionComponent;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.text.Text;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -32,11 +34,22 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
     public int fallFreezeTicks = 0;
     public int fallDamageHeldTicks = 0;
 
+    public int lockMovementTicks = 0;
+
+    public boolean matriarch = false;
+
     public TargetComponent(LivingEntity living) {
         this.living = living;
     }
 
     public void tick() {
+        if (lockMovementTicks > 0) {
+            lockMovementTicks--;
+            if (lockMovementTicks == 0) {
+                sync();
+            }
+        }
+
         if (fallFreezeTicks > 0) {
             fallFreezeTicks--;
             if (fallFreezeTicks <= 0) {
@@ -61,6 +74,7 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
                     }
                     living.getOffHandStack().split(1);
                 }
+
                 living.getEntityWorld().playSound(
                         null,
                         living.getX(),
@@ -72,6 +86,12 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
                         0.44F
                 );
                 sync();
+            }
+        }
+
+        if (matriarch) {
+            if (living instanceof PlayerEntity player) {
+                player.sendMessage(Text.literal("m"), true);
             }
         }
     }
@@ -92,5 +112,19 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
         this.fallFreezeTicks = FALL_REF;
         this.fallDamageHeldTicks = FALL_DAMAGE_REF;
         sync();
+    }
+
+    public boolean isFrozen() {
+        return this.lockMovementTicks > 0;
+    }
+
+    public void stunlock() {
+        this.lockMovementTicks = (4 * 20);
+        this.sync();
+    }
+
+    public void awakenMatriarch() {
+        this.matriarch = true;
+        this.sync();
     }
 }

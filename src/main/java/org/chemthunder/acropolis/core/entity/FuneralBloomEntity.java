@@ -54,7 +54,7 @@ public class FuneralBloomEntity extends Entity implements Ownable {
             }
 
             if (bl) {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, (20 * 20)));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, (15 * 20), 1));
             }
         }
 

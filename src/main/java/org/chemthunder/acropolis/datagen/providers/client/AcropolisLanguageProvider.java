@@ -85,6 +85,14 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s refused its law whilst fighting %2$s"
         );
 
+        DataUtils.registerDamageType(
+                translationBuilder,
+                ADamageTypes.DAGGER,
+                "%1$S was impaled by destiny",
+                "%1$s was removed from %2$s's prophecies, wielding %3$s",
+                "%1$s was removed from %2$s's prophecies"
+        );
+
         DataUtils.registerDamageTypeAll(
                 translationBuilder,
                 ADamageTypes.REPURPOSE,

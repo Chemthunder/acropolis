@@ -267,6 +267,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
 
     public void closeIv() {
         this.innovatorActive = false;
+        this.playerId = 0;
 
         sync();
     }
@@ -289,6 +290,9 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         if (this.innovatorDialogueIndex == 8) {
             if (this.getInnovatorTarget() instanceof ServerPlayerEntity serverPlayer) {
                 serverPlayer.changeGameMode(GameMode.SPECTATOR);
+
+                this.playerId = 0;
+                this.sync();
             }
         }
 

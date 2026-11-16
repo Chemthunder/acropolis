@@ -43,6 +43,11 @@ public interface AEntityTypes {
             SpawnGroup.MISC
     ).dimensions(4, 0.3F).makeFireImmune());
 
+    EntityType<CruciDaggerEntity> DAGGER = plugin.register("cruci_dagger", EntityType.Builder.create(
+            CruciDaggerEntity::new,
+            SpawnGroup.MISC
+    ).dimensions(1.4F, 0.6F).makeFireImmune());
+
     static void init() {
         FabricDefaultAttributeRegistry.register(PESTILENCE, PestilenceEntity.createAttributes());
     }
@@ -53,5 +58,6 @@ public interface AEntityTypes {
         EntityRendererFactories.register(SWARM, SwarmEntityRenderer::new);
         EntityRendererFactories.register(METEOR, MeteorEntityRenderer::new);
         EntityRendererFactories.register(FUNERAL_BLOOM, EmptyEntityRenderer::new);
+        EntityRendererFactories.register(DAGGER, EmptyEntityRenderer::new);
     }
 }

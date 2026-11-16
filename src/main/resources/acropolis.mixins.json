@@ -13,6 +13,9 @@
     "PlayerEntityMixin",
     "ServerWorldMixin",
     "TridentItemMixin",
+    "compat.enchancement.AirJumpComponentMixin",
+    "compat.enchancement.DirectionBurstComponentMixin",
+    "compat.enchancement.RotationBurstComponentMixin",
     "compat.enchancement.TridentEntityMixinSquared"
   ],
   "injectors": {

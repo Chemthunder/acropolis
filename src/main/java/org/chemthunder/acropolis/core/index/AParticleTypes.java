@@ -15,7 +15,7 @@ public interface AParticleTypes {
     ParticleTypeRegistrant plugin = new ParticleTypeRegistrant(Acropolis.MOD_ID);
 
     SimpleParticleType BEAM_ASS_SHIT = plugin.register("beam_ass_shit", FabricParticleTypes.simple());
-    SimpleParticleType SHOCKWAVE = plugin.register("shockwave", FabricParticleTypes.simple());
+    SimpleParticleType SHOCKWAVE = plugin.register("shockwave", FabricParticleTypes.simple(true));
 
     static void init() {}
 

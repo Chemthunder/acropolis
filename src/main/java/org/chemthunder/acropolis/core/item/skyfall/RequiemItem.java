@@ -1,5 +1,10 @@
 package org.chemthunder.acropolis.core.item.skyfall;
 
+import net.acoyt.acornlib.api.item.HitEffectsItem;
+import net.acoyt.acornlib.api.util.ParticleUtils;
+import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
+import net.acoyt.acornlib.impl.index.AcornParticles;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,7 +20,7 @@ import org.chemthunder.acropolis.core.index.AEntityTypes;
 /**
  * @author Chemthunder
  */
-public class RequiemItem extends Item {
+public class RequiemItem extends Item implements HitEffectsItem {
     public RequiemItem(Settings settings) {
         super(settings);
     }
@@ -29,6 +34,16 @@ public class RequiemItem extends Item {
             }
         }
         return super.use(world, user, hand);
+    }
+
+    public void runHitEffects(PlayerEntity player, Entity target) {
+        ParticleUtils.spawnSweepParticles(
+                new SweepParticleEffect(
+                        0xFF4c2828,
+                        0xFF281217
+                ),
+                player
+        );
     }
 
     private static void funeralBloom(World world, PlayerEntity player, Hand hand) {

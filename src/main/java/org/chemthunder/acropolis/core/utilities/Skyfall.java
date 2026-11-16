@@ -1,11 +1,14 @@
 package org.chemthunder.acropolis.core.utilities;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
 
 import java.util.List;
 
@@ -23,6 +26,24 @@ public abstract class Skyfall {
 
     public static SkyfallComponent getInstance(ServerCommandSource src) {
         return src.getWorld().getComponent(SkyfallComponent.KEY);
+    }
+
+    public static void shout(String input, int color, List<ServerPlayerEntity> serverPlayerEntities) {
+        serverPlayerEntities.forEach(cap -> ServerPlayNetworking.send(cap, new ShoutPayload(input, color)));
+    }
+
+    public static void shout(String input, int color, ServerPlayerEntity[] serverPlayerEntities) {
+        for (ServerPlayerEntity sp : serverPlayerEntities) {
+            ServerPlayNetworking.send(sp, new ShoutPayload(input, color));
+        }
+    }
+
+    public static void shout(String input, int color, Entity[] serverPlayerEntities) {
+        for (Entity e : serverPlayerEntities) {
+            if (e instanceof ServerPlayerEntity sp) {
+                ServerPlayNetworking.send(sp, new ShoutPayload(input, color));
+            }
+        }
     }
 
     public static List<Text> getInnovatorSpeech() {

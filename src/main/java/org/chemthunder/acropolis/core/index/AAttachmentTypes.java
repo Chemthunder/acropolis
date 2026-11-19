@@ -15,13 +15,6 @@ import java.util.function.Consumer;
  * @author Chemthunder
  */
 public interface AAttachmentTypes {
-    AttachmentType<Boolean> AWAKENED = register("awakened",
-            builder -> builder
-                    .persistent(Codec.BOOL)
-                    .syncWith(PacketCodecs.BOOLEAN, AttachmentSyncPredicate.all())
-                    .initializer(() -> false)
-    );
-
     AttachmentType<LazyEntityReference<LivingEntity>> OWNERSHIP = register("ownership",
             builder -> builder
                     .persistent(LazyEntityReference.createCodec())
@@ -32,6 +25,21 @@ public interface AAttachmentTypes {
             builder -> builder
                     .persistent(Codec.BOOL)
                     .syncWith(PacketCodecs.BOOLEAN, AttachmentSyncPredicate.all())
+                    .initializer(() -> false)
+    );
+
+    AttachmentType<Boolean> MATRIARCH = register("matriarch",
+            builder -> builder
+                    .persistent(Codec.BOOL)
+                    .syncWith(PacketCodecs.BOOLEAN, AttachmentSyncPredicate.all())
+                    .initializer((() -> false))
+    );
+
+    AttachmentType<Boolean> SANCTUMITE = register("sanctumite",
+            builder -> builder
+                    .persistent(Codec.BOOL)
+                    .syncWith(PacketCodecs.BOOLEAN, AttachmentSyncPredicate.all())
+                    .copyOnDeath()
                     .initializer(() -> false)
     );
 

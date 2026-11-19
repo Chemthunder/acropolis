@@ -2,18 +2,19 @@ package org.chemthunder.acropolis.core.entity;
 
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 
 import java.util.List;
@@ -30,13 +31,21 @@ public class CruciDaggerEntity extends ThrownEntity {
     protected void initDataTracker(DataTracker.Builder builder) {}
 
     public void tick() {
+        this.noClip = true;
+
         super.tick();
+
+        this.noClip = true;
+
+        if (this.age > (4 * 20)) {
+            this.discard();
+        }
 
         Vec3d pos = this.getEntityPos();
         World world = this.getEntityWorld();
 
         world.addParticleClient(
-                new SweepParticleEffect(0xFF605662, 0xFF3c333e),
+                new SweepParticleEffect(0xFF561060, 0xFFa31eb5),
                 pos.x,
                 pos.y,
                 pos.z,
@@ -69,11 +78,21 @@ public class CruciDaggerEntity extends ThrownEntity {
             );
         }
 
-        Box hitbox = new Box(this.getBlockPos()).expand(15);
+        Box hitbox = new Box(this.getBlockPos()).expand(6);
         List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class, hitbox, EntityPredicates.EXCEPT_SPECTATOR);
 
-        for (LivingEntity living : entities) {
-            calcAndApply(living, world);
+        LivingEntity owner = LazyEntityReference.getLivingEntity(this.getAttached(AAttachmentTypes.OWNERSHIP), this.getEntityWorld());
+
+        if (!entities.isEmpty()) {
+            for (LivingEntity living : entities) {
+                if (owner != null) {
+                    if (owner != living) {
+                        calcAndApply(living, world);
+                    }
+                } else {
+                    calcAndApply(living, world);
+                }
+            }
         }
     }
 
@@ -85,6 +104,32 @@ public class CruciDaggerEntity extends ThrownEntity {
 
         for (CruciDaggerEntity dagger : daggers) {
             output += 2.0F;
+
+            if (world instanceof ServerWorld serverWorld) {
+                serverWorld.spawnParticles(
+                        ParticleTypes.END_ROD,
+                        dagger.getX(),
+                        dagger.getY(),
+                        dagger.getZ(),
+                        6,
+                        0,
+                        0,
+                        0,
+                        0.01F
+                );
+            }
+
+            world.playSound(
+                    null,
+                    dagger.getX(),
+                    dagger.getY(),
+                    dagger.getZ(),
+                    SoundEvents.ENTITY_ALLAY_ITEM_THROWN,
+                    SoundCategory.PLAYERS,
+                    1,
+                    new Random().nextFloat(0.4F, 0.9F)
+            );
+
             dagger.discard();
         }
 
@@ -97,3 +142,4 @@ public class CruciDaggerEntity extends ThrownEntity {
         return true;
     }
 }
+

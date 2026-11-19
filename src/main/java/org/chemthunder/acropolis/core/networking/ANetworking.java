@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import org.chemthunder.acropolis.core.networking.c2s.DashPayload;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
 import org.chemthunder.acropolis.core.networking.s2c.*;
 
@@ -15,6 +16,8 @@ public interface ANetworking {
     static void register() {
         PayloadTypeRegistry.playC2S().register(GrimoireEditPayload.ID, GrimoireEditPayload.CODEC);
 
+        PayloadTypeRegistry.playC2S().register(DashPayload.ID, DashPayload.CODEC);
+
         PayloadTypeRegistry.playS2C().register(VignetteTriggerPayload.ID, VignetteTriggerPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenGrimoirePayload.ID, OpenGrimoirePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(TriggerMercyShadersPayload.ID, TriggerMercyShadersPayload.CODEC);
@@ -24,10 +27,15 @@ public interface ANetworking {
         PayloadTypeRegistry.playS2C().register(ShoutPayload.ID, ShoutPayload.CODEC);
 
         PayloadTypeRegistry.playS2C().register(CrackBorderHudPayload.ID, CrackBorderHudPayload.CODEC);
+
+        PayloadTypeRegistry.playS2C().register(ShockwavePayload.ID, ShockwavePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(ResetSightWidthPayload.ID, ResetSightWidthPayload.CODEC);
     }
 
     static void c2s() {
         ServerPlayNetworking.registerGlobalReceiver(GrimoireEditPayload.ID, new GrimoireEditPayload.Receiver());
+
+        ServerPlayNetworking.registerGlobalReceiver(DashPayload.ID, new DashPayload.Receiver());
     }
 
     @Environment(EnvType.CLIENT)
@@ -41,5 +49,9 @@ public interface ANetworking {
         ClientPlayNetworking.registerGlobalReceiver(ShoutPayload.ID, new ShoutPayload.Receiver());
 
         ClientPlayNetworking.registerGlobalReceiver(CrackBorderHudPayload.ID, new CrackBorderHudPayload.Receiver());
+
+        ClientPlayNetworking.registerGlobalReceiver(ShockwavePayload.ID, new ShockwavePayload.Receiver());
+
+        ClientPlayNetworking.registerGlobalReceiver(ResetSightWidthPayload.ID, new ResetSightWidthPayload.Receiver());
     }
 }

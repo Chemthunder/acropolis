@@ -4,7 +4,7 @@ da97ee75c7cc8eba7e80d7658d173e499bba881b assets/acropolis/blockstates/meteor.jso
 3f3159e6919a333e51dc6414ae36baf3f7101aeb assets/acropolis/items/exalted_idol.json
 e3a2e5220d8d087110be3b4603f28230b2be3421 assets/acropolis/items/fatal_omen.json
 daf58b1b92049dabd1e3984443f216f20513ab49 assets/acropolis/items/meteor.json
-ddfafa496c1bd00d49fb02ededdb02acfd1bb29c assets/acropolis/items/rapture.json
+58e091ee7d93632cc3016a8a5f51d3eaa37295b7 assets/acropolis/items/rapture.json
 135bdae860f6720819a967e524e496504a955d2c assets/acropolis/items/requiem.json
 460fcde38a47f26d3fcca8d74cfcbe7c50cb145b assets/acropolis/items/tampered_grimoire.json
 0d5286e728f774abea0a32941c7f41edd0da8732 assets/acropolis/models/block/meteor.json
@@ -14,5 +14,6 @@ ded62221186eeb39b1878ea4613446c96b74c537 assets/acropolis/models/item/celestial_
 add9f6c10025d2cdb05f7764f7c298ef56876219 assets/acropolis/models/item/fatal_omen_finalized.json
 1f25a5f7461054fb5cf6f6c82125fc97d654ca48 assets/acropolis/models/item/fatal_omen_open.json
 517741b854f68d60efdf5152fbe792d72d14f37f assets/acropolis/models/item/rapture.json
+3bf571a5633a45928bd458ffe6633050e3ab939f assets/acropolis/models/item/rapture_awakened.json
 a0f2df5f10edd2e01cf3955de1b64683f7e8933c assets/acropolis/models/item/requiem.json
 f275ada67e6d3d5afa01df9af02b7e55afae64fb assets/acropolis/models/item/tampered_grimoire.json

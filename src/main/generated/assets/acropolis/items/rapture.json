@@ -1,24 +1,50 @@
 {
   "model": {
-    "type": "minecraft:select",
-    "cases": [
-      {
-        "model": {
-          "type": "minecraft:model",
-          "model": "acropolis:item/rapture"
-        },
-        "when": [
-          "gui",
-          "ground",
-          "fixed",
-          "on_shelf"
-        ]
-      }
-    ],
-    "fallback": {
-      "type": "minecraft:model",
-      "model": "acropolis:item/rapture_in_hand"
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:select",
+      "cases": [
+        {
+          "model": {
+            "type": "minecraft:model",
+            "model": "acropolis:item/rapture"
+          },
+          "when": [
+            "gui",
+            "ground",
+            "fixed",
+            "on_shelf"
+          ]
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "acropolis:item/rapture_in_hand"
+      },
+      "property": "minecraft:display_context"
     },
-    "property": "minecraft:display_context"
+    "on_true": {
+      "type": "minecraft:select",
+      "cases": [
+        {
+          "model": {
+            "type": "minecraft:model",
+            "model": "acropolis:item/rapture_awakened"
+          },
+          "when": [
+            "gui",
+            "ground",
+            "fixed",
+            "on_shelf"
+          ]
+        }
+      ],
+      "fallback": {
+        "type": "minecraft:model",
+        "model": "acropolis:item/rapture_awakened_in_hand"
+      },
+      "property": "minecraft:display_context"
+    },
+    "property": "acropolis:awaken_rapture"
   }
 }

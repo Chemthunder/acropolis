@@ -93,6 +93,14 @@ public class AcropolisLanguageProvider extends FabricLanguageProvider {
                 "%1$s was removed from %2$s's prophecies"
         );
 
+        DataUtils.registerDamageType(
+                translationBuilder,
+                ADamageTypes.SIGHT,
+                "%1$s was claimed by the abyss",
+                "%1$s was claimed by the abyss whilst fighting %2$s, wielding %3$s",
+                "%1$s was claimed by the abyss whilst fighting %2$s"
+        );
+
         DataUtils.registerDamageTypeAll(
                 translationBuilder,
                 ADamageTypes.REPURPOSE,

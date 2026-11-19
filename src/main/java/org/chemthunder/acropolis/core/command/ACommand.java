@@ -1,18 +1,27 @@
 package org.chemthunder.acropolis.core.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.client.screen.FallFlashScreen;
+import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.item.component.OmenComponent;
+import org.chemthunder.acropolis.core.networking.s2c.ResetSightWidthPayload;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 
 import java.util.Collections;
@@ -85,6 +94,85 @@ public class ACommand implements CommandRegistrationCallback {
                             }
                             return 1;
                         })
+                )
+
+                .then(literal("matriarch")
+                        .then(argument("state", BoolArgumentType.bool())
+                                .executes(context -> {
+                                    PlayerEntity player = context.getSource().getPlayer();
+
+                                    if (player != null) {
+                                        player.setAttached(AAttachmentTypes.MATRIARCH, BoolArgumentType.getBool(context, "state"));
+
+                                        if (!BoolArgumentType.getBool(context, "state")) {
+                                            Skyfall.disableMatriarch(player);
+                                        } else {
+                                            Skyfall.awakenMatriarch(player);
+                                        }
+                                    }
+                                    return 1;
+                                })
+                        )
+                        .then(literal("fall")
+                                .executes(context -> {
+                                    MinecraftClient.getInstance().setScreen(new FallFlashScreen());
+                                    return 1;
+                                })
+                        )
+                )
+
+                .then(literal("trust")
+                        .then(literal("set")
+                                .then(argument("state", BoolArgumentType.bool())
+                                        .then(argument("target", EntityArgumentType.player())
+                                                .executes(context -> {
+                                                    PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
+
+                                                    if (player != null) {
+                                                        player.setAttached(AAttachmentTypes.SANCTUMITE, BoolArgumentType.getBool(context, "state"));
+                                                    }
+                                                    return 1;
+                                                })
+                                        )
+                                )
+                        )
+                        .then(literal("get")
+                                .then(argument("target", EntityArgumentType.player())
+                                        .executes(context -> {
+                                            PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
+
+                                            if (player != null) {
+                                                context.getSource().sendFeedback(
+                                                        () -> Text.literal("PlayerTrustState: " + player.getAttachedOrCreate(AAttachmentTypes.SANCTUMITE)),
+                                                        false
+                                                );
+                                            }
+                                            return 1;
+                                        })
+                                )
+                        )
+                )
+
+                .then(literal("sight")
+                        .then(literal("spawn")
+                                .then(argument("pos", BlockPosArgumentType.blockPos())
+                                        .executes(context -> {
+                                            SkyfallComponent sk = Skyfall.getInstance(context.getSource());
+
+                                            BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
+
+                                            sk.sight.active = true;
+                                            sk.sight.age = 0;
+                                            sk.sight.pos = pos.toCenterPos();
+                                            sk.sync();
+
+                                            if (context.getSource().getPlayer() != null) {
+                                                ServerPlayNetworking.send(context.getSource().getPlayer(), new ResetSightWidthPayload());
+                                            }
+                                            return 1;
+                                        })
+                                )
+                        )
                 )
         );
     }

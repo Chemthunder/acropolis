@@ -27,8 +27,12 @@
   "client": [
     "client.CameraMixin",
     "client.CloudRendererMixin",
+    "client.DrawContextMixin",
     "client.FogRendererMixin",
     "client.GameRendererMixin",
+    "client.InGameHudMixin",
+    "client.LivingEntityRendererMixin",
+    "client.MinecraftClientMixin",
     "client.SkyRenderingMixin",
     "client.WeatherRenderingMixin",
     "client.WorldRendererMixin",

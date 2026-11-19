@@ -23,4 +23,5 @@ public interface ADamageTypes {
     RegistryKey<DamageType> BORDER = plugin.register("border", new DamageType("border", 1.4F));
     RegistryKey<DamageType> BORDER_TRUE = plugin.register("border_true", new DamageType("border_true", 1.6F));
     RegistryKey<DamageType> DAGGER = plugin.register("dagger", new DamageType("dagger", 1.6F));
+    RegistryKey<DamageType> SIGHT = plugin.register("sight", new DamageType("sight", 0.0F));
 }

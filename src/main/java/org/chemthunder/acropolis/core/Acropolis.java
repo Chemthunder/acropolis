@@ -26,8 +26,6 @@ public class Acropolis implements ModInitializer {
     public static final String MOD_ID = "acropolis";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final boolean PLAYTEST = false;
-
     public void onInitialize() {
         ANetworking.register();
         ANetworking.c2s();
@@ -52,8 +50,8 @@ public class Acropolis implements ModInitializer {
         ALib.registerModData(MOD_ID,
             new ALib.ModMenuData(
                     Text.literal("Acropolis").withColor(0xFFac61d0),
-                    Text.literal("MERCY").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f),
-                    Text.literal("THEN FELL THE HEAVENS, FOR THEN THE DAWNS SHALL RISE.").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f)
+                    Text.literal("SKYFALL").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f),
+                    Text.literal("op ass shit bro uwu").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f)
             )
         );
 

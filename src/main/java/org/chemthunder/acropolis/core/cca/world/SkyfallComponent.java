@@ -15,6 +15,7 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.cca.SightInstance;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.networking.s2c.FlashPayload;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
@@ -69,11 +70,16 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     private int innovatorFinalizeDelay = 80;
     private int playerId;
 
+    public SightInstance sight;
+
     public SkyfallComponent(World world) {
         this.world = world;
+        this.sight = new SightInstance(world);
     }
 
     public void tick() {
+        sight.tick();
+
         if (active) { // FINALE
             if (timeUntilSun > 0) {
                 timeUntilSun--;
@@ -188,6 +194,8 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         innovatorFinalizeDelay = readView.getInt("InnovatorFinalizeDelay", 80);
 
         playerId = readView.getInt("PlayerId", 0);
+
+        sight = sight.read(readView);
     }
 
     public void writeData(WriteView writeView) {
@@ -215,6 +223,8 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         writeView.putInt("InnovatorFinalizeDelay", innovatorFinalizeDelay);
 
         writeView.putInt("PlayerId", playerId);
+
+        sight.write(writeView);
     }
 
     public void activate() {
@@ -339,10 +349,6 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
 
     public float getInnovatorSize() {
         return innovatorSize;
-    }
-
-    public int getInnovatorDialogueIndex() {
-        return innovatorDialogueIndex;
     }
 
     @Nullable

@@ -3,7 +3,6 @@ package org.chemthunder.acropolis.core.item.skyfall;
 import net.acoyt.acornlib.api.item.HitEffectsItem;
 import net.acoyt.acornlib.api.util.ParticleUtils;
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
-import net.acoyt.acornlib.impl.index.AcornParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.player.PlayerEntity;

@@ -14,6 +14,7 @@ import net.minecraft.world.waypoint.ServerWaypoint;
 import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
 import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
+import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
@@ -121,5 +122,15 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             return Vec3d.ZERO;
         }
         return original.call(gravity, falling, motion);
+    }
+
+    @WrapMethod(method = "handleFallDamage")
+    private boolean acropolis$denyFallDamage(double fallDistance, float damagePerDistance, DamageSource damageSource, Operation<Boolean> original) {
+        LivingEntity living = (LivingEntity) (Object) this;
+
+        if (Skyfall.getInstance(living).isActive() && living.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+            return false;
+        }
+        return original.call(fallDistance, damagePerDistance, damageSource);
     }
 }

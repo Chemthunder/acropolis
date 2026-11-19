@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.entity.SpellshotEntity;
 import org.chemthunder.acropolis.core.index.AEntityTypes;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
@@ -42,8 +43,8 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
     }
 
     public void tick() {
-        if (angered) {
-            if (world.getTime() % 40 == 0) {
+        if (angered || Skyfall.getInstance(world).externalVisible) {
+            if (world.getTime() % 70 == 0) {
                 if (pos != null && present) {
 
                     PlayerEntity closest = world.getClosestPlayer(pos.x, pos.y + 50, pos.z, 150, false);

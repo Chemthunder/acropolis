@@ -3,6 +3,8 @@ package org.chemthunder.acropolis.core.item;
 import net.acoyt.acornlib.api.event.BetterItemTooltipEvent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,12 +19,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
+import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 
 import java.util.function.Consumer;
 
@@ -48,63 +54,108 @@ public class CelestialGrimoireItem extends Item {
         ItemStack stack = context.getStack();
 
         if (player != null && world != null && stack != null) {
-            if (player.isSneaking() && player.getOffHandStack().isEmpty()) {
-                player.swingHand(player.getActiveHand());
+            SkyfallComponent sk = Skyfall.getInstance(world);
 
-                GazeComponent gaze = GazeComponent.KEY.get(world);
+            if (!sk.externalVisible) {
+                if (player.isSneaking() && player.getOffHandStack().isEmpty()) {
+                    player.swingHand(player.getActiveHand());
 
-                gaze.setPos(context.getBlockPos().toCenterPos());
-                gaze.setPresent(true);
+                    GazeComponent gaze = GazeComponent.KEY.get(world);
 
-                if (gaze.getPos() != null) {
-                    if (world instanceof ServerWorld serverWorld) {
-                        serverWorld.spawnParticles(
-                                ParticleTypes.END_ROD,
-                                gaze.getPos().x,
-                                gaze.getPos().y + 1.5F,
-                                gaze.getPos().z,
-                                9,
-                                0,
-                                0,
-                                0,
-                                0.15F
-                        );
+                    gaze.setPos(context.getBlockPos().toCenterPos());
+                    gaze.setPresent(true);
+
+                    if (gaze.getPos() != null) {
+                        if (world instanceof ServerWorld serverWorld) {
+                            serverWorld.spawnParticles(
+                                    ParticleTypes.END_ROD,
+                                    gaze.getPos().x,
+                                    gaze.getPos().y + 1.5F,
+                                    gaze.getPos().z,
+                                    9,
+                                    0,
+                                    0,
+                                    0,
+                                    0.15F
+                            );
+                        }
                     }
+                    return ActionResult.FAIL;
                 }
-
-                return ActionResult.FAIL;
+            } else {
+                if (player.isSneaking() && player.getOffHandStack().isOf(this)) {
+                    Skyfall.summonSight(world, context.getHitPos().add(0, 0.6, 0));
+                }
             }
         }
         return super.useOnBlock(context);
     }
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
+        SkyfallComponent sk = Skyfall.getInstance(world);
+
+        if (!sk.externalVisible) {
             if (user.isSneaking()) {
                 if (user instanceof ServerPlayerEntity serverPlayer) {
                     user.swingHand(hand);
                     ServerPlayNetworking.send(serverPlayer, new OpenGrimoirePayload());
                 }
             }
+        } else {
+            // repot
+            if (!user.isSneaking()) {
+                for (PlayerEntity player : world.getEntitiesByClass(PlayerEntity.class, new Box(user.getBlockPos()).expand(20), (player -> true))) {
+                    if (player.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, (8 * 60) * 20));
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, (90 * 20), 1));
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, (8 * 60) * 20));
+
+                        if (world instanceof ServerWorld serverWorld) {
+                            serverWorld.spawnParticles(
+                                    ParticleTypes.SOUL,
+                                    player.getX(),
+                                    player.getY(),
+                                    player.getZ(),
+                                    14,
+                                    0,
+                                    1,
+                                    0,
+                                    0.1F
+                            );
+                        }
+                    }
+                }
+
+                user.getItemCooldownManager().set(user.getStackInHand(hand), (7 * 20));
+            } else {
+                // heal + hunger
+                for (PlayerEntity player : world.getEntitiesByClass(PlayerEntity.class, new Box(user.getBlockPos()).expand(20), (player -> true))) {
+                    if (player.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                        player.heal(player.getMaxHealth());
+                        player.getHungerManager().add(40, 120);
+
+                        if (world instanceof ServerWorld serverWorld) {
+                            serverWorld.spawnParticles(
+                                    ParticleTypes.END_ROD,
+                                    player.getX(),
+                                    player.getY(),
+                                    player.getZ(),
+                                    14,
+                                    0,
+                                    1,
+                                    0,
+                                    0.1F
+                            );
+                        }
+                    }
+                }
+
+                user.getItemCooldownManager().set(user.getStackInHand(hand), (9 * 20));
+            }
+        }
 
         return super.use(world, user, hand);
     }
-
-//    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-//        if (clickType == ClickType.RIGHT) {
-//            if (otherStack.isOf(Items.TOTEM_OF_UNDYING)) {
-//                otherStack.decrement(1);
-//
-//                if (player.getEntityWorld().isClient()) {
-//                    player.playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE);
-//                }
-//
-//                cursorStackReference.set(new ItemStack(AcropolisItems.EXTOLLED_SIMULACRUM));
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
 
     public Text getName(ItemStack stack) {
         return super.getName(stack).copy().withColor(0xFFac61d0);

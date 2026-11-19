@@ -27,11 +27,13 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
                 .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.BORDER_TRUE.getValue())
                 .add(ADamageTypes.BORDER.getValue())
+                .add(ADamageTypes.SIGHT.getValue())
                 .add(ADamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_COOLDOWN)
                 .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.PESTILENCE.getValue())
+                .add(ADamageTypes.SIGHT.getValue())
                 .add(ADamageTypes.ABSORB.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
@@ -43,6 +45,8 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
                 .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.BORDER.getValue())
                 .add(ADamageTypes.BORDER_TRUE.getValue())
+                .add(ADamageTypes.DAGGER.getValue())
+                .add(ADamageTypes.SIGHT.getValue())
                 .add(ADamageTypes.RETRIBUTION.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
@@ -50,6 +54,8 @@ public class AcropolisDamageTypeTagProvider extends FabricTagProvider<DamageType
                 .add(ADamageTypes.PESTILENCE.getValue())
                 .add(ADamageTypes.FALL.getValue())
                 .add(ADamageTypes.BORDER_TRUE.getValue())
+                .add(ADamageTypes.DAGGER.getValue())
+                .add(ADamageTypes.SIGHT.getValue())
                 .add(ADamageTypes.SMOKE.getValue());
 
         this.getTagBuilder(DamageTypeTags.BYPASSES_ENCHANTMENTS)

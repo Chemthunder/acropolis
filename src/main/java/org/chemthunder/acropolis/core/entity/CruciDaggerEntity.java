@@ -134,11 +134,7 @@ public class CruciDaggerEntity extends ThrownEntity {
         }
 
         if (world instanceof ServerWorld serverWorld) {
-            if (this.getOwner() != null) {
-                target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.DAGGER, this.getOwner()), output);
-            } else {
-                target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.DAGGER), output);
-            }
+            target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.DAGGER), output);
         }
     }
 

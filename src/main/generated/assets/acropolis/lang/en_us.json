@@ -8,7 +8,7 @@
   "death.attack.border_true": "%1$s's heart gave out painfully",
   "death.attack.border_true.item": "%1$s's heart gave out painfully",
   "death.attack.border_true.player": "%1$s's heart gave out painfully",
-  "death.attack.dagger": "%1$S was impaled by destiny",
+  "death.attack.dagger": "%1$s was impaled by destiny",
   "death.attack.dagger.item": "%1$s was removed from %2$s's prophecies, wielding %3$s",
   "death.attack.dagger.player": "%1$s was removed from %2$s's prophecies",
   "death.attack.fall": "%1$s fell before the hand of something higher",

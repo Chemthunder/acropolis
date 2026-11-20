@@ -115,6 +115,10 @@ public class SkyfallWorldComponent implements AutoSyncedComponent, CommonTicking
                         NetworkingUtils.sendForAllPlayers(world, new FlashPayload(0xFFa503fc, EasingType.OUT_EXPO));
                         externalVisible = true;
                         sync();
+
+                        if (world instanceof ServerWorld serverWorld) {
+                            serverWorld.setTimeOfDay(18000);
+                        }
                     }
                 }
             }
@@ -245,6 +249,10 @@ public class SkyfallWorldComponent implements AutoSyncedComponent, CommonTicking
 
         timeUntilSun = TIME_UNTIL_SUN;
         sync();
+
+        if (world instanceof ServerWorld serverWorld) {
+            serverWorld.setTimeOfDay(18000);
+        }
     }
 
     public void close() {

@@ -185,6 +185,18 @@ public class ACommand implements CommandRegistrationCallback {
                                 })
                         )
                 )
+
+                .then(literal("box")
+                        .then(argument("target", EntityArgumentType.player())
+                                .executes(context -> {
+                                    SkyfallWorldComponent sk = Skyfall.ofWorld(context.getSource());
+                                    PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
+
+                                    sk.createBox(player.getEntityPos().add(0, 0.5, 0), player);
+                                    return 1;
+                                })
+                        )
+                )
         );
 
         dispatcher.register(literal("skyfall:weaponcutscene").requires(ACommand::isChemOrNickel)

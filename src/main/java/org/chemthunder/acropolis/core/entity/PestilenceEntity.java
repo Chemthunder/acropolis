@@ -1,8 +1,6 @@
 package org.chemthunder.acropolis.core.entity;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LazyEntityReference;
-import net.minecraft.entity.Ownable;
 import net.minecraft.entity.Targeter;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
@@ -12,7 +10,6 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -24,16 +21,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.index.AEntityTypes;
 import org.chemthunder.acropolis.core.index.AItems;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Random;
 
 /**
  * @author Chemthunder
  */
-public class PestilenceEntity extends HostileEntity implements Ownable, Targeter {
-    private @Nullable LazyEntityReference<MobEntity> owner;
-
+public class PestilenceEntity extends HostileEntity implements Targeter {
     private boolean targeted = false;
 
     public PestilenceEntity(EntityType<? extends HostileEntity> entityType, World world) {
@@ -160,14 +154,6 @@ public class PestilenceEntity extends HostileEntity implements Ownable, Targeter
                 .add(EntityAttributes.ATTACK_DAMAGE, 4.0F)
                 .add(EntityAttributes.FLYING_SPEED, 0.1F)
                 .add(EntityAttributes.MOVEMENT_SPEED, 0.1F);
-    }
-
-    public @Nullable MobEntity getOwner() {
-        return LazyEntityReference.resolve(this.owner, this.getEntityWorld(), MobEntity.class);
-    }
-
-    public void setOwner(@Nullable LazyEntityReference<MobEntity> owner) {
-        this.owner = owner;
     }
 
     protected void tickCramming() {}

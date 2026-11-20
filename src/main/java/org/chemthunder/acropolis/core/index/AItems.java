@@ -44,13 +44,6 @@ public interface AItems {
             .fireproof()
     );
 
-//    Item EXTOLLED_SIMULACRUM = plugin.register("extolled_simulacrum", ExtolledSimulacrumItem::new, new Item.Settings()
-//            .maxCount(1)
-//            .component(DataComponentTypes.TOOLTIP_STYLE, Acropolis.id("grimoire"))
-//            .component(AComponentTypes.CHARGES, 0)
-//            .fireproof()
-//    );
-
     Item RAPTURE = plugin.register("rapture", RaptureItem::new, new Item.Settings()
             .maxCount(1)
             .sword(ToolMaterial.NETHERITE, 3.0F, -2.4F)

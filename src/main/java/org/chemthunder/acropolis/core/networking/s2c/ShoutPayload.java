@@ -12,10 +12,6 @@ import org.chemthunder.acropolis.core.client.skyfall.ShoutEvents;
  * @author Chemthunder
  */
 public record ShoutPayload(String text2Shout, int color) implements CustomPayload {
-    public ShoutPayload(String text2Shout) {
-        this(text2Shout, 0xFFffffff);
-    }
-
     public static final Id<ShoutPayload> ID = new Id<>(Acropolis.id("shout"));
 
     public Id<? extends CustomPayload> getId() {

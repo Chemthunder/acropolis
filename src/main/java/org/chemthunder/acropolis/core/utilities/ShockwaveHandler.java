@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.chemthunder.acropolis.core.cca.entity.TargetComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.networking.s2c.ShockwavePayload;
 
@@ -27,9 +27,9 @@ public abstract class ShockwaveHandler {
             player.setAttached(AAttachmentTypes.EXPECTING_SHOCKWAVE, false);
             trigger(player);
 
-            if (TargetComponent.KEY.get(player).dashBuffer > 0) {
-                TargetComponent.KEY.get(player).dashBuffer = 0;
-                TargetComponent.KEY.get(player).sync();
+            if (SkyfallEntityComponent.KEY.get(player).dashBuffer > 0) {
+                SkyfallEntityComponent.KEY.get(player).dashBuffer = 0;
+                SkyfallEntityComponent.KEY.get(player).sync();
             }
         }
     }
@@ -54,10 +54,10 @@ public abstract class ShockwaveHandler {
         }
 
         for (LivingEntity target : entities) {
-            if (target != player) {
+            if (target != player && !target.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
                 target.setVelocity(target.getRotationVec(0).multiply(-4));
                 target.addVelocity(0, 4, 0);
-                target.getComponent(TargetComponent.KEY).stunlock();
+                target.getComponent(SkyfallEntityComponent.KEY).stunlock();
 
                 if (world instanceof ServerWorld serverWorld) {
                     for (ServerPlayerEntity serverPlayer : serverWorld.getPlayers()) {

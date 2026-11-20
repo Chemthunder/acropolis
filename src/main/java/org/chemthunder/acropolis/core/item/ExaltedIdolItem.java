@@ -2,6 +2,7 @@ package org.chemthunder.acropolis.core.item;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -9,7 +10,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.chemthunder.acropolis.api.EntityAssembler;
 import org.chemthunder.acropolis.core.cca.world.MercyComponent;
 import org.chemthunder.acropolis.core.index.ASoundEvents;
 
@@ -30,12 +30,11 @@ public class ExaltedIdolItem extends Item {
         if (!mercy.isActive()) {
             world.playSound(null, blockPos, ASoundEvents.MERCY_START, SoundCategory.MASTER, 1, 1);
 
-            EntityAssembler.create(world, EntityType.LIGHTNING_BOLT)
-                    .build((lightningEntity, world1) -> {
-                        lightningEntity.setPosition(pos);
-                        lightningEntity.shouldRender(world1.getWorldBorder().getSize());
-                    })
-                    .spawn();
+            LightningEntity lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
+            lightning.setPosition(pos);
+            lightning.shouldRender(world.getWorldBorder().getSize());
+
+            world.spawnEntity(lightning);
 
             mercy.setCountdown(MercyComponent.COUNTDOWN);
             mercy.setTicks(0);

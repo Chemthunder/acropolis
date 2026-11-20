@@ -12,6 +12,7 @@ import org.joml.Quaternionf;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class BeamAssShitParticleType extends AnimatedParticle {
     public BeamAssShitParticleType(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
         super(world, x, y, z, spriteProvider, 0.0125F);
@@ -19,13 +20,24 @@ public class BeamAssShitParticleType extends AnimatedParticle {
         this.velocityY = velocityY;
         this.velocityZ = velocityZ;
         this.scale *= 0.75F;
-        this.maxAge = 60 + this.random.nextInt(12);
+        this.maxAge = 72000;
         this.updateSprite(spriteProvider);
     }
 
     public void move(double dx, double dy, double dz) {
         this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
         this.repositionFromBoundingBox();
+    }
+
+    public void tick() {
+        super.tick();
+
+        if (this.scale > 0) {
+            this.scale -= 0.25F;
+            if (this.scale <= 0) {
+                this.markDead();
+            }
+        }
     }
 
     protected void render(BillboardParticleSubmittable submittable, Camera camera, Quaternionf rotation, float tickProgress) {

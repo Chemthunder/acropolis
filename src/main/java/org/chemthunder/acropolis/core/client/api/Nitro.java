@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.api;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
@@ -12,6 +14,7 @@ import net.minecraft.util.math.Vec3d;
 /**
  * @author N1tr0nr
  */
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused", "UnnecessaryLocalVariable"})
 public class Nitro {
     public static void solidColCube(MatrixStack matrices, VertexConsumer vertices, int color, Vec3d center, float inflation) {

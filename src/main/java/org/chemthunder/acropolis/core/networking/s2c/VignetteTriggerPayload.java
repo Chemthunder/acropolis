@@ -6,7 +6,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.event.client.PurpleVignetteEvents;
+import org.chemthunder.acropolis.core.client.event.PurpleVignetteEvents;
 
 /**
  * @author Chemthunder
@@ -25,7 +25,7 @@ public record VignetteTriggerPayload(float initial) implements CustomPayload {
 
     public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<VignetteTriggerPayload> {
         public void receive(VignetteTriggerPayload vignetteTriggerPayload, ClientPlayNetworking.Context context) {
-            context.client().execute(() -> PurpleVignetteEvents.Ticker.opacity = vignetteTriggerPayload.initial);
+            context.client().execute(() -> PurpleVignetteEvents.Tick.opacity = vignetteTriggerPayload.initial);
         }
     }
 }

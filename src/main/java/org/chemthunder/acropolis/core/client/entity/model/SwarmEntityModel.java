@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.entity.model;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.EntityRenderState;
@@ -7,6 +9,8 @@ import net.minecraft.client.render.entity.state.EntityRenderState;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class SwarmEntityModel extends EntityModel<EntityRenderState> {
     private final ModelPart bone;
 

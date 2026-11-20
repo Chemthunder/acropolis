@@ -14,7 +14,7 @@ public class AcropolisParticleProvider extends AcornParticleGen {
     }
 
     public void generate(ParticleDataConsumer consumer) {
-        consumer.accept(AParticleTypes.BEAM_ASS_SHIT, Acropolis.id("particle/beam_ass_shit"));
-        consumer.accept(AParticleTypes.SHOCKWAVE, Acropolis.id("particle/shockwave"));
+        consumer.accept(AParticleTypes.BEAM_ASS_SHIT, Acropolis.id("beam_ass_shit"));
+        consumer.accept(AParticleTypes.SHOCKWAVE, Acropolis.id("shockwave"));
     }
 }

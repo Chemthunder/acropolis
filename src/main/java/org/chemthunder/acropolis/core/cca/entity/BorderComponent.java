@@ -191,25 +191,7 @@ public class BorderComponent implements AutoSyncedComponent, CommonTickingCompon
         return fightState;
     }
 
-    public boolean isCracked () {
-        return cracked;
-    }
-
-    public void setCracked ( boolean cracked){
-        this.cracked = cracked;
-        sync();
-    }
-
     public boolean inCombat () {
         return this.fightTimer > 0;
-    }
-
-    public void incFightState () {
-        if (this.fightState < 4) {
-            this.fightState++;
-        } else {
-            this.fightState = 0;
-        }
-        sync();
     }
 }

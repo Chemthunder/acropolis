@@ -14,6 +14,7 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 
 import java.util.Random;
@@ -38,7 +39,7 @@ public class SpellshotEntity extends ThrownEntity {
         if (collided) {
             if (this.getEntityWorld() instanceof ServerWorld serverWorld) {
                 this.getEntityWorld().getEntitiesByClass(PlayerEntity.class, new Box(this.getBlockPos()).expand(2.5, 2, 2.5), entity -> true).forEach(entity -> {
-                    if (false) {
+                    if (!entity.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
                         entity.damage(serverWorld, entity.getDamageSources().create(ADamageTypes.SMOKE), 4.0F);
                     }
                 });

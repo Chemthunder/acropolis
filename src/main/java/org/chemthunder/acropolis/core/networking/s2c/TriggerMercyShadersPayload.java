@@ -6,7 +6,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.event.client.FlashEvents;
+import org.chemthunder.acropolis.core.client.event.FlashEvents;
 import org.chemthunder.acropolis.mixin.client.access.GameRendererAccessor;
 
 /**

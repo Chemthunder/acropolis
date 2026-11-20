@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.screen;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -16,6 +18,7 @@ import static net.minecraft.text.Text.literal;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class FallFlashScreen extends Screen {
     protected final List<Text> texts = new ArrayList<>();
 

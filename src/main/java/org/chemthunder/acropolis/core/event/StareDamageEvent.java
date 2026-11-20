@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
+import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 
 /**
@@ -24,7 +25,7 @@ public class StareDamageEvent implements ServerTickEvents.StartWorldTick  {
                 Box detectionRange = new Box(new BlockPos.Mutable(gaze.getPos().x, gaze.getPos().y + 55, gaze.getPos().z)).expand(15);
 
                 if (detectionRange.raycast(serverPlayer.getEntityPos(), raycastPos).isPresent()) {
-                    if (false) {
+                    if (!serverPlayer.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
                         if (!gaze.isBorder()) {
                             serverPlayer.damage(serverWorld, serverPlayer.getDamageSources().create(ADamageTypes.GAZE), 1.0F);
                         }

@@ -13,6 +13,8 @@ import org.joml.Quaternionf;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class ShockwaveParticleType extends AnimatedParticle {
     private final SpriteProvider provider;
 

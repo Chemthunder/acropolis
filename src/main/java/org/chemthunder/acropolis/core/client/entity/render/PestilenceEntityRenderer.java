@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.entity.render;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -15,6 +17,7 @@ import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class PestilenceEntityRenderer extends MobEntityRenderer<PestilenceEntity, PestilenceEntityRenderState, PestilenceEntityModel> {
     public PestilenceEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new PestilenceEntityModel(context.getPart(AEntityModelLayers.PESTILENCE)), 0.0F);

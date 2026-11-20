@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.entity.model;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.entity.animation.Animation;
@@ -8,9 +10,7 @@ import net.minecraft.util.math.Easing;
 import org.chemthunder.acropolis.core.client.entity.animation.PestilenceEntityAnimations;
 import org.chemthunder.acropolis.core.client.entity.state.PestilenceEntityRenderState;
 
-// Made with Blockbench 5.1.6
-// Exported for Minecraft version 1.17+ for Yarn
-// Paste this class into your mod and generate all required imports
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused", "FieldCanBeLocal", "SpellCheckingInspection"})
 public class PestilenceEntityModel extends EntityModel<PestilenceEntityRenderState> {
 	private final ModelPart group;

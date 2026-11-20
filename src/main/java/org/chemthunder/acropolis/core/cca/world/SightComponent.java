@@ -135,20 +135,6 @@ public class SightComponent implements AutoSyncedComponent, CommonTickingCompone
         return beamWidth;
     }
 
-    public void setBeamWidth(float beamWidth) {
-        this.beamWidth = beamWidth;
-        sync();
-    }
-
-    public int getTicks() {
-        return ticks;
-    }
-
-    public void setTicks(int ticks) {
-        this.ticks = ticks;
-        sync();
-    }
-
     public float getScale() {
         return scale;
     }

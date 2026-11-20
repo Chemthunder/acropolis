@@ -3,7 +3,7 @@ package org.chemthunder.acropolis.mixin.compat.enchancement;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import moriyashiine.enchancement.common.component.entity.DirectionBurstComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import org.chemthunder.acropolis.core.cca.entity.TargetComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,7 +20,7 @@ public abstract class DirectionBurstComponentMixin {
     private boolean acropolis$stunlockStrafe(boolean original) {
         PlayerEntity obj = this.obj;
 
-        TargetComponent target = obj.getComponent(TargetComponent.KEY);
+        SkyfallEntityComponent target = obj.getComponent(SkyfallEntityComponent.KEY);
 
         if (target.isFrozen()) {
             return false;

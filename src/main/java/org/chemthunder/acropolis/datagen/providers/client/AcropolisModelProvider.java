@@ -10,7 +10,6 @@ import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.client.item.AwakenRaptureProperty;
 import org.chemthunder.acropolis.core.client.item.FatalOmenProperty;
-import org.chemthunder.acropolis.core.index.ABlocks;
 import org.chemthunder.acropolis.core.index.AItems;
 
 import java.util.Arrays;
@@ -23,9 +22,7 @@ public class AcropolisModelProvider extends FabricModelProvider {
         super(output);
     }
 
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(ABlocks.METEOR);
-    }
+    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {}
 
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(AItems.CELESTIAL_GRIMOIRE, Models.GENERATED);

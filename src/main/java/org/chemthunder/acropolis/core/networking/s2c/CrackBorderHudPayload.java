@@ -6,7 +6,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.event.client.BorderEvents;
+import org.chemthunder.acropolis.core.client.event.BorderEvents;
 
 /**
  * @author Chemthunder

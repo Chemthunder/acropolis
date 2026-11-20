@@ -45,16 +45,18 @@ public class FuneralBloomEntity extends Entity implements Ownable {
         LivingEntity owner = LazyEntityReference.getLivingEntity(this.getAttached(AAttachmentTypes.OWNERSHIP), level);
 
         for (LivingEntity target : level.getEntitiesByClass(LivingEntity.class, capture, EntityPredicates.EXCEPT_SPECTATOR)) {
-            boolean bl = true;
+            if (!target.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                boolean bl = true;
 
-            if (owner != null) {
-                if (target == owner) {
-                    bl = false;
+                if (owner != null) {
+                    if (target == owner) {
+                        bl = false;
+                    }
                 }
-            }
 
-            if (bl) {
-                target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, (15 * 20), 1));
+                if (bl) {
+                    target.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, (15 * 20), 1));
+                }
             }
         }
 

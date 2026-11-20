@@ -7,6 +7,7 @@ import net.minecraft.client.render.CloudRenderer;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 
+import static org.chemthunder.acropolis.core.AcropolisClient.fallIns;
 import static org.chemthunder.acropolis.core.AcropolisClient.mercyActive;
 
 /**
@@ -16,6 +17,6 @@ import static org.chemthunder.acropolis.core.AcropolisClient.mercyActive;
 public abstract class CloudRendererMixin {
     @WrapMethod(method = "renderClouds")
     private void acropolis$solidfyClouds(int color, CloudRenderMode mode, float cloudHeight, Vec3d vec3d, long l, float f, Operation<Void> original) {
-        original.call(mercyActive() ? 0xFF000000 : color, mode, cloudHeight, vec3d, l, f);
+        original.call((mercyActive() || fallIns().externalVisible) ? 0xFF000000 : color, mode, cloudHeight, vec3d, l, f);
     }
 }

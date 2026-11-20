@@ -17,8 +17,5 @@ public interface GameRendererAccessor {
     void PostEffectId(Identifier id);
 
     @Accessor("postProcessorEnabled")
-    boolean EffectActive();
-
-    @Accessor("postProcessorEnabled")
     void EffectActive(boolean enabled);
 }

@@ -128,7 +128,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private GpuBuffer acropolis$applyBuffer(GpuBuffer original) {
-        return (mercyActive() || fallActive()) ? customSunVertexBuffer : original;
+        return (mercyActive() || skyfallActive()) ? customSunVertexBuffer : original;
     }
 
     @Inject(
@@ -140,7 +140,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private void acropolis$alwaysStars(MatrixStack matrices, float sunAngle, float moonAngle, float starAngle, MoonPhase moonPhase, float alpha, float starBrightness, CallbackInfo ci) {
-        if (mercyActive() || fallActive()) {
+        if (mercyActive() || skyfallActive()) {
             matrices.push();
             matrices.multiply(RotationAxis.POSITIVE_X.rotation(18000));
             this.renderStars(starBrightness, matrices);
@@ -156,8 +156,8 @@ public abstract class SkyRenderingMixin {
                 moonAngle,
                 starAngle,
                 moonPhase,
-                (mercyActive() || fallActive()) ? 1.0F : alpha,
-                (mercyActive() || fallActive()) ? 0.4F : starBrightness
+                (mercyActive() || skyfallActive()) ? 1.0F : alpha,
+                (mercyActive() || skyfallActive()) ? 0.4F : starBrightness
         );
     }
 
@@ -169,7 +169,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private void acropolis$removeVanillaStars(SkyRendering instance, float brightness, MatrixStack matrices, Operation<Void> original) {
-        if (!(mercyActive() || fallActive())) {
+        if (!(mercyActive() || skyfallActive())) {
             original.call(instance, brightness, matrices);
         }
     }
@@ -183,7 +183,7 @@ public abstract class SkyRenderingMixin {
             )
     )
     private GpuBuffer acropolis$applyStars(GpuBuffer original) {
-        return (mercyActive() || fallActive()) ? customStarVertexBuffer : original;
+        return (mercyActive() || skyfallActive()) ? customStarVertexBuffer : original;
     }
 
     @WrapOperation(
@@ -199,7 +199,7 @@ public abstract class SkyRenderingMixin {
 
     @WrapMethod(method = "renderMoon")
     private void acropolis$haltMoonIfActive(MoonPhase moonPhase, float alpha, MatrixStack matrices, Operation<Void> original) {
-        if (!(mercyActive() || fall().isActive())) {
+        if (!(mercyActive() || fallIns().isActive())) {
             original.call(moonPhase, alpha, matrices);
         }
     }
@@ -224,14 +224,14 @@ public abstract class SkyRenderingMixin {
             )
     )
     private void acropolis$removeSunrise(RenderPass instance, int i, GpuBuffer gpuBuffer, Operation<Void> original) {
-        if (!(mercyActive() || fallActive())) {
+        if (!(mercyActive() || skyfallActive())) {
             original.call(instance, i, gpuBuffer);
         }
     }
 
     @WrapMethod(method = "renderTopSky")
     private void redirect(int i, Operation<Void> original) {
-        if (fall().externalVisible) {
+        if (fallIns().externalVisible) {
             createFathomedSky(i);
         }
     }

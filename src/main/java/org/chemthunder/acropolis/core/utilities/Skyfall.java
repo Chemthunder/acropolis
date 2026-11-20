@@ -3,44 +3,63 @@ package org.chemthunder.acropolis.core.utilities;
 import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.cca.SightInstance;
-import org.chemthunder.acropolis.core.cca.entity.TargetComponent;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.obj.SightInstance;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.networking.s2c.ResetSightWidthPayload;
 import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Chemthunder
  */
 public abstract class Skyfall {
-    public static SkyfallComponent getInstance(Entity entity) {
-        return entity.getEntityWorld().getComponent(SkyfallComponent.KEY);
+    public static SkyfallWorldComponent ofWorld(Entity entity) {
+        return entity.getEntityWorld().getComponent(SkyfallWorldComponent.KEY);
     }
 
-    public static SkyfallComponent getInstance(World world) {
-        return world.getComponent(SkyfallComponent.KEY);
+    public static SkyfallWorldComponent ofWorld(World world) {
+        return world.getComponent(SkyfallWorldComponent.KEY);
     }
 
-    public static SkyfallComponent getInstance(ServerCommandSource src) {
-        return src.getWorld().getComponent(SkyfallComponent.KEY);
+    public static SkyfallWorldComponent ofWorld(ServerCommandSource src) {
+        return src.getWorld().getComponent(SkyfallWorldComponent.KEY);
     }
 
-    public static void shout(String input, int color, List<ServerPlayerEntity> serverPlayerEntities) {
+    public static SkyfallEntityComponent ofEntity(LivingEntity entity) {
+        return entity.getComponent(SkyfallEntityComponent.KEY);
+    }
+
+    public static void shout(String input, int color, List<Entity> entities) {
+        List<ServerPlayerEntity> serverPlayerEntities = new ArrayList<>();
+
+        for (Entity en : entities) {
+            if (en instanceof ServerPlayerEntity serverPlayer) {
+                serverPlayerEntities.add(serverPlayer);
+            }
+        }
+
         serverPlayerEntities.forEach(cap -> ServerPlayNetworking.send(cap, new ShoutPayload(input, color)));
     }
 
@@ -139,7 +158,7 @@ public abstract class Skyfall {
     }
 
     public static void dash(ServerPlayerEntity player) {
-        TargetComponent t = player.getComponent(TargetComponent.KEY);
+        SkyfallEntityComponent t = player.getComponent(SkyfallEntityComponent.KEY);
 
         if (t.dashBuffer <= 0) {
             player.setVelocity(player.getRotationVec(0).multiply(2));
@@ -155,7 +174,7 @@ public abstract class Skyfall {
     }
 
     public static void summonSight(World world, Vec3d hit) {
-        SkyfallComponent sk = getInstance(world);
+        SkyfallWorldComponent sk = ofWorld(world);
         SightInstance ins = sk.sight;
 
         ins.pos = hit;
@@ -168,7 +187,33 @@ public abstract class Skyfall {
     }
 
     public static boolean shouldHaveOutline(Entity entity) {
-        SkyfallComponent sk = getInstance(entity);
+        SkyfallWorldComponent sk = ofWorld(entity);
         return entity.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false) && sk.externalVisible;
+    }
+
+    public static void prepareRequiem(PlayerEntity player) {
+        PlayerInventory inventory = player.getInventory();
+        SkyfallWorldComponent sk = ofWorld(player);
+
+        for (ItemStack stack : inventory) {
+            if (stack.getRegistryEntry().matchesId(Identifier.of("divine_arms", "eulogy_of_the_dead"))) {
+                stack.split(1);
+            }
+        }
+
+        sk.weaponCutscene.active = true;
+        sk.weaponCutscene.age = 0;
+        sk.weaponCutscene.nickel = player.getId();
+        sk.weaponCutscene.sync();
+    }
+
+    public static void broadcast(World world, Text message) {
+        MinecraftServer server = world.getServer();
+
+        if (server != null) {
+            PlayerManager manager = server.getPlayerManager();
+
+            manager.broadcast(message, false);
+        }
     }
 }

@@ -1,11 +1,9 @@
-package org.chemthunder.acropolis.core.cca.entity;
+package org.chemthunder.acropolis.core.cca.skyfall;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DeathProtectionComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -13,7 +11,6 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
-import org.chemthunder.acropolis.core.networking.s2c.OpenFallScreenPayload;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -22,10 +19,10 @@ import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 /**
  * @author Chemthunder
  */
-public class TargetComponent implements AutoSyncedComponent, CommonTickingComponent {
-    public static final ComponentKey<TargetComponent> KEY = ComponentRegistryV3.INSTANCE.getOrCreate(
+public class SkyfallEntityComponent implements AutoSyncedComponent, CommonTickingComponent {
+    public static final ComponentKey<SkyfallEntityComponent> KEY = ComponentRegistryV3.INSTANCE.getOrCreate(
             Acropolis.id("target"),
-            TargetComponent.class
+            SkyfallEntityComponent.class
     );
     private final LivingEntity living;
 
@@ -37,7 +34,7 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
 
     public int dashBuffer = 0;
 
-    public TargetComponent(LivingEntity living) {
+    public SkyfallEntityComponent(LivingEntity living) {
         this.living = living;
     }
 
@@ -60,11 +57,6 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
             fallTicks--;
             if (fallTicks <= 0) {
                 if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
-                    if (!living.getEntityWorld().isClient()) {
-                        if (living instanceof ServerPlayerEntity serverPlayer) {
-                            ServerPlayNetworking.send(serverPlayer, new OpenFallScreenPayload());
-                        }
-                    }
                     living.damage(serverWorld, living.getDamageSources().create(ADamageTypes.FALL), 8.5F);
                 }
 
@@ -124,7 +116,7 @@ public class TargetComponent implements AutoSyncedComponent, CommonTickingCompon
     }
 
     public void stunlock() {
-        this.lockMovementTicks = (2 * 20);
+        this.lockMovementTicks = (4 * 20);
         this.sync();
     }
 }

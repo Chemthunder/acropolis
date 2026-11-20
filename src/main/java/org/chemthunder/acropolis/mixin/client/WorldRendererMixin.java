@@ -13,7 +13,13 @@ import org.spongepowered.asm.mixin.injection.At;
  */
 @Mixin(value = WorldRenderer.class)
 public abstract class WorldRendererMixin {
-    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getTime()J"))
+    @WrapOperation(
+            method = "render",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/world/ClientWorld;getTime()J"
+            )
+    )
     private long acropolis$forceNoon(ClientWorld instance, Operation<Long> original) {
         return MercyComponent.KEY.get(instance).isActive() ? 18000 : original.call(instance);
     }

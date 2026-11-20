@@ -22,7 +22,6 @@ public record ResetSightWidthPayload() implements CustomPayload {
     public static class Receiver implements ClientPlayNetworking.PlayPayloadHandler<ResetSightWidthPayload> {
         public void receive(ResetSightWidthPayload payload, ClientPlayNetworking.Context context) {
             SightEvents.width = 0;
-//            context.client().getSoundManager().play(PositionedSoundInstance.ui(ASoundEvents.SIGHT, 1));
         }
     }
 }

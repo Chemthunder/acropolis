@@ -1,6 +1,8 @@
 package org.chemthunder.acropolis.core.client.item;
 
 import com.mojang.serialization.MapCodec;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.item.property.bool.BooleanProperty;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -14,6 +16,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class AwakenRaptureProperty implements BooleanProperty {
     public static final MapCodec<AwakenRaptureProperty> MAP_CODEC = MapCodec.unit(new AwakenRaptureProperty());
     public static final Identifier ID = Acropolis.id("awaken_rapture");

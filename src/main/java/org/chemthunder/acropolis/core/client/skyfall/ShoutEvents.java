@@ -40,12 +40,12 @@ public class ShoutEvents {
         fadeOut = 20;
     }
 
-    public static void send(String input, int i) {
+    public static void send(String input, int textColor) {
         shoutedtext = input;
         scale = 0.0F;
         opacity = 1.0F;
         fadeOut = 20;
-        color = i;
+        color = textColor;
     }
 
     public static class Tick implements ClientTickEvents.StartTick {

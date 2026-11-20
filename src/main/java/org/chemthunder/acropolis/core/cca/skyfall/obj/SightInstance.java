@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.cca;
+package org.chemthunder.acropolis.core.cca.skyfall.obj;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -9,15 +9,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.api.nbt.LoadedComponentValue;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Chemthunder
  */
-public class SightInstance {
+public class SightInstance implements LoadedComponentValue<SightInstance> {
     public @Nullable Vec3d pos;
     public int age;
     public boolean active = false;
@@ -75,7 +76,7 @@ public class SightInstance {
         }
     }
 
-    private void sync() {
-        SkyfallComponent.KEY.sync(this.world);
+    public void sync() {
+        Skyfall.ofWorld(this.world).sync();
     }
 }

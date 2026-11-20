@@ -44,7 +44,7 @@ public abstract class PlayerEntityMixin {
 
     @WrapMethod(method = "damage")
     private boolean acropolis$nofightingkids(ServerWorld world, DamageSource source, float amount, Operation<Boolean> original) {
-        if (Skyfall.getInstance(world).isInnovatorActive()) {
+        if (Skyfall.ofWorld(world).isInnovatorActive()) {
             if (source.getAttacker() instanceof PlayerEntity player) {
                 player.sendMessage(Text.literal("Do not fight in the presence of your creator."), true);
                 return false;

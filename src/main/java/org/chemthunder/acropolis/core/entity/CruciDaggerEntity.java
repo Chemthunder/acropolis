@@ -1,8 +1,8 @@
 package org.chemthunder.acropolis.core.entity;
 
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
@@ -81,12 +81,12 @@ public class CruciDaggerEntity extends ThrownEntity {
         Box hitbox = new Box(this.getBlockPos()).expand(6);
         List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class, hitbox, EntityPredicates.EXCEPT_SPECTATOR);
 
-        LivingEntity owner = LazyEntityReference.getLivingEntity(this.getAttached(AAttachmentTypes.OWNERSHIP), this.getEntityWorld());
+        Entity entity = this.getOwner();
 
         if (!entities.isEmpty()) {
             for (LivingEntity living : entities) {
-                if (owner != null) {
-                    if (owner != living) {
+                if (entity instanceof LivingEntity ownerEntity && !ownerEntity.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                    if (ownerEntity != living) {
                         calcAndApply(living, world);
                     }
                 } else {
@@ -134,7 +134,11 @@ public class CruciDaggerEntity extends ThrownEntity {
         }
 
         if (world instanceof ServerWorld serverWorld) {
-            target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.DAGGER), output);
+            if (this.getOwner() != null) {
+                target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.DAGGER, this.getOwner()), output);
+            } else {
+                target.damage(serverWorld, target.getDamageSources().create(ADamageTypes.DAGGER), output);
+            }
         }
     }
 

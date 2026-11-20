@@ -14,6 +14,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.RotationAxis;
@@ -22,12 +23,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
-import org.chemthunder.acropolis.core.cca.SightInstance;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.obj.SightInstance;
 import org.chemthunder.acropolis.core.client.api.Nitro;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
 import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
+
+import java.util.Random;
 
 /**
  * @author Chemthunder
@@ -46,7 +49,7 @@ public class SightEvents {
             World world = MinecraftClient.getInstance().world;
             if (world == null) return;
 
-            SkyfallComponent skyfall = Skyfall.getInstance(world);
+            SkyfallWorldComponent skyfall = Skyfall.ofWorld(world);
             SightInstance ins = skyfall.sight;
 
             width = Math.clamp(width, 0, 1);
@@ -72,7 +75,7 @@ public class SightEvents {
             World world = MinecraftClient.getInstance().world;
             if (world == null) return;
 
-            SkyfallComponent skyfall = Skyfall.getInstance(world);
+            SkyfallWorldComponent skyfall = Skyfall.ofWorld(world);
             SightInstance ins = skyfall.sight;
 
             Vec3d camPos = context.gameRenderer().getCamera().getCameraPos();
@@ -89,12 +92,27 @@ public class SightEvents {
                 float delta = MiscUtils.getTickDelta();
 
                 if (width > 0) {
+                    for (int i = 0; i < 2; i++) {
+                        Random rand = new Random();
+                        final double w = easedW * 1.9F;
+
+                        world.addParticleClient(
+                                ParticleTypes.END_ROD,
+                                ins.pos.x + rand.nextDouble(-w, w),
+                                ins.pos.y,
+                                ins.pos.z + rand.nextDouble(-w, w),
+                                0,
+                                rand.nextFloat(0.3F, 1.2F),
+                                0
+                        );
+                    }
+
                     matrix.push();
 
                     matrix.translate(renderPos);
                     matrix.scale((easedW * 6), (easedW * 6), (easedW * 6));
 
-                    matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + delta)));
+                    matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + delta)));
 
                     queue.submitModel(
                             new PlaneModel(models.getModelPart(AEntityModelLayers.PLANE)),
@@ -116,7 +134,7 @@ public class SightEvents {
 
                     matrix.scale((easedW * 7), (easedW * 7), (easedW * 7));
 
-                    matrix.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees((AcropolisClient.AGE + delta)));
+                    matrix.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees((AcropolisClient.age + delta)));
 
                     queue.submitModel(
                             new PlaneModel(models.getModelPart(AEntityModelLayers.PLANE)),

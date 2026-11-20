@@ -1,7 +1,10 @@
-package org.chemthunder.acropolis.core.event.client;
+package org.chemthunder.acropolis.core.client.event;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -9,14 +12,20 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
+import org.chemthunder.acropolis.core.Acropolis;
 import org.joml.Matrix3x2fStack;
 
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class MercyHudEvents {
+    public static void init() {
+        ClientTickEvents.START_CLIENT_TICK.register(new Tick());
+        HudElementRegistry.addFirst(Acropolis.id("mercy_hud"), new Hud());
+    }
 
-    public static class Ticker implements ClientTickEvents.StartTick {
+    public static class Tick implements ClientTickEvents.StartTick {
         public static boolean active = false;
         public static boolean scalingDown = false;
 
@@ -56,7 +65,7 @@ public class MercyHudEvents {
         }
     }
 
-    public static class Render implements HudElement {
+    public static class Hud implements HudElement {
         public void render(DrawContext context, RenderTickCounter renderTickCounter) {
             float yPosSub = 40;
 
@@ -64,7 +73,7 @@ public class MercyHudEvents {
             MutableText TEXT2 = Text.literal("THEN FELL THE HEAVENS");
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
-            if (Ticker.opacity > 0.0F) {
+            if (Tick.opacity > 0.0F) {
                 Matrix3x2fStack stack = context.getMatrices();
 
                 stack.pushMatrix();
@@ -76,7 +85,7 @@ public class MercyHudEvents {
                         MinecraftClient.getInstance().textRenderer,
                         TEXT1,
                         0, 0,
-                        ColorHelper.withAlpha(Ticker.opacity, 0xFFffffff),
+                        ColorHelper.withAlpha(Tick.opacity, 0xFFffffff),
                         false
                 );
 
@@ -91,7 +100,7 @@ public class MercyHudEvents {
                         MinecraftClient.getInstance().textRenderer,
                         TEXT2,
                         0, 0,
-                        ColorHelper.withAlpha(Ticker.opacity, 0xFFffffff),
+                        ColorHelper.withAlpha(Tick.opacity, 0xFFffffff),
                         false
                 );
 

@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.tooltip;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
@@ -19,6 +21,7 @@ import java.util.Random;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class OmenTooltipComponent implements TooltipComponent {
     private final ItemStack stack;
 
@@ -89,7 +92,7 @@ public class OmenTooltipComponent implements TooltipComponent {
 
                 context.drawCenteredTextWithShadow(
                         textRenderer,
-                        Text.literal(omen.containedNames().size() + ""),
+                        Text.literal("EXALT"),
                         0, 0,
                         0xFFffffff
                 );

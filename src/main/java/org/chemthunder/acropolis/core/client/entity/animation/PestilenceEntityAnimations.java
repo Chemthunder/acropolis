@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.entity.animation;// Save this class in your mod and generate all required imports
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.animation.AnimationDefinition;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.animation.Keyframe;
@@ -10,6 +12,7 @@ import net.minecraft.client.render.entity.animation.Transformation;
  * Exported for Minecraft version 1.19 or later with Yarn mappings
  * @author Author
  */
+@Environment(EnvType.CLIENT)
 public class PestilenceEntityAnimations {
 	public static final AnimationDefinition Hover = AnimationDefinition.Builder.create(3.0F).looping()
 		.addBoneAnimation("group", new Transformation(Transformation.Targets.ROTATE, 

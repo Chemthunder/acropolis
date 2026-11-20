@@ -48,7 +48,8 @@ public record ShockwavePayload(Vec3d pos) implements CustomPayload {
             );
 
             ShoutEvents.send(
-                    Skyfall.getShockwaveTexts().get(new Random().nextInt(Skyfall.getShockwaveTexts().size()))
+                    Skyfall.getShockwaveTexts().get(new Random().nextInt(Skyfall.getShockwaveTexts().size())),
+                    0xFFffffff
             );
 
             context.client().getSoundManager().play(

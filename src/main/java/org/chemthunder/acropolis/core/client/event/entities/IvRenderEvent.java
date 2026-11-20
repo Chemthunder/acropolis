@@ -1,6 +1,8 @@
-package org.chemthunder.acropolis.core.event.client.entities;
+package org.chemthunder.acropolis.core.client.event.entities;
 
 import net.acoyt.acornlib.api.util.MiscUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
@@ -14,13 +16,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.AcropolisClient;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.client.api.Nitro;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class IvRenderEvent implements WorldRenderEvents.EndMain {
     public void endMain(WorldRenderContext context) {
         MinecraftClient client = MinecraftClient.getInstance();
@@ -28,7 +31,7 @@ public class IvRenderEvent implements WorldRenderEvents.EndMain {
         World world = client.world;
         if (world == null) return;
 
-        SkyfallComponent sk = Skyfall.getInstance(world);
+        SkyfallWorldComponent sk = Skyfall.ofWorld(world);
 
         MatrixStack matrix = context.matrices();
         VertexConsumerProvider provider = context.consumers();
@@ -61,7 +64,7 @@ public class IvRenderEvent implements WorldRenderEvents.EndMain {
 
                 matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45));
 
-                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MiscUtils.getTickDelta()) / 2));
+                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + MiscUtils.getTickDelta()) / 2));
 
                 Nitro.texSphereAtPos(
                         matrix,
@@ -88,7 +91,7 @@ public class IvRenderEvent implements WorldRenderEvents.EndMain {
 
                 matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45));
 
-                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MiscUtils.getTickDelta()) / 2));
+                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + MiscUtils.getTickDelta()) / 2));
 
                 Nitro.texSphereAtPos(
                         matrix,
@@ -117,7 +120,7 @@ public class IvRenderEvent implements WorldRenderEvents.EndMain {
 
             matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45));
 
-            matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MiscUtils.getTickDelta()) / 2));
+            matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + MiscUtils.getTickDelta()) / 2));
 
             Nitro.texSphereAtPos(
                     matrix,
@@ -146,7 +149,7 @@ public class IvRenderEvent implements WorldRenderEvents.EndMain {
 
             matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45));
 
-            matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + MiscUtils.getTickDelta()) / 2));
+            matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + MiscUtils.getTickDelta()) / 2));
 
             Nitro.texSphereAtPos(
                     matrix,

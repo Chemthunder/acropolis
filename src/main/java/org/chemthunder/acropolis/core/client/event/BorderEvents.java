@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.event.client;
+package org.chemthunder.acropolis.core.client.event;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -34,8 +34,6 @@ public class Acropolis implements ModInitializer {
         AItems.init();
         AComponentTypes.init();
         ASoundEvents.init();
-        ABlocks.init();
-        ABlockEntityTypes.init();
         AParticleTypes.init();
         AAttachmentTypes.init();
 
@@ -50,14 +48,20 @@ public class Acropolis implements ModInitializer {
         ALib.registerModData(MOD_ID,
             new ALib.ModMenuData(
                     Text.literal("Acropolis").withColor(0xFFac61d0),
-                    Text.literal("SKYFALL").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f),
-                    Text.literal("op ass shit bro uwu").formatted(Formatting.OBFUSCATED).withColor(0xFF69338f)
+                    Text.literal("ready when you are.").formatted(Formatting.ITALIC).withColor(0xFFffffff),
+                    Text.literal("ready when you are.").formatted(Formatting.ITALIC).withColor(0xFFffffff)
             )
         );
 
         MidnightConfig.init(MOD_ID, AcropolisConfig.class);
 
-        LOGGER.info("Gaze into the stars !!!~");
+        LOGGER.info("It's sad to say goodbye, isn't it?");
+        LOGGER.info("I mean, we never want things we hold dear to end.");
+        LOGGER.info("It's only human to wish it lasted forever.");
+        LOGGER.info("But I think that it's better for something to end on a high note,");
+        LOGGER.info("Then suffer in prolonged life, don't you think?");
+        LOGGER.info("Let's end this. On our high note.");
+        LOGGER.info("Ready when you are.");
     }
 
     public static Identifier id(String path) {

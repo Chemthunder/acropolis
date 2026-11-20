@@ -106,17 +106,9 @@ public class MercyComponent implements AutoSyncedComponent, CommonTickingCompone
         sync();
     }
 
-    public int getTicks() {
-        return ticks;
-    }
-
     public void setTicks(int ticks) {
         this.ticks = ticks;
         sync();
-    }
-
-    public int getCountdown() {
-        return countdown;
     }
 
     public void setCountdown(int countdown) {

@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.entity.render;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
@@ -19,14 +21,14 @@ import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
+@SuppressWarnings("unused")
 public class SwarmEntityRenderer extends EmptyEntityRenderer<SwarmEntity> {
-    private final SwarmEntityModel firstPlane;
-    private final SwarmEntityModel secondPlane;
+    private final SwarmEntityModel plane;
 
     public SwarmEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.firstPlane = new SwarmEntityModel(context.getPart(AEntityModelLayers.SWARM));
-        this.secondPlane = new SwarmEntityModel(context.getPart(AEntityModelLayers.SWARM));
+        this.plane = new SwarmEntityModel(context.getPart(AEntityModelLayers.SWARM));
     }
 
     public void render(EntityRenderState renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
@@ -43,7 +45,7 @@ public class SwarmEntityRenderer extends EmptyEntityRenderer<SwarmEntity> {
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
 
         queue.submitModel(
-                this.firstPlane,
+                this.plane,
                 renderState,
                 matrices,
                 RenderLayers.entityCutout(Acropolis.id("textures/entity/swarm.png")),
@@ -60,7 +62,7 @@ public class SwarmEntityRenderer extends EmptyEntityRenderer<SwarmEntity> {
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
 
         queue.submitModel(
-                this.firstPlane,
+                this.plane,
                 renderState,
                 matrices,
                 RenderLayers.entityCutout(Acropolis.id("textures/entity/swarm.png")),

@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.cca.world;
+package org.chemthunder.acropolis.core.cca.skyfall;
 
 import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,8 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.cca.SightInstance;
+import org.chemthunder.acropolis.core.cca.skyfall.obj.SightInstance;
+import org.chemthunder.acropolis.core.cca.skyfall.obj.WeaponCutscene;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
 import org.chemthunder.acropolis.core.networking.s2c.FlashPayload;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
@@ -31,10 +32,11 @@ import java.util.UUID;
 /**
  * @author Chemthunder
  */
-public class SkyfallComponent implements AutoSyncedComponent, CommonTickingComponent {
-    public static final ComponentKey<SkyfallComponent> KEY = ComponentRegistryV3.INSTANCE.getOrCreate(
+@SuppressWarnings("SpellCheckingInspection")
+public class SkyfallWorldComponent implements AutoSyncedComponent, CommonTickingComponent {
+    public static final ComponentKey<SkyfallWorldComponent> KEY = ComponentRegistryV3.INSTANCE.getOrCreate(
             Acropolis.id("skyfall"),
-            SkyfallComponent.class
+            SkyfallWorldComponent.class
     );
     private final World world;
 
@@ -71,16 +73,20 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
     private int playerId;
 
     public SightInstance sight;
+    public WeaponCutscene weaponCutscene;
 
-    public SkyfallComponent(World world) {
+    public SkyfallWorldComponent(World world) {
         this.world = world;
+
         this.sight = new SightInstance(world);
+        this.weaponCutscene = new WeaponCutscene(world);
     }
 
     public void tick() {
         sight.tick();
+        weaponCutscene.tick();
 
-        if (active) { // FINALE
+        if (active) {
             if (timeUntilSun > 0) {
                 timeUntilSun--;
                 if (timeUntilSun == 0) {
@@ -196,6 +202,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         playerId = readView.getInt("PlayerId", 0);
 
         sight = sight.read(readView);
+        weaponCutscene = weaponCutscene.read(readView);
     }
 
     public void writeData(WriteView writeView) {
@@ -225,6 +232,7 @@ public class SkyfallComponent implements AutoSyncedComponent, CommonTickingCompo
         writeView.putInt("PlayerId", playerId);
 
         sight.write(writeView);
+        weaponCutscene.write(writeView);
     }
 
     public void activate() {

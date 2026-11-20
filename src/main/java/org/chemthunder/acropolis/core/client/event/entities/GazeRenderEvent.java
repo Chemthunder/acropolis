@@ -1,5 +1,7 @@
-package org.chemthunder.acropolis.core.event.client.entities;
+package org.chemthunder.acropolis.core.client.event.entities;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
@@ -21,6 +23,7 @@ import org.joml.Vector3f;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class GazeRenderEvent implements WorldRenderEvents.EndMain {
     public void endMain(WorldRenderContext worldRenderContext) {
         MatrixStack matrix = worldRenderContext.matrices();
@@ -47,7 +50,7 @@ public class GazeRenderEvent implements WorldRenderEvents.EndMain {
 
                 matrix.translate(pos.x, pos.y + 1.5F, pos.z);
 
-                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + delta)));
+                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + delta)));
 
                 ItemRenderState grimoireState = new ItemRenderState();
                 MinecraftClient.getInstance().getItemModelManager().clearAndUpdate(
@@ -79,7 +82,7 @@ public class GazeRenderEvent implements WorldRenderEvents.EndMain {
 
                 matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
 
-                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.AGE + delta) / 4));
+                matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((AcropolisClient.age + delta) / 4));
 
                 model.render(
                         matrix,

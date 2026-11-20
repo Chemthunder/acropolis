@@ -2,6 +2,8 @@ package org.chemthunder.acropolis.core.client.item;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.item.property.select.SelectProperty;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -16,6 +18,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class FatalOmenProperty implements SelectProperty<String> {
     public static final MapCodec<FatalOmenProperty> CODEC = MapCodec.unit(FatalOmenProperty::new);
     public static final Identifier ID = Acropolis.id("fatal_omen");

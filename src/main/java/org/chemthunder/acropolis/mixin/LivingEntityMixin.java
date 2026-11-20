@@ -12,13 +12,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.waypoint.ServerWaypoint;
 import org.chemthunder.acropolis.core.cca.entity.BorderComponent;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.entity.PestilenceEntity;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
-import org.chemthunder.acropolis.core.index.AComponentTypes;
 import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
-import org.chemthunder.acropolis.core.item.ExtolledSimulacrumItem;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,23 +31,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint {
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
-    }
-
-    @Inject(method = "tryUseDeathProtector", at = @At(value = "HEAD"))
-    private void acropolis$chargeSimulacrum(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
-        Entity entity = source.getAttacker();
-
-        if (entity instanceof PlayerEntity player) {
-            for (int i = 0; i < player.getInventory().size(); i++) {
-                ItemStack slot = player.getInventory().getStack(i);
-
-                if (slot.getItem() instanceof ExtolledSimulacrumItem) {
-                    if (slot.getOrDefault(AComponentTypes.CHARGES, 0) != 3) {
-                        slot.set(AComponentTypes.CHARGES, slot.getOrDefault(AComponentTypes.CHARGES, 0) + 1);
-                    }
-                }
-            }
-        }
     }
 
     @Inject(method = "onKilledBy", at = @At(value = "HEAD"))
@@ -105,7 +86,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
     @WrapMethod(method = "applyMovementInput")
     private Vec3d acropolis$lock(Vec3d movementInput, float slipperiness, Operation<Vec3d> original) {
         LivingEntity living = (LivingEntity) (Object) this;
-        SkyfallComponent sk = Skyfall.getInstance(living);
+        SkyfallWorldComponent sk = Skyfall.ofWorld(living);
 
         if (sk.isPlayerHead(living)) {
             return Vec3d.ZERO;
@@ -116,7 +97,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
     @WrapMethod(method = "applyFluidMovingSpeed")
     private Vec3d acropolis$lockF(double gravity, boolean falling, Vec3d motion, Operation<Vec3d> original) {
         LivingEntity living = (LivingEntity) (Object) this;
-        SkyfallComponent sk = Skyfall.getInstance(living);
+        SkyfallWorldComponent sk = Skyfall.ofWorld(living);
 
         if (sk.isPlayerHead(living)) {
             return Vec3d.ZERO;
@@ -128,7 +109,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
     private boolean acropolis$denyFallDamage(double fallDistance, float damagePerDistance, DamageSource damageSource, Operation<Boolean> original) {
         LivingEntity living = (LivingEntity) (Object) this;
 
-        if (Skyfall.getInstance(living).isActive() && living.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+        if (Skyfall.ofWorld(living).isActive() && living.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
             return false;
         }
         return original.call(fallDistance, damagePerDistance, damageSource);

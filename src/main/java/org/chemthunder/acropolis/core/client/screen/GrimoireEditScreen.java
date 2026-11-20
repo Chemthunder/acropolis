@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.screen;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
@@ -23,6 +25,7 @@ import java.util.function.Function;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class GrimoireEditScreen extends Screen {
     private final List<Function<DrawContext, Drawable>> drawableFunctions = new ArrayList<>();
     private float width = 0.0F;

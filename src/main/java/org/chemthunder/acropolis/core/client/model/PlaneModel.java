@@ -1,5 +1,7 @@
 package org.chemthunder.acropolis.core.client.model;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.util.Unit;
@@ -7,6 +9,8 @@ import net.minecraft.util.Unit;
 /**
  * @author AcoYT
  */
+@Environment(EnvType.CLIENT)
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class PlaneModel extends Model<Unit> {
     private final ModelPart bone;
 

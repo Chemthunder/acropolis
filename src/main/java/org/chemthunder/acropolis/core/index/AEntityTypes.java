@@ -7,7 +7,6 @@ import net.minecraft.client.render.entity.EntityRendererFactories;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.client.entity.render.MeteorEntityRenderer;
 import org.chemthunder.acropolis.core.client.entity.render.PestilenceEntityRenderer;
 import org.chemthunder.acropolis.core.client.entity.render.SwarmEntityRenderer;
 import org.chemthunder.acropolis.core.entity.*;
@@ -15,6 +14,7 @@ import org.chemthunder.acropolis.core.entity.*;
 /**
  * @author Chemthunder
  */
+@SuppressWarnings("DataFlowIssue")
 public interface AEntityTypes {
     EntityTypeRegistrant plugin = new EntityTypeRegistrant(Acropolis.MOD_ID);
 
@@ -32,11 +32,6 @@ public interface AEntityTypes {
             SwarmEntity::new,
             SpawnGroup.MISC
     ).dimensions(0.7F, 1.4F).disableSummon());
-
-    EntityType<MeteorEntity> METEOR = plugin.register("meteor", EntityType.Builder.create(
-            MeteorEntity::new,
-            SpawnGroup.MISC
-    ).dimensions(1, 1).makeFireImmune().disableSummon());
 
     EntityType<FuneralBloomEntity> FUNERAL_BLOOM = plugin.register("funeral_bloom", EntityType.Builder.create(
             FuneralBloomEntity::new,
@@ -56,7 +51,6 @@ public interface AEntityTypes {
         EntityRendererFactories.register(SPELL_SHOT, EmptyEntityRenderer::new);
         EntityRendererFactories.register(PESTILENCE, PestilenceEntityRenderer::new);
         EntityRendererFactories.register(SWARM, SwarmEntityRenderer::new);
-        EntityRendererFactories.register(METEOR, MeteorEntityRenderer::new);
         EntityRendererFactories.register(FUNERAL_BLOOM, EmptyEntityRenderer::new);
         EntityRendererFactories.register(DAGGER, EmptyEntityRenderer::new);
     }

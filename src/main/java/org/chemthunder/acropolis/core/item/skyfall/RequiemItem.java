@@ -19,6 +19,7 @@ import org.chemthunder.acropolis.core.index.AEntityTypes;
 /**
  * @author Chemthunder
  */
+@SuppressWarnings("unused")
 public class RequiemItem extends Item implements HitEffectsItem {
     public RequiemItem(Settings settings) {
         super(settings);

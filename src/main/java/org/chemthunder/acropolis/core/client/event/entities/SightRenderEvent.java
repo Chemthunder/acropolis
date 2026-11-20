@@ -1,10 +1,11 @@
-package org.chemthunder.acropolis.core.event.client.entities;
+package org.chemthunder.acropolis.core.client.event.entities;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Easing;
 import net.minecraft.util.math.RotationAxis;
@@ -20,11 +21,11 @@ import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;
 /**
  * @author Chemthunder
  */
+@Environment(EnvType.CLIENT)
 public class SightRenderEvent implements WorldRenderEvents.EndMain {
     public void endMain(WorldRenderContext worldRenderContext) {
         MatrixStack stack = worldRenderContext.matrices();
         VertexConsumerProvider consumers = worldRenderContext.consumers();
-        OrderedRenderCommandQueue queue = worldRenderContext.commandQueue();
         float delta = MinecraftClient.getInstance().getRenderTickCounter().getDynamicDeltaTicks();
 
         Camera camera = worldRenderContext.gameRenderer().getCamera();
@@ -45,7 +46,7 @@ public class SightRenderEvent implements WorldRenderEvents.EndMain {
 
                     stack.translate(x, y + 0.2F, z);
                     stack.scale(circleScale, circleScale, circleScale);
-                    stack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees((AcropolisClient.AGE + delta) * 2));
+                    stack.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees((AcropolisClient.age + delta) * 2));
 
                     PlaneModel model = new PlaneModel(MinecraftClient.getInstance().getLoadedEntityModels().getModelPart(AEntityModelLayers.PLANE));
 
@@ -85,7 +86,7 @@ public class SightRenderEvent implements WorldRenderEvents.EndMain {
                             0, 0, 0,
                             Easing.outCirc(sight.getBeamWidth() - 0.7F),
                             360,
-                            AcropolisConfig.epilepsyMode ? (AcropolisClient.AGE + delta) / 6 : (AcropolisClient.AGE + delta)
+                            AcropolisConfig.epilepsyMode ? (AcropolisClient.age + delta) / 6 : (AcropolisClient.age + delta)
                     );
 
                     stack.pop();

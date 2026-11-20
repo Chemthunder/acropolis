@@ -1,11 +1,8 @@
 package org.chemthunder.acropolis.core.cca.world;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
@@ -30,8 +27,6 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
     );
     private final World world;
 
-    public static final int RANGE = 80;
-
     private @Nullable Vec3d pos;
 
     private boolean present = false;
@@ -43,7 +38,7 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
     }
 
     public void tick() {
-        if (angered || Skyfall.getInstance(world).externalVisible) {
+        if (angered || Skyfall.ofWorld(world).externalVisible) {
             if (world.getTime() % 70 == 0) {
                 if (pos != null && present) {
 
@@ -120,19 +115,5 @@ public class GazeComponent implements AutoSyncedComponent, CommonTickingComponen
     public void setBorder(boolean border) {
         this.border = border;
         sync();
-    }
-
-    public static boolean borderContainsEntity(World world, LivingEntity entity) {
-        GazeComponent gaze = GazeComponent.KEY.get(world);
-
-        if (gaze.isBorder()) {
-            if (gaze.getPos() != null) {
-                Box box = new Box(new BlockPos.Mutable(gaze.getPos().x, 360, gaze.getPos().z)).expand(RANGE);
-
-                return box.contains(entity.getEntityPos());
-            }
-        }
-
-        return false;
     }
 }

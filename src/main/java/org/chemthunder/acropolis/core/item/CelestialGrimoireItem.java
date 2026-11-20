@@ -23,8 +23,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.cca.world.GazeComponent;
-import org.chemthunder.acropolis.core.cca.world.SkyfallComponent;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.networking.s2c.OpenGrimoirePayload;
@@ -54,7 +54,7 @@ public class CelestialGrimoireItem extends Item {
         ItemStack stack = context.getStack();
 
         if (player != null && world != null && stack != null) {
-            SkyfallComponent sk = Skyfall.getInstance(world);
+            SkyfallWorldComponent sk = Skyfall.ofWorld(world);
 
             if (!sk.externalVisible) {
                 if (player.isSneaking() && player.getOffHandStack().isEmpty()) {
@@ -92,7 +92,7 @@ public class CelestialGrimoireItem extends Item {
     }
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        SkyfallComponent sk = Skyfall.getInstance(world);
+        SkyfallWorldComponent sk = Skyfall.ofWorld(world);
 
         if (!sk.externalVisible) {
             if (user.isSneaking()) {

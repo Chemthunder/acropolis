@@ -188,7 +188,7 @@ public abstract class Skyfall {
 
     public static boolean shouldHaveOutline(Entity entity) {
         SkyfallWorldComponent sk = ofWorld(entity);
-        return entity.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false) && sk.externalVisible;
+        return entity instanceof PlayerEntity && sk.externalVisible;
     }
 
     public static void prepareRequiem(PlayerEntity player) {

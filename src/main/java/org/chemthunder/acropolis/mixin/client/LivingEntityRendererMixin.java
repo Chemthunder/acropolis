@@ -28,5 +28,9 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         if (livingEntity.getComponent(SkyfallEntityComponent.KEY).fallTicks > 0) {
             livingEntityRenderState.setData(AcropolisClient.HAS_CHAINS, true);
         }
+
+        if (livingEntity.getAttachedOrElse(AAttachmentTypes.MATRIARCH, false)) {
+            livingEntityRenderState.setData(AcropolisClient.MATRIARCH, true);
+        }
     }
 }

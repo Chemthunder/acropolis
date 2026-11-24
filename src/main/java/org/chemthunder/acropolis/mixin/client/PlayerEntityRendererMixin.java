@@ -8,7 +8,8 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.entity.PlayerLikeEntity;
-import org.chemthunder.acropolis.core.client.feature.ChainsFeatureRenderer;
+import org.chemthunder.acropolis.core.client.feature.render.ChainsFeatureRenderer;
+import org.chemthunder.acropolis.core.client.feature.render.MatriarchArmorFeatureRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,5 +28,6 @@ public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends PlayerL
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     private void acropolis$pushFeatures(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
         this.addFeature(new ChainsFeatureRenderer<>(this, MinecraftClient.getInstance().getLoadedEntityModels()));
+        this.addFeature(new MatriarchArmorFeatureRenderer<>(this, MinecraftClient.getInstance().getLoadedEntityModels()));
     }
 }

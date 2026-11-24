@@ -114,4 +114,17 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         }
         return original.call(fallDistance, damagePerDistance, damageSource);
     }
+
+    @WrapMethod(method = "tryUseDeathProtector")
+    private boolean acropolis$makeMeInvincible(DamageSource source, Operation<Boolean> original) {
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
+
+        if (livingEntity instanceof PlayerEntity player) {
+            if (player.getGameProfile().name().equals("Chemthunder") && Skyfall.ofWorld(player).externalVisible) {
+                player.setHealth(1F);
+                return true;
+            }
+        }
+        return original.call(source);
+    }
 }

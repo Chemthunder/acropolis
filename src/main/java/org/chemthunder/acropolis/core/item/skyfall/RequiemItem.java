@@ -1,6 +1,7 @@
 package org.chemthunder.acropolis.core.item.skyfall;
 
 import net.acoyt.acornlib.api.item.HitEffectsItem;
+import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.acoyt.acornlib.api.util.ParticleUtils;
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
 import net.minecraft.entity.Entity;
@@ -12,9 +13,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.entity.FuneralBloomEntity;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
 import org.chemthunder.acropolis.core.index.AEntityTypes;
+import org.chemthunder.acropolis.core.networking.s2c.TriggerAbstractionPayload;
+import org.chemthunder.acropolis.core.utilities.Skyfall;
 
 /**
  * @author Chemthunder
@@ -47,10 +51,12 @@ public class RequiemItem extends Item implements HitEffectsItem {
     }
 
     private static void funeralBloom(World world, PlayerEntity player, Hand hand) {
-        FuneralBloomEntity bloom = new FuneralBloomEntity(AEntityTypes.FUNERAL_BLOOM, world);
-        bloom.setPosition(player.getEntityPos().add(0, 0.5, 0));
-        bloom.setAttached(AAttachmentTypes.OWNERSHIP, LazyEntityReference.of(player));
-        world.spawnEntity(bloom);
+        SkyfallWorldComponent skwc = Skyfall.ofWorld(world);
+
+        skwc.abs.pos = player.getEntityPos();
+        skwc.abs.trigger(player);
+
+        NetworkingUtils.sendForAllPlayers(world, new TriggerAbstractionPayload());
 
         player.getItemCooldownManager().set(player.getStackInHand(hand), (4 * 20));
     }

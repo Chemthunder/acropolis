@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.client.skyfall.SightEvents;
+import org.chemthunder.acropolis.core.client.event.SightEvents;
 
 /**
  * @author Chemthunder

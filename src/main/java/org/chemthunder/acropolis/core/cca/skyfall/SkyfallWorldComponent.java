@@ -15,6 +15,7 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import net.minecraft.world.attribute.timeline.EasingType;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.cca.skyfall.obj.AbstractionInstance;
 import org.chemthunder.acropolis.core.cca.skyfall.obj.SightInstance;
 import org.chemthunder.acropolis.core.cca.skyfall.obj.WeaponCutscene;
 import org.chemthunder.acropolis.core.index.data.ADamageTypes;
@@ -74,12 +75,14 @@ public class SkyfallWorldComponent implements AutoSyncedComponent, CommonTicking
 
     public SightInstance sight;
     public WeaponCutscene weaponCutscene;
+    public AbstractionInstance abs;
 
     public SkyfallWorldComponent(World world) {
         this.world = world;
 
         this.sight = new SightInstance(world);
         this.weaponCutscene = new WeaponCutscene(world);
+        this.abs = new AbstractionInstance(world);
     }
 
     public void tick() {

@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.client.skyfall;
+package org.chemthunder.acropolis.core.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.mojang.blaze3d.vertex.VertexFormat;

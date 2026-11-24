@@ -31,6 +31,7 @@ public class SkyfallEntityComponent implements AutoSyncedComponent, CommonTickin
     public int fallTicks = 0;
 
     public int lockMovementTicks = 0;
+    public int abstractedTicks = 0;
 
     public int dashBuffer = 0;
 
@@ -49,6 +50,13 @@ public class SkyfallEntityComponent implements AutoSyncedComponent, CommonTickin
         if (lockMovementTicks > 0) {
             lockMovementTicks--;
             if (lockMovementTicks <= 0) {
+                sync();
+            }
+        }
+
+        if (abstractedTicks > 0) {
+            abstractedTicks--;
+            if (abstractedTicks <= 0) {
                 sync();
             }
         }

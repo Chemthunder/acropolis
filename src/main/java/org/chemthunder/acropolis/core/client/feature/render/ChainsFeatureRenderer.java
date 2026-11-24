@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.client.feature;
+package org.chemthunder.acropolis.core.client.feature.render;
 
 import net.acoyt.acornlib.api.util.MiscUtils;
 import net.fabricmc.api.EnvType;
@@ -87,3 +87,4 @@ public class ChainsFeatureRenderer<S extends BipedEntityRenderState, M extends B
         }
     }
 }
+

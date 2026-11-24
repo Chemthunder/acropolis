@@ -10,7 +10,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.client.skyfall.ShoutEvents;
+import org.chemthunder.acropolis.core.client.event.ShoutEvents;
 import org.chemthunder.acropolis.core.index.AParticleTypes;
 import org.chemthunder.acropolis.core.index.ASoundEvents;
 import org.chemthunder.acropolis.core.utilities.Skyfall;

@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import org.chemthunder.acropolis.core.client.event.RynMaterializeEvent;
 import org.chemthunder.acropolis.core.networking.c2s.DashPayload;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
 import org.chemthunder.acropolis.core.networking.s2c.*;
@@ -30,6 +31,8 @@ public interface ANetworking {
 
         PayloadTypeRegistry.playS2C().register(ShockwavePayload.ID, ShockwavePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(ResetSightWidthPayload.ID, ResetSightWidthPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(TriggerAbstractionPayload.ID, TriggerAbstractionPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(MaterializePayload.ID, MaterializePayload.CODEC);
     }
 
     static void c2s() {
@@ -51,7 +54,8 @@ public interface ANetworking {
         ClientPlayNetworking.registerGlobalReceiver(CrackBorderHudPayload.ID, new CrackBorderHudPayload.Receiver());
 
         ClientPlayNetworking.registerGlobalReceiver(ShockwavePayload.ID, new ShockwavePayload.Receiver());
-
         ClientPlayNetworking.registerGlobalReceiver(ResetSightWidthPayload.ID, new ResetSightWidthPayload.Receiver());
+        ClientPlayNetworking.registerGlobalReceiver(TriggerAbstractionPayload.ID, new TriggerAbstractionPayload.Receiver());
+        ClientPlayNetworking.registerGlobalReceiver(MaterializePayload.ID, new MaterializePayload.Receiver());
     }
 }

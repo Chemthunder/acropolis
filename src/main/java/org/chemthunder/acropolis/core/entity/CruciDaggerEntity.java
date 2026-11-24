@@ -85,12 +85,14 @@ public class CruciDaggerEntity extends ThrownEntity {
 
         if (!entities.isEmpty()) {
             for (LivingEntity living : entities) {
-                if (entity instanceof LivingEntity ownerEntity && !ownerEntity.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
-                    if (ownerEntity != living) {
+                if (!living.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                    if (entity instanceof LivingEntity ownerEntity && !ownerEntity.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                        if (ownerEntity != living) {
+                            calcAndApply(living, world);
+                        }
+                    } else {
                         calcAndApply(living, world);
                     }
-                } else {
-                    calcAndApply(living, world);
                 }
             }
         }

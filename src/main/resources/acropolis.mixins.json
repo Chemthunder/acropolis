@@ -11,6 +11,8 @@
     "MinecraftServerMixin",
     "PlayerEntityMixin",
     "TridentItemMixin",
+    "abstraction.ItemStackMixin",
+    "abstraction.MaceItemMixin",
     "compat.enchancement.AirJumpComponentMixin",
     "compat.enchancement.BounceEventMixin",
     "compat.enchancement.DirectionBurstComponentMixin",
@@ -24,11 +26,13 @@
     "requireAnnotations": true
   },
   "client": [
+    "client.ArmorFeatureRendererMixin",
     "client.CameraMixin",
     "client.CloudRendererMixin",
     "client.DrawContextMixin",
     "client.FogRendererMixin",
     "client.GameRendererMixin",
+    "client.HeldItemFeatureRendererMixin",
     "client.InGameHudMixin",
     "client.LivingEntityRendererMixin",
     "client.MinecraftClientMixin",

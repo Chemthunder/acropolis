@@ -4,6 +4,7 @@ import net.acoyt.acornlib.api.registrants.ItemRegistrant;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
@@ -80,6 +81,11 @@ public interface AItems {
                     )
                     .build()
             )
+    );
+
+    Item ARMOR_LOADER = plugin.register("armor_loader", Item::new, new Item.Settings()
+            .maxCount(1)
+            .equippable(EquipmentSlot.HEAD)
     );
 
     static void init() {}

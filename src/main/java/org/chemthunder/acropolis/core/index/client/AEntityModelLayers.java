@@ -5,7 +5,9 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import org.chemthunder.acropolis.core.Acropolis;
 import org.chemthunder.acropolis.core.client.entity.model.PestilenceEntityModel;
 import org.chemthunder.acropolis.core.client.entity.model.SwarmEntityModel;
+import org.chemthunder.acropolis.core.client.feature.model.MatriarchArmorModel;
 import org.chemthunder.acropolis.core.client.model.ChainsModel;
+import org.chemthunder.acropolis.core.client.model.CuboidModel;
 import org.chemthunder.acropolis.core.client.model.PlaneModel;
 
 /**
@@ -16,6 +18,9 @@ public interface AEntityModelLayers {
     EntityModelLayer PESTILENCE = register("pestilence");
     EntityModelLayer SWARM = register("swarm");
     EntityModelLayer CHAINS = register("chains");
+    EntityModelLayer CUBOID = register("cuboid");
+
+    EntityModelLayer MATRIARCH = register("matriarch");
 
     private static EntityModelLayer register(String s) {
         return new EntityModelLayer(Acropolis.id(s), "bone");
@@ -26,5 +31,8 @@ public interface AEntityModelLayers {
         EntityModelLayerRegistry.registerModelLayer(PESTILENCE, PestilenceEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SWARM, SwarmEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(CHAINS, ChainsModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(CUBOID, CuboidModel::getTexturedModelData);
+
+        EntityModelLayerRegistry.registerModelLayer(MATRIARCH, MatriarchArmorModel::getTexturedModelData);
     }
 }

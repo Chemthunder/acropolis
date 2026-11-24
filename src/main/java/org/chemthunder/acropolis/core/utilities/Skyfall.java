@@ -3,6 +3,7 @@ package org.chemthunder.acropolis.core.utilities;
 import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -25,6 +26,8 @@ import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
 import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.cca.skyfall.obj.SightInstance;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
+import org.chemthunder.acropolis.core.index.AItems;
+import org.chemthunder.acropolis.core.networking.s2c.MaterializePayload;
 import org.chemthunder.acropolis.core.networking.s2c.ResetSightWidthPayload;
 import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
 
@@ -119,6 +122,8 @@ public abstract class Skyfall {
         EntityAttributeInstance atkDamage = player.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
         EntityAttributeInstance mv = player.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
 
+        NetworkingUtils.sendForAllPlayers(player.getEntityWorld(), new MaterializePayload());
+
         if (atkDamage != null && mv != null) {
             if (atkDamage.hasModifier(Acropolis.id("matriarch_attack_damage"))) {
                 atkDamage.removeModifier(Acropolis.id("matriarch_attack_damage"));
@@ -188,7 +193,7 @@ public abstract class Skyfall {
 
     public static boolean shouldHaveOutline(Entity entity) {
         SkyfallWorldComponent sk = ofWorld(entity);
-        return entity instanceof PlayerEntity && sk.externalVisible;
+        return entity instanceof PlayerEntity player && sk.externalVisible && !player.getGameProfile().name().equals("reindeerantler");
     }
 
     public static void prepareRequiem(PlayerEntity player) {

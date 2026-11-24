@@ -25,7 +25,7 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.MoonPhase;
 import org.chemthunder.acropolis.core.Acropolis;
-import org.chemthunder.acropolis.core.client.skyfall.SkyRenderingLoader;
+import org.chemthunder.acropolis.core.client.mixin.SkyRenderingLoader;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;

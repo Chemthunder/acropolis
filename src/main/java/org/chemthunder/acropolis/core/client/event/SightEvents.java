@@ -1,4 +1,4 @@
-package org.chemthunder.acropolis.core.client.skyfall;
+package org.chemthunder.acropolis.core.client.event;
 
 import net.acoyt.acornlib.api.util.MiscUtils;
 import net.fabricmc.api.EnvType;

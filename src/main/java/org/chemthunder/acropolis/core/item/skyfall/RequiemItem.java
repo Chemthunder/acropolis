@@ -5,7 +5,6 @@ import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.acoyt.acornlib.api.util.ParticleUtils;
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LazyEntityReference;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,9 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
-import org.chemthunder.acropolis.core.entity.FuneralBloomEntity;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
-import org.chemthunder.acropolis.core.index.AEntityTypes;
 import org.chemthunder.acropolis.core.networking.s2c.TriggerAbstractionPayload;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 
@@ -32,7 +29,7 @@ public class RequiemItem extends Item implements HitEffectsItem {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         if (!user.getItemCooldownManager().isCoolingDown(user.getStackInHand(hand))) {
             if (user.isOnGround()) {
-                funeralBloom(world, user, hand);
+                abstraction(world, user, hand);
             } else {
                 shockwave(world, user, hand);
             }
@@ -50,7 +47,7 @@ public class RequiemItem extends Item implements HitEffectsItem {
         );
     }
 
-    private static void funeralBloom(World world, PlayerEntity player, Hand hand) {
+    private static void abstraction(World world, PlayerEntity player, Hand hand) {
         SkyfallWorldComponent skwc = Skyfall.ofWorld(world);
 
         skwc.abs.pos = player.getEntityPos();

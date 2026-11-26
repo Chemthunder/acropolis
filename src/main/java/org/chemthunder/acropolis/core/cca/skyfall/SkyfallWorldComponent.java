@@ -210,6 +210,7 @@ public class SkyfallWorldComponent implements AutoSyncedComponent, CommonTicking
 
         sight = sight.read(readView);
         weaponCutscene = weaponCutscene.read(readView);
+        abs = abs.read(readView);
     }
 
     public void writeData(WriteView writeView) {
@@ -240,6 +241,7 @@ public class SkyfallWorldComponent implements AutoSyncedComponent, CommonTicking
 
         sight.write(writeView);
         weaponCutscene.write(writeView);
+        abs.write(writeView);
     }
 
     public void activate() {

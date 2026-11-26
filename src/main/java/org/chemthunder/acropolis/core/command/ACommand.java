@@ -197,29 +197,19 @@ public class ACommand implements CommandRegistrationCallback {
                                 })
                         )
                 )
-        );
 
-        dispatcher.register(literal("skyfall:weaponcutscene").requires(ACommand::isChemOrNickel)
-                .then(literal("execute")
-                        .executes(context -> {
-                            PlayerEntity player = context.getSource().getPlayer();
+                .then(literal("cutscene")
+                        .then(literal("execute")
+                                .then(argument("nickel", EntityArgumentType.player())
+                                        .executes(context -> {
+                                            PlayerEntity nickel = EntityArgumentType.getPlayer(context, "nickel");
 
-                            if (player != null) {
-                                Skyfall.prepareRequiem(player);
-                            }
-                            return 1;
-                        })
-                )
-                .then(literal("executeTargeted")
-                        .then(argument("nickel", EntityArgumentType.player())
-                                .executes(context -> {
-                                    PlayerEntity nickel = EntityArgumentType.getPlayer(context, "nickel");
-
-                                    if (nickel != null) {
-                                        Skyfall.prepareRequiem(nickel);
-                                    }
-                                    return 1;
-                                })
+                                            if (nickel != null) {
+                                                Skyfall.prepareRequiem(nickel);
+                                            }
+                                            return 1;
+                                        })
+                                )
                         )
                 )
         );
@@ -230,15 +220,6 @@ public class ACommand implements CommandRegistrationCallback {
 
         if (serverPlayer != null) {
             return serverPlayer.getUuid().equals(UUID.fromString("a26e29f1-532e-4116-9112-ca18ea30d27f")) || (FabricLoader.getInstance().isDevelopmentEnvironment() && CommandManager.requirePermissionLevel(CommandManager.GAMEMASTERS_CHECK).test(source));
-        }
-        return false;
-    }
-
-    public static boolean isChemOrNickel(ServerCommandSource source) {
-        ServerPlayerEntity serverPlayer = source.getPlayer();
-
-        if (serverPlayer != null) {
-            return serverPlayer.getUuid().equals(UUID.fromString("a7d1440e-da2f-4d7b-a33d-cf615ca7a0c2")) || isChem(source);
         }
         return false;
     }

@@ -1,7 +1,6 @@
 package org.chemthunder.acropolis.core.item.skyfall;
 
 import net.acoyt.acornlib.api.item.HitEffectsItem;
-import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.acoyt.acornlib.api.util.ParticleUtils;
 import net.acoyt.acornlib.impl.client.particle.SweepParticleEffect;
 import net.minecraft.entity.Entity;
@@ -14,7 +13,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
-import org.chemthunder.acropolis.core.networking.s2c.TriggerAbstractionPayload;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 
 /**
@@ -52,8 +50,6 @@ public class RequiemItem extends Item implements HitEffectsItem {
 
         skwc.abs.pos = player.getEntityPos();
         skwc.abs.trigger(player);
-
-        NetworkingUtils.sendForAllPlayers(world, new TriggerAbstractionPayload());
 
         player.getItemCooldownManager().set(player.getStackInHand(hand), (4 * 20));
     }

@@ -5,7 +5,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import org.chemthunder.acropolis.core.client.event.RynMaterializeEvent;
 import org.chemthunder.acropolis.core.networking.c2s.DashPayload;
 import org.chemthunder.acropolis.core.networking.c2s.GrimoireEditPayload;
 import org.chemthunder.acropolis.core.networking.s2c.*;

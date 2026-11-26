@@ -8,6 +8,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.chemthunder.acropolis.core.Acropolis;
+import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,7 +34,13 @@ public abstract class InGameHudMixin {
         PlayerEntity player = this.getCameraPlayer();
         if (player == null) return;
 
-        if (Skyfall.ofEntity(player).dashBuffer > 0) {
+        SkyfallEntityComponent sk = Skyfall.ofEntity(player);
+
+        if (sk.abstractedTicks > 0) {
+            sprite = Acropolis.id("hud/abs_crosshair");
+        }
+
+        if (sk.dashBuffer > 0) {
             sprite = Acropolis.id("hud/buffer_crosshair");
         }
 

@@ -1,6 +1,9 @@
 package org.chemthunder.acropolis.core.cca.skyfall.obj;
 
+import net.acoyt.acornlib.api.util.NetworkingUtils;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Uuids;
@@ -8,10 +11,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.core.util.UuidUtil;
 import org.chemthunder.acropolis.api.nbt.LoadedComponentValue;
 import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
+import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
+import org.chemthunder.acropolis.core.networking.s2c.TriggerAbstractionPayload;
 import org.chemthunder.acropolis.core.utilities.Skyfall;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,12 +42,18 @@ public class AbstractionInstance implements LoadedComponentValue<AbstractionInst
         if (this.pos != null) {
             Box capture = new Box(new BlockPos.Mutable(this.pos.x, this.pos.y, this.pos.z)).expand(RANGE);
 
+            NetworkingUtils.sendForAllPlayers(world, new TriggerAbstractionPayload());
+
             for (LivingEntity living : world.getEntitiesByClass(LivingEntity.class, capture, (living -> true))) {
-                if (living != user && !living.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
+                if (!living.getAttachedOrElse(AAttachmentTypes.SANCTUMITE, false)) {
                     SkyfallEntityComponent skec = Skyfall.ofEntity(living);
 
                     skec.abstractedTicks = (5 * 20);
                     skec.sync();
+
+                    if (living instanceof ServerPlayerEntity serverPlayer) {
+                        ServerPlayNetworking.send(serverPlayer, new ShoutPayload("HALT", 0xFFffffff));
+                    }
                 }
             }
         }

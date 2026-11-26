@@ -20,8 +20,6 @@ import org.chemthunder.acropolis.core.client.event.entities.PermakillBoxRenderEv
 import org.chemthunder.acropolis.core.client.event.entities.SightRenderEvent;
 import org.chemthunder.acropolis.core.client.item.AwakenRaptureProperty;
 import org.chemthunder.acropolis.core.client.item.FatalOmenProperty;
-import org.chemthunder.acropolis.core.client.event.ShoutEvents;
-import org.chemthunder.acropolis.core.client.event.SightEvents;
 import org.chemthunder.acropolis.core.index.AEntityTypes;
 import org.chemthunder.acropolis.core.index.AParticleTypes;
 import org.chemthunder.acropolis.core.index.client.AEntityModelLayers;

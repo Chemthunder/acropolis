@@ -3,7 +3,6 @@ package org.chemthunder.acropolis.core.utilities;
 import net.acoyt.acornlib.api.util.NetworkingUtils;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -26,7 +25,6 @@ import org.chemthunder.acropolis.core.cca.skyfall.SkyfallEntityComponent;
 import org.chemthunder.acropolis.core.cca.skyfall.SkyfallWorldComponent;
 import org.chemthunder.acropolis.core.cca.skyfall.obj.SightInstance;
 import org.chemthunder.acropolis.core.index.AAttachmentTypes;
-import org.chemthunder.acropolis.core.index.AItems;
 import org.chemthunder.acropolis.core.networking.s2c.MaterializePayload;
 import org.chemthunder.acropolis.core.networking.s2c.ResetSightWidthPayload;
 import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
@@ -122,15 +120,21 @@ public abstract class Skyfall {
         EntityAttributeInstance atkDamage = player.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
         EntityAttributeInstance mv = player.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
 
+        EntityAttributeInstance armor = player.getAttributeInstance(EntityAttributes.ARMOR);
+
         NetworkingUtils.sendForAllPlayers(player.getEntityWorld(), new MaterializePayload());
 
-        if (atkDamage != null && mv != null) {
+        if (atkDamage != null && mv != null && armor != null) {
             if (atkDamage.hasModifier(Acropolis.id("matriarch_attack_damage"))) {
                 atkDamage.removeModifier(Acropolis.id("matriarch_attack_damage"));
             }
 
             if (mv.hasModifier(Acropolis.id("matriarch_attack_speed"))) {
                 mv.removeModifier(Acropolis.id("matriarch_attack_speed"));
+            }
+
+            if (armor.hasModifier(Acropolis.id("matriarch_armor"))) {
+                armor.removeModifier(Acropolis.id("matriarch_armor"));
             }
 
             atkDamage.addTemporaryModifier(
@@ -145,6 +149,14 @@ public abstract class Skyfall {
                     new EntityAttributeModifier(
                             Acropolis.id("matriarch_attack_speed"),
                             0.05,
+                            EntityAttributeModifier.Operation.ADD_VALUE
+                    )
+            );
+
+            armor.addTemporaryModifier(
+                    new EntityAttributeModifier(
+                            Acropolis.id("matriarch_armor"),
+                            2.5,
                             EntityAttributeModifier.Operation.ADD_VALUE
                     )
             );

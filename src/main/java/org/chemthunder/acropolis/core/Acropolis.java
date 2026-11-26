@@ -49,7 +49,7 @@ public class Acropolis implements ModInitializer {
             new ALib.ModMenuData(
                     Text.literal("Acropolis").withColor(0xFFac61d0),
                     Text.literal("ready when you are.").formatted(Formatting.ITALIC).withColor(0xFFffffff),
-                    Text.literal("ready when you are.").formatted(Formatting.ITALIC).withColor(0xFFffffff)
+                    Text.literal("LET THE SKY FALL.").formatted(Formatting.ITALIC).withColor(0xFFffffff)
             )
         );
 

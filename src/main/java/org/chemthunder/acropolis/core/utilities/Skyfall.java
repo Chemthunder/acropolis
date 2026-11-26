@@ -18,6 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.chemthunder.acropolis.core.Acropolis;
@@ -31,6 +32,7 @@ import org.chemthunder.acropolis.core.networking.s2c.ShoutPayload;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Chemthunder
@@ -121,10 +123,11 @@ public abstract class Skyfall {
         EntityAttributeInstance mv = player.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
 
         EntityAttributeInstance armor = player.getAttributeInstance(EntityAttributes.ARMOR);
+        EntityAttributeInstance armorToughness = player.getAttributeInstance(EntityAttributes.ARMOR_TOUGHNESS);
 
         NetworkingUtils.sendForAllPlayers(player.getEntityWorld(), new MaterializePayload());
 
-        if (atkDamage != null && mv != null && armor != null) {
+        if (atkDamage != null && mv != null && armor != null && armorToughness != null) {
             if (atkDamage.hasModifier(Acropolis.id("matriarch_attack_damage"))) {
                 atkDamage.removeModifier(Acropolis.id("matriarch_attack_damage"));
             }
@@ -160,17 +163,28 @@ public abstract class Skyfall {
                             EntityAttributeModifier.Operation.ADD_VALUE
                     )
             );
+
+            armorToughness.addTemporaryModifier(
+                    new EntityAttributeModifier(
+                            Acropolis.id("matriarch_armor_toughness"),
+                            2.5,
+                            EntityAttributeModifier.Operation.ADD_VALUE
+                    )
+            );
         }
     }
 
     public static void disableMatriarch(PlayerEntity player) {
         EntityAttributeInstance atkDamage = player.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
         EntityAttributeInstance mv = player.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+        EntityAttributeInstance armor = player.getAttributeInstance(EntityAttributes.ARMOR);
+        EntityAttributeInstance armorToughness = player.getAttributeInstance(EntityAttributes.ARMOR_TOUGHNESS);
 
-        if (atkDamage != null && mv != null) {
+        if (atkDamage != null && mv != null && armor != null && armorToughness != null) {
             atkDamage.removeModifier(Acropolis.id("matriarch_attack_damage"));
-
             mv.removeModifier(Acropolis.id("matriarch_attack_speed"));
+            armor.removeModifier(Acropolis.id("matriarch_armor"));
+            armorToughness.removeModifier(Acropolis.id("matriarch_armor_toughness"));
         }
     }
 
